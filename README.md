@@ -5,9 +5,9 @@ The Backend service of discountFinder solution
 https://confluence.jetbrains.com/display/PhpStorm/Laravel+Development+using+PhpStorm
 
 # Basic commands
-Create a new model\n
-artisan make:model {NAME}\n
-Create a new controller\n
-artisan make:controller {NAME}\n
-Start server\n
-php artisan serve\n
+* Create a new model<br />
+artisan make:model {NAME}<br />
+* Create a new controller<br />
+artisan make:controller {NAME}<br />
+* Start server<br />
+php artisan serve<br />
