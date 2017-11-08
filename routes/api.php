@@ -18,4 +18,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 
-Route::get('/helloWorld', 'helloWorldController@getHelloWorld');
+//Route::get('/helloWorld', 'helloWorldController@getHelloWorld');
+//Custom category controllers
+Route::get('/category','categoryController@list');
+Route::get('/category/{id}','categoryController@get');
+Route::post('/category','categoryController@post');
+Route::put('/category','categoryController@update');
+Route::delete('/category/{id}','categoryController@remove');
