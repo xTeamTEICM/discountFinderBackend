@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 10, 2017 at 05:27 PM
+-- Generation Time: Nov 10, 2017 at 11:43 PM
 -- Server version: 10.1.28-MariaDB
 -- PHP Version: 7.1.10
 
@@ -121,14 +121,6 @@ CREATE TABLE `oauth_access_tokens` (
   `expires_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
---
--- Dumping data for table `oauth_access_tokens`
---
-
-INSERT INTO `oauth_access_tokens` (`id`, `user_id`, `client_id`, `name`, `scopes`, `revoked`, `created_at`, `updated_at`, `expires_at`) VALUES
-('4c2ac0cabb0eb9c3f546273792e30199d18064c092fdbaa5e500bc684a8f2a480df1771cec1c3df6', 5, 1, 'MyApp', '[]', 0, '2017-11-09 20:16:54', '2017-11-09 20:16:54', '2018-11-09 22:16:54'),
-('5552f03dc65495d195e80de2d1821affff808282a2ec29a4fc6cbecf48b5f25575fea35b5acf0f89', 6, 1, 'MyApp', '[]', 0, '2017-11-09 21:36:54', '2017-11-09 21:36:54', '2018-11-09 23:36:54');
-
 -- --------------------------------------------------------
 
 --
@@ -163,14 +155,6 @@ CREATE TABLE `oauth_clients` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
---
--- Dumping data for table `oauth_clients`
---
-
-INSERT INTO `oauth_clients` (`id`, `user_id`, `name`, `secret`, `redirect`, `personal_access_client`, `password_client`, `revoked`, `created_at`, `updated_at`) VALUES
-(1, NULL, 'Laravel Personal Access Client', '5aFkByNnPBF8GoxkU6KgK1HyREpCZncXDVKhHQBP', 'http://localhost', 1, 0, 0, '2017-11-09 17:16:09', '2017-11-09 17:16:09'),
-(2, NULL, 'Laravel Password Grant Client', '71KdT9wYykiudkPUKSGoMK42w4Bcl0uZbZDhclt5', 'http://localhost', 0, 1, 0, '2017-11-09 17:16:09', '2017-11-09 17:16:09');
-
 -- --------------------------------------------------------
 
 --
@@ -183,13 +167,6 @@ CREATE TABLE `oauth_personal_access_clients` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Dumping data for table `oauth_personal_access_clients`
---
-
-INSERT INTO `oauth_personal_access_clients` (`id`, `client_id`, `created_at`, `updated_at`) VALUES
-(1, 1, '2017-11-09 17:16:09', '2017-11-09 17:16:09');
 
 -- --------------------------------------------------------
 
@@ -288,8 +265,7 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `firstName`, `lastName`, `eMail`, `password`, `passwordSalt`, `role`, `loginTries`, `status`, `unlockDate`, `lastLoginDate`, `creationDate`) VALUES
 (1, 'Jordan', 'Kostelidis', 'iordkost@teicm.gr', '5f4dcc3b5aa765d61d8327deb882cf99', '581546ddb8600b17cc32fd3c755181af', 'customer', 0, 'enabled', '2017-10-27 19:32:20', '2017-10-27 19:32:20', '2017-10-27 19:32:20'),
 (2, 'O', 'Magazatoras', 'o@magazatorars.gr', 'password', 'passwordSalt', 'seller', 0, 'enabled', '2017-10-27 19:33:09', '2017-10-27 19:33:09', '2017-10-27 19:33:09'),
-(3, 'Paul', 'Kokozidis', 'paulkokos@local.local', '5f4dcc3b5aa765d61d8327deb882cf99', '581546ddb8600b17cc32fd3c755181af', 'customer', 0, 'enabled', '2017-10-27 19:54:55', '2017-10-27 19:54:55', '2017-10-27 19:54:55'),
-(5, 'Re5gisterReturnToken', 'AuthUser', 'toke@hotmail.com', '$2y$10$YXH5aNhiyrAVgWQPKl03AeW5oVnZddkq4h.ebPkR5EUH7Rtf0jC46', '123456', 'customer', 0, 'enabled', '2017-11-09 22:16:54', '2017-11-09 22:16:54', '2017-11-09 22:16:54');
+(3, 'Paul', 'Kokozidis', 'paulkokos@local.local', '5f4dcc3b5aa765d61d8327deb882cf99', '581546ddb8600b17cc32fd3c755181af', 'customer', 0, 'enabled', '2017-10-27 19:54:55', '2017-10-27 19:54:55', '2017-10-27 19:54:55');
 
 --
 -- Indexes for dumped tables
