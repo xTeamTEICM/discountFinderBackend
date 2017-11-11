@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 10, 2017 at 11:43 PM
+-- Generation Time: Nov 11, 2017 at 06:17 AM
 -- Server version: 10.1.28-MariaDB
 -- PHP Version: 7.1.10
 
@@ -250,7 +250,6 @@ CREATE TABLE `users` (
   `eMail` varchar(50) NOT NULL,
   `password` varchar(255) NOT NULL,
   `passwordSalt` varchar(255) NOT NULL,
-  `role` enum('customer','seller') NOT NULL DEFAULT 'customer',
   `loginTries` int(11) NOT NULL DEFAULT '0',
   `status` enum('enabled','disabled','locked') NOT NULL DEFAULT 'enabled',
   `unlockDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -262,10 +261,10 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `firstName`, `lastName`, `eMail`, `password`, `passwordSalt`, `role`, `loginTries`, `status`, `unlockDate`, `lastLoginDate`, `creationDate`) VALUES
-(1, 'Jordan', 'Kostelidis', 'iordkost@teicm.gr', '5f4dcc3b5aa765d61d8327deb882cf99', '581546ddb8600b17cc32fd3c755181af', 'customer', 0, 'enabled', '2017-10-27 19:32:20', '2017-10-27 19:32:20', '2017-10-27 19:32:20'),
-(2, 'O', 'Magazatoras', 'o@magazatorars.gr', 'password', 'passwordSalt', 'seller', 0, 'enabled', '2017-10-27 19:33:09', '2017-10-27 19:33:09', '2017-10-27 19:33:09'),
-(3, 'Paul', 'Kokozidis', 'paulkokos@local.local', '5f4dcc3b5aa765d61d8327deb882cf99', '581546ddb8600b17cc32fd3c755181af', 'customer', 0, 'enabled', '2017-10-27 19:54:55', '2017-10-27 19:54:55', '2017-10-27 19:54:55');
+INSERT INTO `users` (`id`, `firstName`, `lastName`, `eMail`, `password`, `passwordSalt`, `loginTries`, `status`, `unlockDate`, `lastLoginDate`, `creationDate`) VALUES
+(1, 'Jordan', 'Kostelidis', 'iordkost@teicm.gr', '5f4dcc3b5aa765d61d8327deb882cf99', '581546ddb8600b17cc32fd3c755181af', 0, 'enabled', '2017-10-27 19:32:20', '2017-10-27 19:32:20', '2017-10-27 19:32:20'),
+(2, 'O', 'Magazatoras', 'o@magazatorars.gr', 'password', 'passwordSalt', 0, 'enabled', '2017-10-27 19:33:09', '2017-10-27 19:33:09', '2017-10-27 19:33:09'),
+(3, 'Paul', 'Kokozidis', 'paulkokos@local.local', '5f4dcc3b5aa765d61d8327deb882cf99', '581546ddb8600b17cc32fd3c755181af', 0, 'enabled', '2017-10-27 19:54:55', '2017-10-27 19:54:55', '2017-10-27 19:54:55');
 
 --
 -- Indexes for dumped tables
@@ -404,7 +403,7 @@ ALTER TABLE `shops`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- Constraints for dumped tables
