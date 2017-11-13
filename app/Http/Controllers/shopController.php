@@ -21,6 +21,8 @@ class shopController extends Controller
     public function post(Request $request)
     {
 
+        // ToDo : Auth user
+
         $data = $this->validate($request, [
             'ownerId' => 'required|integer',
             'brandName' => 'required|string|unique:shops',
@@ -45,6 +47,8 @@ class shopController extends Controller
     public function update(Request $request)
     {
 
+        // ToDo : Auth user
+
         $data = $this->validate($request, [
             'id' => 'required|integer',
             'brandName' => 'required|string|unique:shops',
@@ -68,6 +72,8 @@ class shopController extends Controller
 
     public function delete($id)
     {
+        // ToDo : Auth user
+
         $shop = shop::find($id);
         if ($shop) {
             $shop->delete();
