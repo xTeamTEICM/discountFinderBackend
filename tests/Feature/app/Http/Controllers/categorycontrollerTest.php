@@ -19,19 +19,15 @@ class categorycontrollerTest extends TestCase
 
     public function testPOST()
     {
-        $this->post('/api/category', '{"id":100, "title":"daidalos"}')
-        ->assertJson([
-            'created' => true,
-        ]);
+        $response = $this->call('POST', 'api/category',['id'=>2,'title'=>'sdfc']);
+
+        $this->assertEquals(200, $response->getStatusCode());
     }
 
     public function testGET() {
-        $this->json('GET', '/api/category')
-            ->assertJson([
-                [
-                'id'=>'2','title' => '????????'
-                    ]
-            ]);
+        $response = $this->call('GET', 'api/category');
+
+        $this->assertEquals(200, $response->getStatusCode());
     }
 
     public function testUpdate() {
@@ -39,7 +35,9 @@ class categorycontrollerTest extends TestCase
     }
 
     public function testDelete() {
-        $this->assertTrue(true);
+        $response = $this->call('DELETE', 'api/category/2');
+
+        $this->assertEquals(200, $response->getStatusCode());
     }
 
     /**
