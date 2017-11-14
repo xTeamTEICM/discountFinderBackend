@@ -2,6 +2,8 @@
 
 namespace Tests\Feature\app\Http\Controllers;
 
+use App\category;
+use App\Http\Controllers\categoryController;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Throwable;
@@ -19,9 +21,11 @@ class categorycontrollerTest extends TestCase
 
     public function testPOST()
     {
-        $response = $this->call('POST', 'api/category',['id'=>2,'title'=>'sdfc']);
+        $response = $this->call('DELETE', 'api/category/48');
+        $response = $this->call('POST', 'api/category',['id'=>3,'title'=>'TestProduct']);
 
         $this->assertEquals(200, $response->getStatusCode());
+        $this->call('DELETE', 'api/category/48');
     }
 
     public function testGET() {
@@ -34,9 +38,14 @@ class categorycontrollerTest extends TestCase
         $this->assertTrue(true);
     }
 
-    public function testDelete() {
-        $response = $this->call('DELETE', 'api/category/2');
+    public function testDelete()
+    {
+        $categoryController = new categoryController();
 
+//        $productId = category::where('title', 'BlueJeans1')->pluck('id');
+//
+//        $this->call('POST', 'api/category', ['title' => 'BlueJeans1']);
+        $response = $categoryController->remove(category::where('title', 'BlueJeans1')->pluck('id'));
         $this->assertEquals(200, $response->getStatusCode());
     }
 

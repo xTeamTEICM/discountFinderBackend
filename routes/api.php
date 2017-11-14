@@ -24,4 +24,4 @@ Route::get('/category','categoryController@list');
 Route::get('/category/{id}','categoryController@get');
 Route::post('/category','categoryController@post');
 Route::put('/category','categoryController@update');
-Route::delete('/category/{id}','categoryController@remove');
+Route::delete('/category/{title}','categoryController@remove');

@@ -28,9 +28,9 @@ class categoryController extends Controller
         $category->save();
         return $category;
     }
-    public function remove($id){
+    public function remove($title){
         //$category = new category();
-        $category = category::find($id);
+        $category = category::find($title);
         //return  $category;
         $category->delete();
     }
