@@ -236,7 +236,7 @@
                     "email": "schmittjoh@gmail.com"
                 }
             ],
-            "description": "Caching library offering an object-oriented API for many cache backends",
+            "description": "Caching library offering an object-oriented AuthApi for many cache backends",
             "homepage": "http://www.doctrine-project.org",
             "keywords": [
                 "cache",
@@ -1480,7 +1480,7 @@
                     "email": "info@frenky.net"
                 }
             ],
-            "description": "Filesystem abstraction: Many filesystems, one API.",
+            "description": "Filesystem abstraction: Many filesystems, one AuthApi.",
             "keywords": [
                 "Cloud Files",
                 "WebDAV",
@@ -1551,7 +1551,7 @@
                     "role": "Developer"
                 }
             ],
-            "description": "A lightweight and powerful OAuth 2.0 authorization and resource server library with support for all the core specification grants. This library will allow you to secure your API with OAuth and allow your applications users to approve apps that want to access their data from your API.",
+            "description": "A lightweight and powerful OAuth 2.0 authorization and resource server library with support for all the core specification grants. This library will allow you to secure your AuthApi with OAuth and allow your applications users to approve apps that want to access their data from your AuthApi.",
             "homepage": "https://oauth2.thephpleague.com/",
             "keywords": [
                 "Authentication",
@@ -1736,7 +1736,7 @@
                     "homepage": "http://nesbot.com"
                 }
             ],
-            "description": "A simple API extension for DateTime.",
+            "description": "A simple AuthApi extension for DateTime.",
             "homepage": "http://carbon.nesbot.com",
             "keywords": [
                 "date",
@@ -1817,7 +1817,7 @@
                 "phpunit/phpunit": "4.*|5.*"
             },
             "suggest": {
-                "ext-libsodium": "Provides a modern crypto API that can be used to generate random bytes."
+                "ext-libsodium": "Provides a modern crypto AuthApi that can be used to generate random bytes."
             },
             "type": "library",
             "autoload": {
@@ -3679,7 +3679,7 @@
                     "homepage": "http://davedevelopment.co.uk"
                 }
             ],
-            "description": "Mockery is a simple yet flexible PHP mock object framework for use in unit testing with PHPUnit, PHPSpec or any other testing framework. Its core goal is to offer a test double framework with a succinct API capable of clearly defining all possible object operations and interactions using a human readable Domain Specific Language (DSL). Designed as a drop in alternative to PHPUnit's phpunit-mock-objects library, Mockery is easy to integrate with PHPUnit and can operate alongside phpunit-mock-objects without the World ending.",
+            "description": "Mockery is a simple yet flexible PHP mock object framework for use in unit testing with PHPUnit, PHPSpec or any other testing framework. Its core goal is to offer a test double framework with a succinct AuthApi capable of clearly defining all possible object operations and interactions using a human readable Domain Specific Language (DSL). Designed as a drop in alternative to PHPUnit's phpunit-mock-objects library, Mockery is easy to integrate with PHPUnit and can operate alongside phpunit-mock-objects without the World ending.",
             "homepage": "http://github.com/padraic/mockery",
             "keywords": [
                 "BDD",
