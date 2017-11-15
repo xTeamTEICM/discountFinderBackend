@@ -21,14 +21,14 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::get('/helloWorld', 'helloWorldController@getHelloWorld');
 
 
-Route::post('register', 'API\RegisterController@register');
-Route::post('login', 'API\LoginController@login');
-Route::post('refresh', 'API\LoginController@refresh');
+Route::post('register', 'AuthApi\RegisterController@register');
+Route::post('login', 'AuthApi\LoginController@login');
+Route::post('refresh', 'AuthApi\LoginController@refresh');
 
 
 
 Route::group(['middleware' => 'auth:api'], function(){
 
-    Route::post('logout', 'API\LoginController@logout');
+    Route::post('logout', 'AuthApi\LoginController@logout');
 
 });
