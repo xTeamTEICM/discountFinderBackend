@@ -12,17 +12,6 @@ class RegisterControllerTest extends TestCase
 
 
 
-    /**
-     * A basic test example.
-     *
-     * @return void
-     */
-
-    public function testExample()
-    {
-        $this->assertTrue(true);
-
-    }
 
     //TODO issue:  database.... testings adds users on real database
     //TODO Test user if exists
@@ -33,19 +22,20 @@ class RegisterControllerTest extends TestCase
         $response = $this->json('POST', 'api/register', [
             'firstName' => 'sotiris',
             'lastName'=>'yolo4',
-            'eMail'=>'sotirishotmail.com',
+            'eMail'=>'AuthTestEmailAuthTestEmailhotmail.com',
             'password'=>'1234567'
         ]);
         $response->assertJson([
             'errors'=>['eMail'=>['The e mail must be a valid email address.']]]);
 
-   }
+    }
+
     public function testInvalidEmailDot(){
 
         $response = $this->json('POST', 'api/register', [
             'firstName' => 'sotiris',
             'lastName'=>'yolo4',
-            'eMail'=>'sotiris@hotmailcom',
+            'eMail'=>'AuthTestEmailAuthTestEmail@hotmailcom',
             'password'=>'1234567'
         ]);
         $response->assertJson([
@@ -58,7 +48,7 @@ class RegisterControllerTest extends TestCase
         $response = $this->json('POST', 'api/register', [
             'firstName' => 'sotiris',
             'lastName'=>'yolo4',
-            'eMail'=>'sotiris@hotmailcom',
+            'eMail'=>'AuthTestEmailAuthTestEmail@hotmail.com',
             'password'=>'12345'
         ]);
         $response->assertJson([
@@ -71,7 +61,7 @@ class RegisterControllerTest extends TestCase
         $response = $this->json('POST', 'api/register', [
             'firstName' => 'sotiris',
             'lastName'=>'yolo4',
-            'eMail'=>'sotiris@hotmailcom',
+            'eMail'=>'AuthTestEmailAuthTestEmail@hotmail.com',
             'password'=>'12345ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss'
         ]);
         $response->assertJson([
@@ -85,27 +75,27 @@ class RegisterControllerTest extends TestCase
         $response = $this->json('POST', 'api/register', [
 
             'lastName' => 'yolo4',
-            'eMail' => 'sotiris@hotmailcom',
+            'eMail' => 'AuthTestEmailAuthTestEmail@hotmail.com',
             'password' => '1234567'
         ]);
         $response->assertJson([
             'errors' => ['firstName' => ['The first name field is required.']]]);
 
     }
-        public function testEmptyFieldLastName()
-        {
+    public function testEmptyFieldLastName()
+    {
 
-            $response = $this->json('POST', 'api/register', [
-                'firstName' => 'sotiris',
+        $response = $this->json('POST', 'api/register', [
+            'firstName' => 'sotiris',
 
-                'eMail' => 'sotiris@hotmailcom',
-                'password' => '1234567'
-            ]);
-            $response->assertJson([
-                'errors' => ['lastName' => ['The last name field is required.']]]);
+            'eMail' => 'AuthTestEmailAuthTestEmail@hotmail.com',
+            'password' => '1234567'
+        ]);
+        $response->assertJson([
+            'errors' => ['lastName' => ['The last name field is required.']]]);
 
 
-        }
+    }
 
     public function testEmptyFieldEmail(){
 
@@ -125,7 +115,7 @@ class RegisterControllerTest extends TestCase
         $response = $this->json('POST', 'api/register', [
             'firstName' => 'sotiris',
             'lastName'=>'yolo4',
-            'eMail' => 'sotiris@hotmailcom'
+            'eMail' => 'AuthTestEmailAuthTestEmail@hotmail.com'
 
         ]);
         $response->assertJson([
