@@ -13,8 +13,7 @@ class RegisterControllerTest extends TestCase
 
 
 
-    //TODO issue:  database.... testings adds users on real database
-    //TODO Test user if exists
+
 
 
     public function testInvalidEmailDuckSymbol(){

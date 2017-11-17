@@ -16,6 +16,7 @@ class User extends Authenticatable
      *
      * @var array
      */
+    //edo vazoume oti theloume na stelnoume sto frondEnd me to /user
     protected $fillable = [
         'firstName','lastName','passwordSalt', 'eMail', 'password',
     ];
@@ -25,6 +26,7 @@ class User extends Authenticatable
      *
      * @var array
      */
+    // edo oti den theloume na stelnoume sto frondEnd me to /user (to password eno einai kai pano afou bike kai sta hidden den stelnetai)
     protected $hidden = [
         'password', 'remember_token',
     ];
