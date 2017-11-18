@@ -4,18 +4,21 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Laravel\Passport\HasApiTokens;
+
 
 class User extends Authenticatable
 {
-    use Notifiable;
-
+    use Notifiable,HasApiTokens;
+      public $timestamps=false;
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
+    //edo vazoume oti theloume na stelnoume sto frondEnd me to /user
     protected $fillable = [
-        'name', 'email', 'password',
+        'firstName','lastName','passwordSalt', 'eMail', 'password',
     ];
 
     /**
@@ -23,6 +26,7 @@ class User extends Authenticatable
      *
      * @var array
      */
+    // edo oti den theloume na stelnoume sto frondEnd me to /user (to password eno einai kai pano afou bike kai sta hidden den stelnetai)
     protected $hidden = [
         'password', 'remember_token',
     ];
