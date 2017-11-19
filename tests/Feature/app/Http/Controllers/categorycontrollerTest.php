@@ -15,17 +15,22 @@ class categorycontrollerTest extends TestCase
      *
      * @return void
      */
+
+    protected static $idTest=100;
+
     public function testList() {
         $this->assertTrue(true);
     }
 
     public function testPOST()
     {
-        $response = $this->call('DELETE', 'api/category/48');
-        $response = $this->call('POST', 'api/category',['id'=>3,'title'=>'TestProduct']);
+        //$response = $this->call('DELETE', 'api/category/48');
+        $response = $this->call('POST', 'api/category',['id'=>1,'title'=>'TestProduct']);
+        $tempArray = json_decode($response,true);
 
+        //$id =
         $this->assertEquals(200, $response->getStatusCode());
-        $this->call('DELETE', 'api/category/48');
+        //$this->call('DELETE', 'api/category/48');
     }
 
     public function testGET() {
@@ -45,7 +50,7 @@ class categorycontrollerTest extends TestCase
 //        $productId = category::where('title', 'BlueJeans1')->pluck('id');
 //
 //        $this->call('POST', 'api/category', ['title' => 'BlueJeans1']);
-        $response = $categoryController->remove(category::where('title', 'BlueJeans1')->pluck('id'));
+        $response = $this->remove(category::where('title', 'BlueJeans1')->pluck('id'));
         $this->assertEquals(200, $response->getStatusCode());
     }
 
