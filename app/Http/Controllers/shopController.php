@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\shop;
+use App\Shop;
 use Illuminate\Http\Request;
 
 
@@ -10,29 +10,40 @@ class shopController extends Controller
 {
     public function list()
     {
-        return shop::all();
+        return Shop::all();
+    }
+
+    public function myList()
+    {
+        $user = auth('api')->user();
+        return Shop::query()->where("ownerId", "=", $user->id)->get();
     }
 
     public function get($id)
     {
-        return shop::find($id);
+        return Shop::find($id);
+    }
+
+    public function myGet($id)
+    {
+        $user = auth('api')->user();
+        return Shop::query()->where("ownerId", "=", $user->id)->find($id);
     }
 
     public function post(Request $request)
     {
 
-        // ToDo : Auth user
+        $user = auth('api')->user();
 
         $data = $this->validate($request, [
-            'ownerId' => 'required|integer',
             'brandName' => 'required|string|unique:shops',
             'logPos' => 'required|numeric',
             'latPos' => 'required|numeric'
         ]);
 
-        $shop = new shop();
+        $shop = new Shop();
 
-        $shop->ownerId = $data['ownerId'];
+        $shop->ownerId = $user->id;
         $shop->brandName = $data['brandName'];
         $shop->logPos = $data['logPos'];
         $shop->latPos = $data['latPos'];
@@ -47,16 +58,16 @@ class shopController extends Controller
     public function update(Request $request)
     {
 
-        // ToDo : Auth user
+        $user = auth('api')->user();
 
         $data = $this->validate($request, [
             'id' => 'required|integer',
-            'brandName' => 'required|string|unique:shops',
+            'brandName' => 'required|string',
             'logPos' => 'required|numeric',
             'latPos' => 'required|numeric'
         ]);
 
-        $shop = shop::find($data['id']);
+        $shop = Shop::query()->where("ownerId", "=", $user->id)->find($data['id']);
 
         if($shop) {
             $shop->brandName = $data['brandName'];
@@ -72,9 +83,9 @@ class shopController extends Controller
 
     public function delete($id)
     {
-        // ToDo : Auth user
+        $user = auth('api')->user();
 
-        $shop = shop::find($id);
+        $shop = Shop::query()->where("ownerId", "=", $user->id)->find($id);
         if ($shop) {
             $shop->delete();
         }
