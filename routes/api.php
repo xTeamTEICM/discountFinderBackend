@@ -40,3 +40,10 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::put('/shop', 'shopController@update');
     Route::delete('/shop/{id}', 'shopController@delete');
 });
+
+//Custom category controllers
+Route::get('/category','categoryController@list');
+Route::get('/category/{id}','categoryController@get');
+Route::post('/category','categoryController@post');
+Route::put('/category','categoryController@update');
+Route::delete('/category/{title}','categoryController@remove');

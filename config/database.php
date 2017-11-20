@@ -42,6 +42,7 @@ return [
 
 
 
+
                     'mysql' => [
                     'driver' => 'mysql',
                     'host' => env('DB_HOST', '83.212.117.108'),
