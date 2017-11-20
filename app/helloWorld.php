@@ -4,6 +4,11 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * App\helloWorld
+ *
+ * @mixin \Eloquent
+ */
 class helloWorld extends Model
 {
     private $title;
