@@ -38,20 +38,26 @@ return [
             'database' => env('DB_DATABASE', database_path('database.sqlite')),
             'prefix' => '',
         ],
-        'mysql' => [
-            'driver' => 'mysql',
-            'host' => env('DB_HOST', '83.212.117.108'),
-            'port' => env('DB_PORT', '3306'),
-            'database' => env('DB_DATABASE', 'discountfinderdev'),
-            'username' => env('DB_USERNAME', 'discountFinderUser'),
-            'password' => env('DB_PASSWORD', 'toor'),
-            'unix_socket' => env('DB_SOCKET', ''),
-            'charset' => 'utf8',
-            'collation' => 'utf8_unicode_ci',
-            'prefix' => '',
-            'strict' => true,
-            'engine' => null,
-            ],
+
+
+
+
+
+                    'mysql' => [
+                    'driver' => 'mysql',
+                    'host' => env('DB_HOST', '83.212.117.108'),
+                    'port' => env('DB_PORT', '3306'),
+                    'database' => env('DB_DATABASE', 'discountfinderdev'),
+                    'username' => env('DB_USERNAME', 'discountFinderUser'),
+                    'password' => env('DB_PASSWORD', 'toor'),
+                    'unix_socket' => env('DB_SOCKET', ''),
+                    'charset' => 'utf8',
+                    'collation' => 'utf8_unicode_ci',
+                    'prefix' => '',
+                    'strict' => true,
+                    'engine' => null,
+
+        ],
 
         'pgsql' => [
             'driver' => 'pgsql',

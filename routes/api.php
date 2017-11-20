@@ -13,12 +13,34 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+// Sample route
+Route::get('/helloWorld', 'helloWorldController@getHelloWorld');
+
+// Auth Routes
+Route::post('register', 'AuthApi\RegisterController@register');
+Route::post('login', 'AuthApi\LoginController@login');
+Route::post('refresh', 'AuthApi\LoginController@refresh');
+Route::group(['middleware' => 'auth:api'], function(){
+
+    Route::post('logout', 'AuthApi\LoginController@logout');
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    });
+
 });
 
+// Shops Routes
+Route::get('/shop','shopController@list');
+Route::get('/shop/{id}', 'shopController@get');
 
-//Route::get('/helloWorld', 'helloWorldController@getHelloWorld');
+Route::group(['middleware' => 'auth:api'], function () {
+    Route::get('/user/shop', 'shopController@myList');
+    Route::get('/user/shop/{id}', 'shopController@myGet');
+    Route::post('/shop', 'shopController@post');
+    Route::put('/shop', 'shopController@update');
+    Route::delete('/shop/{id}', 'shopController@delete');
+});
+
 //Custom category controllers
 Route::get('/category','categoryController@list');
 Route::get('/category/{id}','categoryController@get');
