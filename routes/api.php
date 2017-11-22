@@ -47,3 +47,10 @@ Route::get('/category/{id}','categoryController@get');
 Route::post('/category','categoryController@post');
 Route::put('/category','categoryController@update');
 Route::delete('/category/{title}','categoryController@remove');
+
+//find discounts
+
+Route::group(['middleware' => 'auth:api'], function(){
+    Route::post('/user/findAllDiscounts','findDiscountsController@listOfDiscounts');
+
+});
