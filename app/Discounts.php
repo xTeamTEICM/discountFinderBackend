@@ -10,17 +10,5 @@ class Discounts extends Model
     public $timestamps = false;
 
 
-    protected $fillable = [
-        'originalPrice','currentPrice','description', 'image',
-    ];
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
-
-    protected $hidden = [
-        'id', 'shopId','category',
-    ];
 }

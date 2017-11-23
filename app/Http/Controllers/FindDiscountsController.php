@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Discounts;
 use Illuminate\Http\Request;
+use App\Http\Resources\DiscountsCollection ;
 
 class findDiscountsController extends Controller
 {
@@ -16,7 +17,9 @@ class findDiscountsController extends Controller
 
         ]);
 
-        return Discounts::all();
+        $discounts=Discounts::all();
+        return new DiscountsCollection($discounts);
+
     }
 
 
