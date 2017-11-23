@@ -13,6 +13,7 @@ class Discounts extends Resource
      * @param  \Illuminate\Http\Request
      * @return array
      */
+    protected static $i;
 
 
     public function toArray($request)
@@ -20,13 +21,16 @@ class Discounts extends Resource
 
      //here we add the jsonForm as we wish for a single discount
         return [
-            'finalPrice'=>$this->currentPrice,
+            'shopName'=>  DB::table('shops')->where('id',$this->shopId)->pluck('brandName')->first(),
+            'category'=> DB::table('category')->where('id',$this->category)->pluck('title')->first(),
             'shortDescription'=>$this->description,
+            'finalPrice'=>$this->currentPrice,
             'productImageURL'=>$this->image,
-            'shopName'=>  DB::table('shops')->where('id',$this->shopId)->pluck('brandName')->first()
-
+            'discountId' =>$this->id,
 
 
         ];
+
     }
+
 }
