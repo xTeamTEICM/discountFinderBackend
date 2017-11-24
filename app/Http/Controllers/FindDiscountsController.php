@@ -40,7 +40,7 @@ class findDiscountsController extends Controller
     public function  shopsAtCertainDistance($maxDistance){
 
        $discounts=Discounts::all();
-        $discountsSorted =collect();
+        $discountsAtCertainDistance =collect();
         foreach ($discounts as $discount){
             $shopLogPos =DB::table('shops')->where('id',$discount->shopId)->pluck('logPos')->first();
             $shopLatPos =DB::table('shops')->where('id',$discount->shopId)->pluck('latPos')->first();
@@ -51,12 +51,12 @@ class findDiscountsController extends Controller
 
              if($distance<$maxDistance){
                  \App\Http\Resources\Discounts::$distance[]=$distance;
-                 $discountsSorted->push($discount) ;
+                 $discountsAtCertainDistance->push($discount) ;
              }
 
         }
 
-         return $discountsSorted;
+         return $discountsAtCertainDistance;
 
     }
 
