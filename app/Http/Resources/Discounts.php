@@ -13,8 +13,8 @@ class Discounts extends Resource
      * @param  \Illuminate\Http\Request
      * @return array
      */
-    protected static $i;
-
+    public static $distance=array();
+    public static  $counter=0;
 
     public function toArray($request)
     {
@@ -27,10 +27,18 @@ class Discounts extends Resource
             'finalPrice'=>$this->currentPrice,
             'productImageURL'=>$this->image,
             'discountId' =>$this->id,
+            'distance' =>Discounts::$distance[Discounts::$counter++],
+
 
 
         ];
 
+
     }
+
+
+
+
+
 
 }

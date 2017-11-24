@@ -51,6 +51,6 @@ Route::delete('/category/{title}','categoryController@remove');
 //find discounts
 
 Route::group(['middleware' => 'auth:api'], function(){
-    Route::post('/user/findAllDiscounts','findDiscountsController@listOfDiscounts');
+    Route::post('/user/findAllDiscounts','findDiscountsController@list');
 
 });
