@@ -15,48 +15,65 @@ class findDiscountsController extends Controller
 {
 
 
-
     public function list(Request $request)
     {
         $this->validate($request,[
 
             'logPos' => 'required|numeric',
             'latPos' => 'required|numeric',
-            'distanceInMeters' => 'required|numeric'
+            'distanceInMeters' => 'required|numeric',
+            'maxPrice' => 'nullable|numeric',
+            'category' => 'nullable|numeric',
 
         ]);
 
 
-        return new DiscountsCollection($this->shopsAtCertainDistance(request('distanceInMeters')));
+        return new DiscountsCollection($this->requestedDiscounts(request('distanceInMeters'),request('maxPrice'),request('category')));
 
     }
 
 
+    public function  requestedDiscounts($maxDistance,$maxPrice,$category){
+
+        $maxPrice=$this->optimizePrice($maxPrice);
+        $discounts=Discounts::all();
+        $requestedDiscounts =collect();
 
 
-
-
-    //TODO we should not take all discounts from database and   edit them here
-    public function  shopsAtCertainDistance($maxDistance){
-
-       $discounts=Discounts::all();
-        $discountsAtCertainDistance =collect();
         foreach ($discounts as $discount){
             $shopLogPos =DB::table('shops')->where('id',$discount->shopId)->pluck('logPos')->first();
             $shopLatPos =DB::table('shops')->where('id',$discount->shopId)->pluck('latPos')->first();
-
             $distance=  $this->calculateDistanceInMeters(request('latPos'),request('logPos'),$shopLogPos,$shopLatPos);
 
 
+            if($category!=null){
 
-             if($distance<$maxDistance){
-                 \App\Http\Resources\Discounts::$distance[]=$distance;
-                 $discountsAtCertainDistance->push($discount) ;
-             }
+               if($distance<=$maxDistance&&$discount->currentPrice<=$maxPrice&&$category==$discount->category){
+                   \App\Http\Resources\Discounts::$distance[]=$distance;
+                   $requestedDiscounts->push($discount) ;
+                }
+              }
+              else{
 
+                  if($distance<=$maxDistance&&$discount->currentPrice<=$maxPrice){
+                      \App\Http\Resources\Discounts::$distance[]=$distance;
+                      $requestedDiscounts->push($discount) ;
+                  }
+
+              }
         }
+        return $requestedDiscounts;
+    }
 
-         return $discountsAtCertainDistance;
+
+
+//seting big default maxprice if maxprice is null so we can take all prices
+    public function optimizePrice($maxPrice){
+        if($maxPrice==null){
+            $maxPrice=1000000;
+        }
+        return $maxPrice;
+
 
     }
 
@@ -83,7 +100,7 @@ class findDiscountsController extends Controller
 
         return (int)$distance;
 
-
     }
+
 
 }
