@@ -47,3 +47,12 @@ Route::get('/category/{id}','categoryController@get');
 Route::post('/category','categoryController@post');
 Route::put('/category','categoryController@update');
 Route::delete('/category/{title}','categoryController@remove');
+
+// Requested Discount Routes
+Route::group(['middleware' => 'auth:api'], function () {
+    Route::get('/requestedDiscount', 'requestedDiscountController@list');
+    Route::get('/requestedDiscount/{id}', 'requestedDiscountController@get');
+    Route::post('/requestedDiscount','requestedDiscountController@post');
+    Route::put('/requestedDiscount/{id}','requestedDiscountController@put');
+    Route::delete('/requestedDiscount/{id}','requestedDiscountController@delete');
+});
