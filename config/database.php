@@ -42,11 +42,11 @@ return [
 
         'mysql' => [
             'driver' => 'mysql',
-            'host' => env('DB_HOST', 'localhost'),
+            'host' => env('DB_HOST', '83.212.117.108'),
             'port' => env('DB_PORT', '3306'),
             'database' => env('DB_DATABASE', 'discountfinderdb'),
-            'username' => env('DB_USERNAME', 'root'),
-            'password' => env('DB_PASSWORD', ''),
+            'username' => env('DB_USERNAME', 'discountFinderUser'),
+            'password' => env('DB_PASSWORD', 'toor'),
             'unix_socket' => env('DB_SOCKET', ''),
             'charset' => 'utf8',
             'collation' => 'utf8_unicode_ci',
@@ -58,11 +58,11 @@ return [
 
         'mysql_testing' => [
             'driver' => 'mysql',
-            'host' => env('DB_HOST', 'localhost'),
+            'host' => env('DB_HOST', '83.212.117.108'),
             'port' => env('DB_PORT', '3306'),
             'database' => env('DB_DATABASE', 'discountfindertesting'),
-            'username' => env('DB_USERNAME', 'root'),
-            'password' => env('DB_PASSWORD', ''),
+            'username' => env('DB_USERNAME', 'discountFinderUser'),
+            'password' => env('DB_PASSWORD', 'toor'),
             'unix_socket' => env('DB_SOCKET', ''),
             'charset' => 'utf8',
             'collation' => 'utf8_unicode_ci',
