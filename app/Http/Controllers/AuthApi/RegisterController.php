@@ -37,9 +37,6 @@ class RegisterController extends Controller
             'lastName' => request('lastName'),
             'eMail' => request('eMail'),
             'password' => bcrypt(request('password')),
-            'passwordSalt'=> request('password')  //auto i to svinoume i to ftiaxnoume kapos kalitera pros to paron pernaei to kodiko user sti vash xwris crypt
-            //douleuei an exoume crypt kodiko sti vash kai dn to vlepoume oute emeis dn einai aparaithto na ton vlepoume
-
 
         ]);
 
