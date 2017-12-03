@@ -23,7 +23,7 @@ class Distance
 
 
 
-    public function calculateDistanceInMeters($shopLogPosition,$shopLatPosition){
+    public function calculateDistanceInMeters($shopLatPosition,$shopLogPosition){
         $userLatPos=deg2rad($this->userLatPos);
         $userLogPos=deg2rad($this->userLogPos);
         $shopLogPosition=deg2rad($shopLogPosition);

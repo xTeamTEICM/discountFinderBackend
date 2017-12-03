@@ -44,11 +44,14 @@ class findDiscountsController extends Controller
             $shopLogPos =Shop::query()->where('id',$discount->shopId)->pluck('logPos')->first();
             $shopLatPos =Shop::query()->where('id',$discount->shopId)->pluck('latPos')->first();
             $distanceObject= new Distance(request('latPos'),request('logPos'));
-            $distance=  $distanceObject->calculateDistanceInMeters($shopLogPos,$shopLatPos);
+            $distance=  $distanceObject->calculateDistanceInMeters($shopLatPos,$shopLogPos);
+
+            //TODO we have default distance for search at 2000 meters,we need to take this from user
+            if($distance<=2000){
             //TODO find solution to remove this Global variable
             \App\Http\Resources\Discounts::$distance[]=$distance;
             $requestedDiscounts->push($discount) ;
-
+             }
         }
 
         return $requestedDiscounts;
