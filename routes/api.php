@@ -58,5 +58,7 @@ Route::group(['middleware' => 'auth:api'], function () {
 });
 
 //Discount Controller Routes
-
+Route::group(['middleware' => 'auth:api'], function () {
 Route::get('/discount','discountController@list');
+Route::get('/discount/{id}','discountController@get');
+});
