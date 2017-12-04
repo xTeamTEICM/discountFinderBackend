@@ -60,3 +60,13 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::put('/requestedDiscount/{id}','requestedDiscountController@put');
     Route::delete('/requestedDiscount/{id}','requestedDiscountController@delete');
 });
+
+//Discount Controller Routes
+Route::group(['middleware' => 'auth:api'], function () {
+Route::get('/discount','discountController@list');
+Route::get('/discount/{id}','discountController@get');
+Route::post('/discount','discountController@post');
+Route::put('/discount/{id}','discountController@put');
+Route::delete('discount/{id}','discountController@delete');
+
+});
