@@ -61,4 +61,8 @@ Route::group(['middleware' => 'auth:api'], function () {
 Route::group(['middleware' => 'auth:api'], function () {
 Route::get('/discount','discountController@list');
 Route::get('/discount/{id}','discountController@get');
+Route::post('/discount','discountController@post');
+
+
+
 });
