@@ -70,4 +70,50 @@ class discountController extends Controller
 
     }
 
+
+    public function put($id, Request $request){
+
+        $request['id'] = $id;
+
+        $data = $this->validate($request, [
+
+            'id' => 'required|numeric',
+            'category' => 'required|numeric',
+            'originalPrice' => 'required|numeric',
+            'currentPrice' => 'required|numeric',
+            'description' => 'required|string',
+            'image' => 'required|string'
+        ]);
+
+
+
+
+
+        $userId = Auth::user()->id;
+        $shopId = Shop::query()->where('ownerId','=',$userId)->value('id');
+
+        $discount = Discount::query()->where('shopId','=',$shopId)
+                                    ->where('id', '=', $data['id'])->first();
+
+        if ($discount != null) {
+            $discount->category = $data['category'];
+            $discount->originalPrice = $data['originalPrice'];
+            $discount->currentPrice = $data['currentPrice'];
+            $discount->description = $data['description'];
+            $discount->image = $data['image'];
+
+
+            $discount->save();
+            $discount->push();
+            return $discount;
+        }
+
+        else {
+
+            return "";
+        }
+    }
+
+
+
 }
