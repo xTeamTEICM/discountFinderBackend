@@ -47,3 +47,26 @@ Route::get('/category/{id}','categoryController@get');
 Route::post('/category','categoryController@post');
 Route::put('/category','categoryController@update');
 Route::delete('/category/{title}','categoryController@remove');
+
+//find discounts
+Route::middleware('auth:api')->post('/user/findDiscounts','findDiscountsController@list');
+
+
+// Requested Discount Routes
+Route::group(['middleware' => 'auth:api'], function () {
+    Route::get('/requestedDiscount', 'requestedDiscountController@list');
+    Route::get('/requestedDiscount/{id}', 'requestedDiscountController@get');
+    Route::post('/requestedDiscount','requestedDiscountController@post');
+    Route::put('/requestedDiscount/{id}','requestedDiscountController@put');
+    Route::delete('/requestedDiscount/{id}','requestedDiscountController@delete');
+});
+
+//Discount Controller Routes
+Route::group(['middleware' => 'auth:api'], function () {
+Route::get('/discount','discountController@list');
+Route::get('/discount/{id}','discountController@get');
+Route::post('/discount','discountController@post');
+Route::put('/discount/{id}','discountController@put');
+Route::delete('discount/{id}','discountController@delete');
+
+});

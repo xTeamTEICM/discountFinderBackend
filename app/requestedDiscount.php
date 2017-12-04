@@ -4,8 +4,8 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Shop extends Model
+class requestedDiscount extends Model
 {
-    protected $table = 'shops';
+    protected $table = "requestedDiscounts";
     public $timestamps = false;
 }
