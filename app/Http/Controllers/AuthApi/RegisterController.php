@@ -37,7 +37,6 @@ class RegisterController extends Controller
             'lastName' => request('lastName'),
             'eMail' => request('eMail'),
             'password' => bcrypt(request('password')),
-
         ]);
 
          $params =[

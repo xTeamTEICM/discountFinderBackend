@@ -14,21 +14,20 @@ class LoginControllerTest extends TestCase
     protected static $AuthValues;
 
 
-
-
     public function testRegisterUser()
     {
 
         $response = $this->json('POST', 'api/register', [
             'firstName' => 'sotiris',
-            'lastName'=>'yolo4',
-            'eMail'=>'AuthTestEmailAuthTestEmail@hotmail.com',
-            'password'=>'1234567'
+            'lastName' => 'yolo4',
+            'eMail' => 'AuthTestEmailAuthTestEmail@hotmail.com',
+            'password' => '1234567'
         ]);
 
-        $response->assertJsonStructure(['token_type','expires_in','access_token','refresh_token']);
+        $response->assertJsonStructure(['token_type', 'expires_in', 'access_token', 'refresh_token']);
 
     }
+
 
 
     public function testRegisterUserEmailExists()
@@ -58,7 +57,7 @@ class LoginControllerTest extends TestCase
         ]);
         LoginControllerTest::$AuthValues=json_decode($response->getContent(),true);
 
-        //$this->assertEquals('Bearer',LoginControllerTest::$AuthValues['access_token']);
+
         $response->assertJsonStructure(['token_type','expires_in','access_token','refresh_token']);
 
 
@@ -94,6 +93,15 @@ class LoginControllerTest extends TestCase
         $response= $this->withHeader('Authorization','Bearer ' . $token)->json('GET','api/user');
 
         $response->assertStatus(200);
+
+    }
+
+    public function testInvalidToken(){
+        $token=LoginControllerTest::$AuthValues['access_token'];
+
+        $response= $this->withHeader('Authorization','Bearer ' . $token.'sdds')->json('GET','api/user');
+
+        $response->assertJson(['message'=>'Unauthenticated.']);
 
     }
 
