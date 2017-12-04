@@ -115,5 +115,25 @@ class discountController extends Controller
     }
 
 
+    public function delete($id)
+    {
+        $request = new Request();
+        $request['id'] = $id;
+
+        $data = $this->validate($request, [
+            'id' => 'required|numeric'
+        ]);
+
+        $userId = Auth::user()->id;
+        $shopId = Shop::query()->where('ownerId','=',$userId)->value('id');
+
+        $discount = Discount::query()->where('shopId','=',$shopId)
+            ->find($data['id']);
+
+        if ($discount != null) {
+            $discount->delete();
+        }
+    }
+
 
 }

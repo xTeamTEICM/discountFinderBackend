@@ -63,6 +63,6 @@ Route::get('/discount','discountController@list');
 Route::get('/discount/{id}','discountController@get');
 Route::post('/discount','discountController@post');
 Route::put('/discount/{id}','discountController@put');
-
+Route::delete('discount/{id}','discountController@delete');
 
 });
