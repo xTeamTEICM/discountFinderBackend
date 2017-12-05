@@ -22,7 +22,7 @@ class findDiscountsController extends Controller
 
             'logPos' => 'required|numeric',
             'latPos' => 'required|numeric',
-            //'distanceInMeters' => 'required|numeric',
+            'distanceInMeters' => 'required|numeric',
 
         ]);
 
@@ -34,6 +34,7 @@ class findDiscountsController extends Controller
 
     public function  requestedDiscounts(){
 
+         $MaxDistance=request('distanceInMeters');
         $id=auth('api')->user()->id;
         $discounts=DB::select("call getMatchedDiscounts($id)");
         $requestedDiscounts =collect();
@@ -46,8 +47,8 @@ class findDiscountsController extends Controller
             $distanceObject= new Distance(request('latPos'),request('logPos'));
             $distance=  $distanceObject->calculateDistanceInMeters($shopLatPos,$shopLogPos);
 
-            //TODO we have default distance for search at 2000 meters,we need to take this from user
-            if($distance<=2000){
+
+            if($distance<=$MaxDistance){
             //TODO find solution to remove this Global variable
             \App\Http\Resources\Discounts::$distance[]=$distance;
             $requestedDiscounts->push($discount) ;
