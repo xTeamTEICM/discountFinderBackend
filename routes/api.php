@@ -50,6 +50,7 @@ Route::delete('/category/{title}','categoryController@remove');
 
 //find discounts
 Route::middleware('auth:api')->post('/user/findDiscounts','findDiscountsController@list');
+Route::middleware('auth:api')->post('/user/getTopList','findDiscountsController@TopList');
 
 
 // Requested Discount Routes

@@ -8,7 +8,7 @@ use Tests\TestCase;
 class findDiscountsControllerTest extends TestCase
 {
 
-    //TODO just a sample i need to make more tests
+
     protected static $AuthValues;
 
     // i am using coordinates from googlemaps
