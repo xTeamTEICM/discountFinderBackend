@@ -9,7 +9,6 @@
 namespace Tests;
 
 use App\CustomClasses\Distance;
-use Tests\TestCase;
 
 class DistanceTest extends TestCase
 {
