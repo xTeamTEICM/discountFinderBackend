@@ -3,35 +3,84 @@
 namespace App\Http\Controllers;
 
 use App\Discount;
-use App\Shop;
-use App\User;
-use function GuzzleHttp\default_user_agent;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 
 class discountController extends Controller
 {
     public function list(){
 
-        return Discount::all();
+        return "[
+                    {
+                        \"id\": 1,
+                        \"shopId\": 1,
+                        \"category\": 1,
+                        \"originalPrice\": 200,
+                        \"currentPrice\": 50,
+                        \"description\": \"someDesc\",
+                        \"image\": \"http://img.youtube.com/\"
+                    },
+                    {
+                        \"id\": 2,
+                        \"shopId\": 3,
+                        \"category\": 1,
+                        \"originalPrice\": 665455000000,
+                        \"currentPrice\": 0.1,
+                        \"description\": \"cxv\",
+                        \"image\": \"http://img.youtube.com/\"
+                    },
+                    {
+                        \"id\": 3,
+                        \"shopId\": 4,
+                        \"category\": 4,
+                        \"originalPrice\": 10,
+                        \"currentPrice\": 5,
+                        \"description\": \"pizza margarita\",
+                        \"image\": \"http://img.youtube.com/\"
+                    },
+                    {
+                        \"id\": 4,
+                        \"shopId\": 5,
+                        \"category\": 4,
+                        \"originalPrice\": 50,
+                        \"currentPrice\": 30,
+                        \"description\": \"10 pizzes \",
+                        \"image\": \"http://img.youtube.com/\"
+                    },
+                    {
+                        \"id\": 5,
+                        \"shopId\": 3,
+                        \"category\": 1,
+                        \"originalPrice\": 23432,
+                        \"currentPrice\": 23423,
+                        \"description\": \"rwer\",
+                        \"image\": \"werwerwe\"
+                    },
+                    {
+                        \"id\": 6,
+                        \"shopId\": 4,
+                        \"category\": 4,
+                        \"originalPrice\": 7,
+                        \"currentPrice\": 3,
+                        \"description\": \"tsampa\",
+                        \"image\": \"http://img.youtube.com/\"
+                    }
+                ]";
 
     }
 
 
     public function get($id){
 
-        $request = new Request();
-        $request['id'] = $id;
-
-        $data = $this->validate($request, [
-            'id' => 'required|numeric'
-        ]);
-
-
-
-        return Discount::query()->where('shopId', '=', $data['id'])->first();
-
+        return "{
+                    \"id\": $id,
+                    \"shopId\": 1,
+                    \"category\": 1,
+                    \"originalPrice\": 200,
+                    \"currentPrice\": 50,
+                    \"description\": \"someDesc\",
+                    \"image\": \"http://img.youtube.com/\"
+                }";
 
 
 
@@ -50,21 +99,15 @@ class discountController extends Controller
 
         //trexei alla den ksero giati, einai arga kleinoun ta matia, i need coffeeeeeeeeeee
 
-        $userId = Auth::user()->id;
-        $shopId = Shop::query()->where('ownerId','=',$userId)->value('id');
-
-
 
         $discount = new Discount();
-        $discount->shopId = $shopId;
+        $discount->shopId = 1;
         $discount->category = $data['category'];
         $discount->originalPrice = $data['originalPrice'];
         $discount->currentPrice = $data['currentPrice'];
         $discount->description = $data['description'];
         $discount->image = $data['image'];
 
-        $discount->save();
-        $discount->push();
         return $discount;
 
 
@@ -85,54 +128,21 @@ class discountController extends Controller
             'image' => 'required|string'
         ]);
 
+        $discount = new Discount();
+        $discount->shopId = 1;
+        $discount->category = $data['category'];
+        $discount->originalPrice = $data['originalPrice'];
+        $discount->currentPrice = $data['currentPrice'];
+        $discount->description = $data['description'];
+        $discount->image = $data['image'];
 
-
-
-
-        $userId = Auth::user()->id;
-        $shopId = Shop::query()->where('ownerId','=',$userId)->value('id');
-
-        $discount = Discount::query()->where('shopId','=',$shopId)
-                                    ->where('id', '=', $data['id'])->first();
-
-        if ($discount != null) {
-            $discount->category = $data['category'];
-            $discount->originalPrice = $data['originalPrice'];
-            $discount->currentPrice = $data['currentPrice'];
-            $discount->description = $data['description'];
-            $discount->image = $data['image'];
-
-
-            $discount->save();
-            $discount->push();
-            return $discount;
-        }
-
-        else {
-
-            return "";
-        }
+        return $discount;
     }
 
 
     public function delete($id)
     {
-        $request = new Request();
-        $request['id'] = $id;
-
-        $data = $this->validate($request, [
-            'id' => 'required|numeric'
-        ]);
-
-        $userId = Auth::user()->id;
-        $shopId = Shop::query()->where('ownerId','=',$userId)->value('id');
-
-        $discount = Discount::query()->where('shopId','=',$shopId)
-            ->find($data['id']);
-
-        if ($discount != null) {
-            $discount->delete();
-        }
+        // ToDo ???
     }
 
 

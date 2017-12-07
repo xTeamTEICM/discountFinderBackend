@@ -2,41 +2,39 @@
 
 namespace App\Http\Controllers;
 
-use App\category;
 use App\requestedDiscount;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 
 class requestedDiscountController extends Controller
 {
     public function list()
     {
-        $userId = Auth::user()->id;
-        $requestedDiscounts = requestedDiscount::query()->where('userId', '=', $userId)->get();
-
-        foreach ($requestedDiscounts as $requestedDiscount) {
-            $requestedDiscount['categoryTitle'] = Category::find($requestedDiscount['category'])['title'];
-        }
-
-        return $requestedDiscounts;
+        return "[
+                    {
+                        \"id\": 37,
+                        \"userId\": 30,
+                        \"category\": 1,
+                        \"price\": 50,
+                        \"tags\": \"Sample, Demo, App, Data\",
+                        \"image\": \"http://img.youtube.com/\",
+                        \"categoryTitle\": \"Computer\"
+                    }
+                ]";
 
     }
 
     public function get($id)
     {
-        $request = new Request();
-        $request['id'] = $id;
-
-        $data = $this->validate($request, [
-            'id' => 'required|numeric'
-        ]);
-        $userId = Auth::user()->id;
-        $requestedDiscount = requestedDiscount::query()->where('userId', '=', $userId)->where('id', '=', $data['id'])->first();
-        if ($requestedDiscount) {
-            $requestedDiscount['categoryTitle'] = Category::find($requestedDiscount['category'])['title'];
-        }
-        return $requestedDiscount;
+        return "{
+                    \"id\": 37,
+                    \"userId\": 30,
+                    \"category\": 1,
+                    \"price\": 50,
+                    \"tags\": \"Sample, Demo, App, Data\",
+                    \"image\": \"http://img.youtube.com/\",
+                    \"categoryTitle\": \"Computer\"
+                }";
     }
 
     public function post(Request $request)
@@ -48,17 +46,12 @@ class requestedDiscountController extends Controller
             'tags' => 'required|string'
         ]);
 
-        $userId = Auth::user()->id;
-
         $requestedDiscount = new requestedDiscount();
-        $requestedDiscount->userId = $userId;
+        $requestedDiscount->userId = 1;
         $requestedDiscount->category = $data['category'];
         $requestedDiscount->price = $data['price'];
         $requestedDiscount->tags = $data['tags'];
 
-
-        $requestedDiscount->save();
-        $requestedDiscount->push();
         return $requestedDiscount;
     }
 
@@ -73,17 +66,13 @@ class requestedDiscountController extends Controller
             'tags' => 'required|string'
         ]);
 
-        $userId = Auth::user()->id;
 
-        $requestedDiscount = requestedDiscount::query()->where('userId', '=', $userId)->where('id', '=', $data['id'])->first();
+        $requestedDiscount = new requestedDiscount();
         if ($requestedDiscount != null) {
             $requestedDiscount->category = $data['category'];
             $requestedDiscount->price = $data['price'];
             $requestedDiscount->tags = $data['tags'];
 
-
-            $requestedDiscount->save();
-            $requestedDiscount->push();
             return $requestedDiscount;
         } else {
             return "";
@@ -92,18 +81,6 @@ class requestedDiscountController extends Controller
 
     public function delete($id)
     {
-        $request = new Request();
-        $request['id'] = $id;
-
-        $data = $this->validate($request, [
-            'id' => 'required|numeric'
-        ]);
-
-        $userId = Auth::user()->id;
-
-        $requestedDiscount = requestedDiscount::query()->where('userId', '=', $userId)->find($data['id']);
-        if ($requestedDiscount != null) {
-            $requestedDiscount->delete();
-        }
+        // ToDo ???
     }
 }

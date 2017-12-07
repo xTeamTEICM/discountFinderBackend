@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers\AuthApi;
 
-use App\User;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
 use Laravel\Passport\Client;
 
 class RegisterController extends Controller
@@ -31,30 +29,12 @@ class RegisterController extends Controller
 
         ]);
 
-        $user =User::create([
-
-            'firstName' => request('firstName'),
-            'lastName' => request('lastName'),
-            'eMail' => request('eMail'),
-            'password' => bcrypt(request('password')),
-        ]);
-
-         $params =[
-
-             'grant_type' => 'password',
-             'client_id' => $this->client->id,
-             'client_secret' =>$this->client->secret,
-             'username' => request('eMail'),
-             'password' => request ('password'),
-             'scope' => '*'
-
-         ];
-
-         $request->request->add($params);
-
-         $proxy= Request::create('oauth/token','POST');
-
-         return Route::dispatch($proxy);
+        return "{
+                \"token_type\": \"Bearer\",
+                \"expires_in\": 7199,
+                \"access_token\": \"mock_access\",
+                \"refresh_token\": \"mock_refresh\"
+                }";
 
     }
 }
