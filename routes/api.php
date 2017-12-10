@@ -52,6 +52,8 @@ Route::delete('/category/{title}','categoryController@remove');
 Route::middleware('auth:api')->post('/user/findDiscounts','findDiscountsController@list');
 Route::middleware('auth:api')->post('/user/getTopList','findDiscountsController@TopList');
 
+//setDeviceToken
+Route::middleware('auth:api')->post('/user/deviceToken','deviceTokenController@setDeviceToken');
 
 // Requested Discount Routes
 Route::group(['middleware' => 'auth:api'], function () {
