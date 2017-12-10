@@ -47,10 +47,12 @@ class requestedDiscountController extends Controller
         ]);
 
         $requestedDiscount = new requestedDiscount();
-        $requestedDiscount->userId = 1;
+        $requestedDiscount->id = $data['id'];
+        $requestedDiscount->userId = 0;
         $requestedDiscount->category = $data['category'];
         $requestedDiscount->price = $data['price'];
         $requestedDiscount->tags = $data['tags'];
+        $requestedDiscount->image = 'http://img.youtube.com/';
 
         return $requestedDiscount;
     }
@@ -69,9 +71,12 @@ class requestedDiscountController extends Controller
 
         $requestedDiscount = new requestedDiscount();
         if ($requestedDiscount != null) {
+            $requestedDiscount->id = $data['id'];
+            $requestedDiscount->userId = 0;
             $requestedDiscount->category = $data['category'];
             $requestedDiscount->price = $data['price'];
             $requestedDiscount->tags = $data['tags'];
+            $requestedDiscount->image = 'http://img.youtube.com/';
 
             return $requestedDiscount;
         } else {
