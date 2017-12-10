@@ -27,7 +27,7 @@ class requestedDiscountController extends Controller
     public function get($id)
     {
         return "{
-                    \"id\": 37,
+                    \"id\": $id,
                     \"userId\": 30,
                     \"category\": 1,
                     \"price\": 50,
@@ -47,8 +47,8 @@ class requestedDiscountController extends Controller
         ]);
 
         $requestedDiscount = new requestedDiscount();
-        $requestedDiscount->id = $data['id'];
-        $requestedDiscount->userId = 0;
+        $requestedDiscount->id = 1;
+        $requestedDiscount->userId = 1;
         $requestedDiscount->category = $data['category'];
         $requestedDiscount->price = $data['price'];
         $requestedDiscount->tags = $data['tags'];
@@ -72,7 +72,7 @@ class requestedDiscountController extends Controller
         $requestedDiscount = new requestedDiscount();
         if ($requestedDiscount != null) {
             $requestedDiscount->id = $data['id'];
-            $requestedDiscount->userId = 0;
+            $requestedDiscount->userId = 1;
             $requestedDiscount->category = $data['category'];
             $requestedDiscount->price = $data['price'];
             $requestedDiscount->tags = $data['tags'];
