@@ -56,3 +56,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::put('/requestedDiscount/{id}','requestedDiscountController@put');
     Route::delete('/requestedDiscount/{id}','requestedDiscountController@delete');
 });
+Route::group(['middleware'=>'auth:api'],function () {
+    Route::put('/updateUserLocation','UpdateUserLocationController@update');
+    Route::get('/updateUserLocation','UpdateUserLocationController@list');
+});

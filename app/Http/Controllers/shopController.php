@@ -70,7 +70,7 @@ class shopController extends Controller
         $shop = Shop::query()->where("ownerId", "=", $user->id)->find($data['id']);
 
         if($shop) {
-            $shop->brandName = $data['brandName'];
+            $shop->brandName =$data['brandName'];
             $shop->logPos = $data['logPos'];
             $shop->latPos = $data['latPos'];
 
