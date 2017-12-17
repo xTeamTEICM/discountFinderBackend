@@ -36,6 +36,7 @@ Route::get('/shop/{id}', 'shopController@get');
 Route::group(['middleware' => 'auth:api'], function () {
     Route::get('/user/shop', 'shopController@myList');
     Route::get('/user/shop/{id}', 'shopController@myGet');
+    Route::get('/user/shop/{id}/discounts', 'shopController@myDiscounts');
     Route::post('/shop', 'shopController@post');
     Route::put('/shop', 'shopController@update');
     Route::delete('/shop/{id}', 'shopController@delete');
