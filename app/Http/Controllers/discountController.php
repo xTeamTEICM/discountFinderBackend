@@ -41,6 +41,7 @@ class discountController extends Controller
 
         $data = $this->validate($request, [
 
+            'shopId' => 'required|numeric',
             'category' => 'required|numeric',
             'originalPrice' => 'required|numeric',
             'currentPrice' => 'required|numeric',
@@ -50,13 +51,13 @@ class discountController extends Controller
 
         //trexei alla den ksero giati, einai arga kleinoun ta matia, i need coffeeeeeeeeeee
 
-        $userId = Auth::user()->id;
-        $shopId = Shop::query()->where('ownerId','=',$userId)->value('id');
+        //$userId = Auth::user()->id;
+        //$shopId = Shop::query()->where('ownerId','=',$userId)->value('id');
 
 
 
         $discount = new Discount();
-        $discount->shopId = $shopId;
+        $discount->shopId = $data['shopId'];
         $discount->category = $data['category'];
         $discount->originalPrice = $data['originalPrice'];
         $discount->currentPrice = $data['currentPrice'];
@@ -77,6 +78,7 @@ class discountController extends Controller
 
         $data = $this->validate($request, [
 
+            'shopId' => 'required|numeric',
             'id' => 'required|numeric',
             'category' => 'required|numeric',
             'originalPrice' => 'required|numeric',
@@ -89,10 +91,10 @@ class discountController extends Controller
 
 
 
-        $userId = Auth::user()->id;
-        $shopId = Shop::query()->where('ownerId','=',$userId)->value('id');
+        //$userId = Auth::user()->id;
+        //$shopId = Shop::query()->where('ownerId','=',$userId)->value('id');
 
-        $discount = Discount::query()->where('shopId','=',$shopId)
+        $discount = Discount::query()->where('shopId','=',$data['shopId'])
                                     ->where('id', '=', $data['id'])->first();
 
         if ($discount != null) {
@@ -115,19 +117,23 @@ class discountController extends Controller
     }
 
 
-    public function delete($id)
+    public function delete($id,Request $request)
     {
-        $request = new Request();
+        //$request = new Request();
         $request['id'] = $id;
-
         $data = $this->validate($request, [
+
+            'shopId' => 'required|numeric',
             'id' => 'required|numeric'
+
         ]);
 
-        $userId = Auth::user()->id;
-        $shopId = Shop::query()->where('ownerId','=',$userId)->value('id');
 
-        $discount = Discount::query()->where('shopId','=',$shopId)
+
+        //$userId = Auth::user()->id;
+        //$shopId = Shop::query()->where('ownerId','=',$userId)->value('id');
+
+        $discount = Discount::query()->where('shopId','=',$data['shopId'])
             ->find($data['id']);
 
         if ($discount != null) {
