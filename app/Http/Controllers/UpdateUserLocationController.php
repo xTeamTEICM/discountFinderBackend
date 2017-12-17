@@ -5,35 +5,29 @@ namespace App\Http\Controllers;
 use App\User ;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class UpdateUserLocationController extends Controller
 {
     public function list()
     {
-        auth('api')->user();
-        return User::all();
-        //echo 'Test Test';
+        return auth('api')->user();
     }
+
     public function update(Request $request)
     {
 
         $user = auth('api')->user();
-
         $data = $this->validate($request, [
-            'id' => 'required|integer',
             'logPos' => 'required|numeric',
             'latPos' => 'required|numeric'
         ]);
 
-        $updatedUser = User::query()->where("id", "=", $user->id)->find($data['id']);
-        if ($updatedUser) {
-            $updatedUser->logPos = $data['logPos'];
-            $updatedUser->latPos = $data['latPos'];
-            echo 'Success';
+        if ($user) {
+            $user->logPos = $data['logPos'];
+            $user->latPos = $data['latPos'];
+            $user->save();
+            $user->push();
         }
-        $updatedUser->save();
-        $updatedUser->push();
-
-        return $updatedUser;
     }
 }
