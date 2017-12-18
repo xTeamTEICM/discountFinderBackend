@@ -54,12 +54,12 @@ class discountController extends Controller
 
         $fcm = new FCMController();
         $fcm->sentToMultiple(
-            User::all('tokenDevice'),
+            User::all('deviceToken'),
             'Υπάρχουν νέες προσφορές',
             'Δείτε τώρα τις νέες προσφορές',
             ''
         );
-        
+
         return $discount;
     }
 
