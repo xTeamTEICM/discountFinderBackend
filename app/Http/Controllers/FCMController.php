@@ -10,13 +10,13 @@ use LaravelFCM\Message\PayloadNotificationBuilder;
 
 class FCMController extends Controller
 {
-    public function sentToOne($userToken, $Title, $Body, $Data)
+    public function sentToOne($userToken, $Title, $Body, $Data, $ClickAction)
     {
         $optionBuilder = new OptionsBuilder();
         $optionBuilder->setTimeToLive(60 * 20);
 
         $notificationBuilder = new PayloadNotificationBuilder($Title);
-        $notificationBuilder->setBody($Body)->setSound('default');
+        $notificationBuilder->setBody($Body)->setSound('default')->setClickAction($ClickAction);
 
         $dataBuilder = new PayloadDataBuilder();
         $dataBuilder->addData($Data);
@@ -37,13 +37,13 @@ class FCMController extends Controller
         $downstreamResponse->tokensToRetry();
     }
 
-    public function sentToMultiple($userTokens, $Title, $Body, $Data)
+    public function sentToMultiple($userTokens, $Title, $Body, $Data, $ClickAction)
     {
         $optionBuilder = new OptionsBuilder();
         $optionBuilder->setTimeToLive(60 * 20);
 
         $notificationBuilder = new PayloadNotificationBuilder($Title);
-        $notificationBuilder->setBody($Body)->setSound('default');
+        $notificationBuilder->setBody($Body)->setSound('default')->setClickAction($ClickAction);
 
         $dataBuilder = new PayloadDataBuilder();
         $dataBuilder->addData($Data);
