@@ -106,7 +106,7 @@ class discountController extends Controller
             'id' => 'required|numeric'
         ]);
 
-        $discount = Discount::query()->where('shopId', '=', $data['shopId']) ->find($data['id']);
+        $discount = Discount::query()->where('shopId', '=', $data['shopId'])->find($data['id']);
 
         if ($discount != null) {
             $discount->delete();

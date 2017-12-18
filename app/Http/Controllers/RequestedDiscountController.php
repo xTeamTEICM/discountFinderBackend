@@ -20,7 +20,6 @@ class requestedDiscountController extends Controller
         }
 
         return $requestedDiscounts;
-
     }
 
     public function get($id)
@@ -56,7 +55,6 @@ class requestedDiscountController extends Controller
         $requestedDiscount->price = $data['price'];
         $requestedDiscount->tags = $data['tags'];
 
-
         $requestedDiscount->save();
         $requestedDiscount->push();
         return $requestedDiscount;
@@ -80,7 +78,6 @@ class requestedDiscountController extends Controller
             $requestedDiscount->category = $data['category'];
             $requestedDiscount->price = $data['price'];
             $requestedDiscount->tags = $data['tags'];
-
 
             $requestedDiscount->save();
             $requestedDiscount->push();

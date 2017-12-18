@@ -20,23 +20,24 @@ class shopController extends Controller
         return Shop::query()->where("ownerId", "=", $user->id)->get();
     }
 
-    public function myDiscounts($id) {
-         $request = new Request();
-         $request['id'] = $id;
+    public function myDiscounts($id)
+    {
+        $request = new Request();
+        $request['id'] = $id;
 
-         $data = $this->validate($request,[
-             'id' => 'required|numeric'
-         ]);
+        $data = $this->validate($request, [
+            'id' => 'required|numeric'
+        ]);
 
-         $shop = Shop::query()->where(
-             'ownerId',
-             '=',
-             Auth()->user()->id
-         )->find($data['id']);
+        $shop = Shop::query()->where(
+            'ownerId',
+            '=',
+            Auth()->user()->id
+        )->find($data['id']);
 
-         if($shop) {
-             return Discount::query()->where('shopId', '=', $shop->id)->get();
-         }
+        if ($shop) {
+            return Discount::query()->where('shopId', '=', $shop->id)->get();
+        }
     }
 
     public function get($id)
@@ -89,8 +90,8 @@ class shopController extends Controller
 
         $shop = Shop::query()->where("ownerId", "=", $user->id)->find($data['id']);
 
-        if($shop) {
-            $shop->brandName =$data['brandName'];
+        if ($shop) {
+            $shop->brandName = $data['brandName'];
             $shop->logPos = $data['logPos'];
             $shop->latPos = $data['latPos'];
 
