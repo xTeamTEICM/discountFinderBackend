@@ -12,110 +12,13 @@ use Illuminate\Support\Facades\Auth;
 
 class discountController extends Controller
 {
-    public function list(){
-
+    public function list()
+    {
         return Discount::all();
-
     }
 
 
-    public function get($id){
-
-        $request = new Request();
-        $request['id'] = $id;
-
-        $data = $this->validate($request, [
-            'id' => 'required|numeric'
-        ]);
-
-
-
-        return Discount::query()->where('shopId', '=', $data['id'])->first();
-
-
-
-
-    }
-
-    public function post(Request $request){
-
-        $data = $this->validate($request, [
-
-            'category' => 'required|numeric',
-            'originalPrice' => 'required|numeric',
-            'currentPrice' => 'required|numeric',
-            'description' => 'required|string',
-            'image' => 'required|string'
-        ]);
-
-        //trexei alla den ksero giati, einai arga kleinoun ta matia, i need coffeeeeeeeeeee
-
-        $userId = Auth::user()->id;
-        $shopId = Shop::query()->where('ownerId','=',$userId)->value('id');
-
-
-
-        $discount = new Discount();
-        $discount->shopId = $shopId;
-        $discount->category = $data['category'];
-        $discount->originalPrice = $data['originalPrice'];
-        $discount->currentPrice = $data['currentPrice'];
-        $discount->description = $data['description'];
-        $discount->image = $data['image'];
-
-        $discount->save();
-        $discount->push();
-        return $discount;
-
-
-    }
-
-
-    public function put($id, Request $request){
-
-        $request['id'] = $id;
-
-        $data = $this->validate($request, [
-
-            'id' => 'required|numeric',
-            'category' => 'required|numeric',
-            'originalPrice' => 'required|numeric',
-            'currentPrice' => 'required|numeric',
-            'description' => 'required|string',
-            'image' => 'required|string'
-        ]);
-
-
-
-
-
-        $userId = Auth::user()->id;
-        $shopId = Shop::query()->where('ownerId','=',$userId)->value('id');
-
-        $discount = Discount::query()->where('shopId','=',$shopId)
-                                    ->where('id', '=', $data['id'])->first();
-
-        if ($discount != null) {
-            $discount->category = $data['category'];
-            $discount->originalPrice = $data['originalPrice'];
-            $discount->currentPrice = $data['currentPrice'];
-            $discount->description = $data['description'];
-            $discount->image = $data['image'];
-
-
-            $discount->save();
-            $discount->push();
-            return $discount;
-        }
-
-        else {
-
-            return "";
-        }
-    }
-
-
-    public function delete($id)
+    public function get($id)
     {
         $request = new Request();
         $request['id'] = $id;
@@ -124,11 +27,86 @@ class discountController extends Controller
             'id' => 'required|numeric'
         ]);
 
-        $userId = Auth::user()->id;
-        $shopId = Shop::query()->where('ownerId','=',$userId)->value('id');
+        return Discount::query()->where('shopId', '=', $data['id'])->first();
+    }
 
-        $discount = Discount::query()->where('shopId','=',$shopId)
-            ->find($data['id']);
+    public function post(Request $request)
+    {
+        $data = $this->validate($request, [
+            'shopId' => 'required|numeric',
+            'category' => 'required|numeric',
+            'originalPrice' => 'required|numeric',
+            'currentPrice' => 'required|numeric',
+            'description' => 'required|string',
+            'image' => 'required|string'
+        ]);
+
+        $discount = new Discount();
+        $discount->shopId = $data['shopId'];
+        $discount->category = $data['category'];
+        $discount->originalPrice = $data['originalPrice'];
+        $discount->currentPrice = $data['currentPrice'];
+        $discount->description = $data['description'];
+        $discount->image = $data['image'];
+
+        $discount->save();
+        $discount->push();
+
+        $fcm = new FCMController();
+        $fcm->sentToMultiple(
+            User::pluck('deviceToken')->toArray(),
+            'Υπάρχουν νέες προσφορές',
+            'Δείτε τώρα τις νέες προσφορές',
+            [],//data
+            'postedNewDiscount'
+        );
+
+        return $discount;
+    }
+
+
+    public function put($id, Request $request)
+    {
+        $request['id'] = $id;
+
+        $data = $this->validate($request, [
+            'shopId' => 'required|numeric',
+            'id' => 'required|numeric',
+            'category' => 'required|numeric',
+            'originalPrice' => 'required|numeric',
+            'currentPrice' => 'required|numeric',
+            'description' => 'required|string',
+            'image' => 'required|string'
+        ]);
+
+        $discount = Discount::query()->where('shopId', '=', $data['shopId'])
+            ->where('id', '=', $data['id'])->first();
+
+        if ($discount != null) {
+            $discount->category = $data['category'];
+            $discount->originalPrice = $data['originalPrice'];
+            $discount->currentPrice = $data['currentPrice'];
+            $discount->description = $data['description'];
+            $discount->image = $data['image'];
+
+            $discount->save();
+            $discount->push();
+            return $discount;
+        } else {
+            return "";
+        }
+    }
+
+
+    public function delete($id, Request $request)
+    {
+        $request['id'] = $id;
+        $data = $this->validate($request, [
+            'shopId' => 'required|numeric',
+            'id' => 'required|numeric'
+        ]);
+
+        $discount = Discount::query()->where('shopId', '=', $data['shopId'])->find($data['id']);
 
         if ($discount != null) {
             $discount->delete();

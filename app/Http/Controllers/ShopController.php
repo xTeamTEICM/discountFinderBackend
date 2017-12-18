@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Discount;
 use App\Shop;
 use Illuminate\Http\Request;
 
@@ -17,6 +18,26 @@ class shopController extends Controller
     {
         $user = auth('api')->user();
         return Shop::query()->where("ownerId", "=", $user->id)->get();
+    }
+
+    public function myDiscounts($id)
+    {
+        $request = new Request();
+        $request['id'] = $id;
+
+        $data = $this->validate($request, [
+            'id' => 'required|numeric'
+        ]);
+
+        $shop = Shop::query()->where(
+            'ownerId',
+            '=',
+            Auth()->user()->id
+        )->find($data['id']);
+
+        if ($shop) {
+            return Discount::query()->where('shopId', '=', $shop->id)->get();
+        }
     }
 
     public function get($id)
@@ -69,7 +90,7 @@ class shopController extends Controller
 
         $shop = Shop::query()->where("ownerId", "=", $user->id)->find($data['id']);
 
-        if($shop) {
+        if ($shop) {
             $shop->brandName = $data['brandName'];
             $shop->logPos = $data['logPos'];
             $shop->latPos = $data['latPos'];

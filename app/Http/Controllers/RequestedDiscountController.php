@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\category;
 use App\requestedDiscount;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\UnauthorizedException;
-use Mockery\Exception;
 
 
 class requestedDiscountController extends Controller
@@ -14,7 +13,13 @@ class requestedDiscountController extends Controller
     public function list()
     {
         $userId = Auth::user()->id;
-        return requestedDiscount::query()->where('userId', '=', $userId)->get();
+        $requestedDiscounts = requestedDiscount::query()->where('userId', '=', $userId)->get();
+
+        foreach ($requestedDiscounts as $requestedDiscount) {
+            $requestedDiscount['categoryTitle'] = Category::find($requestedDiscount['category'])['title'];
+        }
+
+        return $requestedDiscounts;
     }
 
     public function get($id)
@@ -26,7 +31,11 @@ class requestedDiscountController extends Controller
             'id' => 'required|numeric'
         ]);
         $userId = Auth::user()->id;
-        return requestedDiscount::query()->where('userId', '=', $userId)->where('id', '=', $data['id'])->first();
+        $requestedDiscount = requestedDiscount::query()->where('userId', '=', $userId)->where('id', '=', $data['id'])->first();
+        if ($requestedDiscount) {
+            $requestedDiscount['categoryTitle'] = Category::find($requestedDiscount['category'])['title'];
+        }
+        return $requestedDiscount;
     }
 
     public function post(Request $request)
@@ -45,7 +54,6 @@ class requestedDiscountController extends Controller
         $requestedDiscount->category = $data['category'];
         $requestedDiscount->price = $data['price'];
         $requestedDiscount->tags = $data['tags'];
-
 
         $requestedDiscount->save();
         $requestedDiscount->push();
@@ -70,7 +78,6 @@ class requestedDiscountController extends Controller
             $requestedDiscount->category = $data['category'];
             $requestedDiscount->price = $data['price'];
             $requestedDiscount->tags = $data['tags'];
-
 
             $requestedDiscount->save();
             $requestedDiscount->push();
