@@ -16,7 +16,6 @@ class categoryController extends Controller
         return category::find($id);
     }
     public function post(){
-        //TODO EXEI Security issue -> mporei o opoiosdipote na valei katigoria
         $category = new category();
         $category->title = Input::get('title');
         $category->save();
