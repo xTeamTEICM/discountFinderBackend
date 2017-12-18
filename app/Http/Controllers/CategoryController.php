@@ -8,29 +8,36 @@ use Illuminate\Support\Facades\Input;
 
 class categoryController extends Controller
 {
-    //
-    public function list () {
+
+    public function list()
+    {
         return category::all();
     }
-    public function get($id){
+
+    public function get($id)
+    {
         return category::find($id);
     }
-    public function post(){
+
+    public function post()
+    {
         $category = new category();
         $category->title = Input::get('title');
         $category->save();
         return $category;
     }
-    public function update(){
+
+    public function update()
+    {
         $category = category::find(Input::get('id'));
         $category->title = Input::get('title');
         $category->save();
         return $category;
     }
-    public function remove($title){
-        //$category = new category();
+
+    public function remove($title)
+    {
         $category = category::find($title);
-        //return  $category;
         $category->delete();
     }
 

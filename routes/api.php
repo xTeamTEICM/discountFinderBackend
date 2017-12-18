@@ -13,16 +13,13 @@ use Illuminate\Http\Request;
 |
 */
 
-// Sample route
-Route::get('/helloWorld', 'helloWorldController@getHelloWorld');
-
 // Auth Routes
-Route::post('register', 'AuthApi\RegisterController@register');
-Route::post('login', 'AuthApi\LoginController@login');
-Route::post('refresh', 'AuthApi\LoginController@refresh');
+Route::post('register', 'Auth\RegisterController@register');
+Route::post('login', 'Auth\LoginController@login');
+Route::post('refresh', 'Auth\LoginController@refresh');
 Route::group(['middleware' => 'auth:api'], function(){
 
-    Route::post('logout', 'AuthApi\LoginController@logout');
+    Route::post('logout', 'Auth\LoginController@logout');
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
@@ -30,39 +27,39 @@ Route::group(['middleware' => 'auth:api'], function(){
 });
 
 // Shops Routes
-Route::get('/shop','shopController@list');
-Route::get('/shop/{id}', 'shopController@get');
+Route::get('/shop','ShopController@list');
+Route::get('/shop/{id}', 'ShopController@get');
 
 Route::group(['middleware' => 'auth:api'], function () {
-    Route::get('/user/shop', 'shopController@myList');
-    Route::get('/user/shop/{id}', 'shopController@myGet');
-    Route::get('/user/shop/{id}/discounts', 'shopController@myDiscounts');
-    Route::post('/shop', 'shopController@post');
-    Route::put('/shop', 'shopController@update');
-    Route::delete('/shop/{id}', 'shopController@delete');
+    Route::get('/user/shop', 'ShopController@myList');
+    Route::get('/user/shop/{id}', 'ShopController@myGet');
+    Route::get('/user/shop/{id}/discounts', 'ShopController@myDiscounts');
+    Route::post('/shop', 'ShopController@post');
+    Route::put('/shop', 'ShopController@update');
+    Route::delete('/shop/{id}', 'ShopController@delete');
 });
 
 //Custom category controllers
-Route::get('/category','categoryController@list');
-Route::get('/category/{id}','categoryController@get');
-Route::post('/category','categoryController@post');
-Route::put('/category','categoryController@update');
-Route::delete('/category/{title}','categoryController@remove');
+Route::get('/category','CategoryController@list');
+Route::get('/category/{id}','CategoryController@get');
+Route::post('/category','CategoryController@post');
+Route::put('/category','CategoryController@update');
+Route::delete('/category/{title}','CategoryController@remove');
 
 //find discounts
-Route::middleware('auth:api')->post('/user/findDiscounts','findDiscountsController@list');
-Route::middleware('auth:api')->post('/user/getTopList','findDiscountsController@TopList');
+Route::middleware('auth:api')->post('/user/findDiscounts','FindDiscountsController@list');
+Route::middleware('auth:api')->post('/user/getTopList','FindDiscountsController@TopList');
 
 //setDeviceToken
-Route::middleware('auth:api')->post('/user/deviceToken','deviceTokenController@setDeviceToken');
+Route::middleware('auth:api')->post('/user/deviceToken','DeviceTokenController@setDeviceToken');
 
 // Requested Discount Routes
 Route::group(['middleware' => 'auth:api'], function () {
-    Route::get('/requestedDiscount', 'requestedDiscountController@list');
-    Route::get('/requestedDiscount/{id}', 'requestedDiscountController@get');
-    Route::post('/requestedDiscount','requestedDiscountController@post');
-    Route::put('/requestedDiscount/{id}','requestedDiscountController@put');
-    Route::delete('/requestedDiscount/{id}','requestedDiscountController@delete');
+    Route::get('/requestedDiscount', 'RequestedDiscountController@list');
+    Route::get('/requestedDiscount/{id}', 'RequestedDiscountController@get');
+    Route::post('/requestedDiscount','RequestedDiscountController@post');
+    Route::put('/requestedDiscount/{id}','RequestedDiscountController@put');
+    Route::delete('/requestedDiscount/{id}','RequestedDiscountController@delete');
 });
 
 
@@ -74,10 +71,10 @@ Route::group(['middleware'=>'auth:api'],function () {
 
 //Discount Controller Routes
 Route::group(['middleware' => 'auth:api'], function () {
-Route::get('/discount','discountController@list');
-Route::get('/discount/{id}','discountController@get');
-Route::post('/discount','discountController@post');
-Route::put('/discount/{id}','discountController@put');
-Route::delete('discount/{id}','discountController@delete');
+Route::get('/discount','DiscountController@list');
+Route::get('/discount/{id}','DiscountController@get');
+Route::post('/discount','DiscountController@post');
+Route::put('/discount/{id}','DiscountController@put');
+Route::delete('discount/{id}','DiscountController@delete');
 
 });

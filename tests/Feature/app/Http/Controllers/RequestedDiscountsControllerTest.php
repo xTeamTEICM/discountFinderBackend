@@ -13,7 +13,7 @@ class requestedDiscountsControllerTest extends TestCase
     public function testAuth()
     {
         $response = $this->json('POST', 'api/login', [
-            'username' => 'testing@local.host',
+            'username' => 'TestUser@JNKSoftware.eu',
             'password' => '1234567'
         ]);
 

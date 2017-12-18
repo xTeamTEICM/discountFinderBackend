@@ -14,7 +14,7 @@ class ShopControllerTest extends TestCase
     public function testAuth()
     {
         $response = $this->json('POST', 'api/login', [
-            'username' => 'testing@local.host',
+            'username' => 'TestUser@JNKSoftware.eu',
             'password' => '1234567'
         ]);
 
@@ -62,12 +62,12 @@ class ShopControllerTest extends TestCase
         $response->assertJsonStructure([['id', 'ownerId', 'brandName', 'latPos', 'logPos']]) or $response->assertJson([]);
     }
 
-    public function testMyDiscounts()
-    {
-        $response = $this->json('GET', 'api/shop/' . ShopControllerTest::$id . '/discounts', [], []);
-        // $response->assertJsonStructure([['id', 'shopId', 'category', 'originalPrice', 'currentPrice', 'description', 'image']]) or $response->assertJson([[]]);
-
-    }
+//    public function testMyDiscounts()
+//    {
+//        $response = $this->json('GET', 'api/shop/' . ShopControllerTest::$id . '/discounts', [], []);
+//        $response->assertJsonStructure([['id', 'shopId', 'category', 'originalPrice', 'currentPrice', 'description', 'image']]) or $response->assertJson([[]]);
+//
+//    }
 
     public function testGetExisted()
     {

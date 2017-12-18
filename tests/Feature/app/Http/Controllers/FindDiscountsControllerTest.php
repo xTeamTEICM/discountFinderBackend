@@ -16,8 +16,8 @@ class findDiscountsControllerTest extends TestCase
     {
 
         $response = $this->json('POST', 'api/login', [
-            'username' => 't@test.com',
-            'password' => '123456'
+            'username' => 'TestUser@JNKSoftware.eu',
+            'password' => '1234567'
         ]);
 
         findDiscountsControllerTest::$AuthValues=json_decode($response->getContent(),true);
@@ -162,13 +162,13 @@ class findDiscountsControllerTest extends TestCase
 
             'logPos' => '41.088591',
             'latPos' => '23.551272',
-            'distanceInMeters' => '1200'
+            'distanceInMeters' => '99999'
 
         ]);
 
              // distance from shop 1100 meters
             //returns the values in  []
-        $response->assertJsonStructure([['shopName', 'category', 'shortDescription', 'finalPrice','productImageURL','discountId','distance']]);
+        $response->assertJsonStructure([['shopName', 'category', 'shortDescription', 'finalPrice','productImageURL','discountId','distance', 'shopLatPos', 'shopLogPos']]);
 
     }
 
@@ -304,14 +304,16 @@ class findDiscountsControllerTest extends TestCase
 
         $response = $this->withHeader('Authorization','Bearer '.$token)->json('POST','api/user/getTopList', [
 
-            'logPos' => '41.088591',
-            'latPos' => '23.551272',
+            'logPos' => '41',
+            'latPos' => '23',
 
         ]);
 
 
+        var_dump($response);
+
         //returns the values in  []
-        $response->assertJsonStructure([['shopName', 'category', 'shortDescription', 'finalPrice','productImageURL','discountId','distance']]);
+        $response->assertJsonStructure([['shopName', 'category', 'shortDescription', 'finalPrice','productImageURL','discountId','distance', 'shopLatPos', 'shopLogPos']]);
 
     }
 

@@ -13,25 +13,24 @@ class deviceTokenControllerTest extends TestCase
     // getting access_token
     public function testGetAuthValuesFromStaticUser()
     {
-
         $response = $this->json('POST', 'api/login', [
-            'username' => 't@test.com',
-            'password' => '123456'
+            'username' => 'TestUser@JNKSoftware.eu',
+            'password' => '1234567'
         ]);
 
         deviceTokenControllerTest::$AuthValues = json_decode($response->getContent(), true);
         $response->assertStatus(200);
-
-
     }
 
 
     public function testEmptyFieldDeviceToken()
     {
         $token = deviceTokenControllerTest::$AuthValues['access_token'];
-
-        $response = $this->withHeader('Authorization', 'Bearer ' . $token)->json('POST', 'api/user/deviceToken', [
-
+        $response = $this->withHeader(
+            'Authorization',
+            'Bearer ' . $token
+        )->json(
+            'POST', 'api/user/deviceToken', [
 
         ]);
 
