@@ -51,6 +51,15 @@ class discountController extends Controller
 
         $discount->save();
         $discount->push();
+
+        $fcm = new FCMController();
+        $fcm->sentToMultiple(
+            User::all('tokenDevice'),
+            'Υπάρχουν νέες προσφορές',
+            'Δείτε τώρα τις νέες προσφορές',
+            ''
+        );
+        
         return $discount;
     }
 
