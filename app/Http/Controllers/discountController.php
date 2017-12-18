@@ -12,15 +12,14 @@ use Illuminate\Support\Facades\Auth;
 
 class discountController extends Controller
 {
-    public function list(){
-
+    public function list()
+    {
         return Discount::all();
-
     }
 
 
-    public function get($id){
-
+    public function get($id)
+    {
         $request = new Request();
         $request['id'] = $id;
 
@@ -28,19 +27,12 @@ class discountController extends Controller
             'id' => 'required|numeric'
         ]);
 
-
-
         return Discount::query()->where('shopId', '=', $data['id'])->first();
-
-
-
-
     }
 
-    public function post(Request $request){
-
+    public function post(Request $request)
+    {
         $data = $this->validate($request, [
-
             'shopId' => 'required|numeric',
             'category' => 'required|numeric',
             'originalPrice' => 'required|numeric',
@@ -48,13 +40,6 @@ class discountController extends Controller
             'description' => 'required|string',
             'image' => 'required|string'
         ]);
-
-        //trexei alla den ksero giati, einai arga kleinoun ta matia, i need coffeeeeeeeeeee
-
-        //$userId = Auth::user()->id;
-        //$shopId = Shop::query()->where('ownerId','=',$userId)->value('id');
-
-
 
         $discount = new Discount();
         $discount->shopId = $data['shopId'];
@@ -67,17 +52,14 @@ class discountController extends Controller
         $discount->save();
         $discount->push();
         return $discount;
-
-
     }
 
 
-    public function put($id, Request $request){
-
+    public function put($id, Request $request)
+    {
         $request['id'] = $id;
 
         $data = $this->validate($request, [
-
             'shopId' => 'required|numeric',
             'id' => 'required|numeric',
             'category' => 'required|numeric',
@@ -87,15 +69,8 @@ class discountController extends Controller
             'image' => 'required|string'
         ]);
 
-
-
-
-
-        //$userId = Auth::user()->id;
-        //$shopId = Shop::query()->where('ownerId','=',$userId)->value('id');
-
-        $discount = Discount::query()->where('shopId','=',$data['shopId'])
-                                    ->where('id', '=', $data['id'])->first();
+        $discount = Discount::query()->where('shopId', '=', $data['shopId'])
+            ->where('id', '=', $data['id'])->first();
 
         if ($discount != null) {
             $discount->category = $data['category'];
@@ -104,37 +79,24 @@ class discountController extends Controller
             $discount->description = $data['description'];
             $discount->image = $data['image'];
 
-
             $discount->save();
             $discount->push();
             return $discount;
-        }
-
-        else {
-
+        } else {
             return "";
         }
     }
 
 
-    public function delete($id,Request $request)
+    public function delete($id, Request $request)
     {
-        //$request = new Request();
         $request['id'] = $id;
         $data = $this->validate($request, [
-
             'shopId' => 'required|numeric',
             'id' => 'required|numeric'
-
         ]);
 
-
-
-        //$userId = Auth::user()->id;
-        //$shopId = Shop::query()->where('ownerId','=',$userId)->value('id');
-
-        $discount = Discount::query()->where('shopId','=',$data['shopId'])
-            ->find($data['id']);
+        $discount = Discount::query()->where('shopId', '=', $data['shopId']) ->find($data['id']);
 
         if ($discount != null) {
             $discount->delete();
