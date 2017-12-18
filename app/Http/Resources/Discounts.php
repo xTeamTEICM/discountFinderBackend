@@ -28,8 +28,8 @@ class Discounts extends Resource
             'productImageURL'=>$this->image,
             'discountId' =>$this->id,
             'distance' =>Discounts::$distance[Discounts::$counter++],
-
-
+            'shopLatPos' => DB::table('shops')->where('id',$this->shopId)->pluck('latPos')->first(),
+            'shopLogPos' => DB::table('shops')->where('id',$this->shopId)->pluck('logPos')->first()
 
         ];
 
