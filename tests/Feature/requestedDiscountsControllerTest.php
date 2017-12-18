@@ -44,7 +44,7 @@ class requestedDiscountsControllerTest extends TestCase
         $response = $this->json('GET', 'api/requestedDiscount', [], [
             'Authorization' => requestedDiscountsControllerTest::$Token_Type . " " . requestedDiscountsControllerTest::$Access_Token
         ]);
-        $response->assertJsonStructure([['userId', 'category', 'price', 'tags', 'id']]);
+        $response->assertJsonStructure([['userId', 'category', 'price', 'tags', 'id', 'categoryTitle']]);
     }
 
     public function testGetExisted()
@@ -52,7 +52,7 @@ class requestedDiscountsControllerTest extends TestCase
         $response = $this->json('GET', 'api/requestedDiscount/' . requestedDiscountsControllerTest::$id, [], [
             'Authorization' => requestedDiscountsControllerTest::$Token_Type . " " . requestedDiscountsControllerTest::$Access_Token
         ]);
-        $response->assertJsonStructure(['id', 'userId', 'category', 'price', 'tags']);
+        $response->assertJsonStructure(['id', 'userId', 'category', 'price', 'tags', 'categoryTitle']);
     }
 
     public function testGetNotExisted()

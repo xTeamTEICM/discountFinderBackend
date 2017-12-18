@@ -36,6 +36,7 @@ Route::get('/shop/{id}', 'shopController@get');
 Route::group(['middleware' => 'auth:api'], function () {
     Route::get('/user/shop', 'shopController@myList');
     Route::get('/user/shop/{id}', 'shopController@myGet');
+    Route::get('/user/shop/{id}/discounts', 'shopController@myDiscounts');
     Route::post('/shop', 'shopController@post');
     Route::put('/shop', 'shopController@update');
     Route::delete('/shop/{id}', 'shopController@delete');
@@ -48,6 +49,13 @@ Route::post('/category','categoryController@post');
 Route::put('/category','categoryController@update');
 Route::delete('/category/{title}','categoryController@remove');
 
+//find discounts
+Route::middleware('auth:api')->post('/user/findDiscounts','findDiscountsController@list');
+Route::middleware('auth:api')->post('/user/getTopList','findDiscountsController@TopList');
+
+//setDeviceToken
+Route::middleware('auth:api')->post('/user/deviceToken','deviceTokenController@setDeviceToken');
+
 // Requested Discount Routes
 Route::group(['middleware' => 'auth:api'], function () {
     Route::get('/requestedDiscount', 'requestedDiscountController@list');
@@ -56,7 +64,20 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::put('/requestedDiscount/{id}','requestedDiscountController@put');
     Route::delete('/requestedDiscount/{id}','requestedDiscountController@delete');
 });
+
+
+// Location
 Route::group(['middleware'=>'auth:api'],function () {
     Route::put('/updateUserLocation','UpdateUserLocationController@update');
     Route::get('/updateUserLocation','UpdateUserLocationController@list');
+});
+
+//Discount Controller Routes
+Route::group(['middleware' => 'auth:api'], function () {
+Route::get('/discount','discountController@list');
+Route::get('/discount/{id}','discountController@get');
+Route::post('/discount','discountController@post');
+Route::put('/discount/{id}','discountController@put');
+Route::delete('discount/{id}','discountController@delete');
+
 });
