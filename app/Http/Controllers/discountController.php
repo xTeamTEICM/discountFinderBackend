@@ -57,7 +57,8 @@ class discountController extends Controller
             User::pluck('deviceToken')->toArray(),
             'Υπάρχουν νέες προσφορές',
             'Δείτε τώρα τις νέες προσφορές',
-            []//data
+            [],//data
+            'postedNewDiscount'
         );
 
         return $discount;
