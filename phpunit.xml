@@ -22,20 +22,20 @@
         <whitelist processUncoveredFilesFromWhitelist="true">
             <directory suffix=".php">./app</directory>
             <exclude>
-                <directory>./app/Console/*</directory>
-                <directory>./app/Exceptions/*</directory>
-                <directory>./app/Http/Middleware/*</directory>
-                <directory>./app/Providers/*</directory>
-                <directory>./bootstrap/*</directory>
-                <directory>./config/*</directory>
-                <directory>./database/*</directory>
-                <directory>./public/*</directory>
-                <directory>./reports/*</directory>
-                <directory>./resources/*</directory>
-                <directory>./routes/*</directory>
-                <directory>./storage/*</directory>
-                <directory>./tests/*</directory>
-                <directory>./vendor/*</directory>
+                <directory suffix=".php">./app/Console/</directory>
+                <directory suffix=".php">./app/Exceptions/</directory>
+                <directory suffix=".php">./app/Http/Middleware/</directory>
+                <directory suffix=".php">./app/Providers/</directory>
+                <directory suffix=".php">./bootstrap/</directory>
+                <directory suffix=".php">./config/</directory>
+                <directory suffix=".php">./database/</directory>
+                <directory suffix=".php">./public/</directory>
+                <directory suffix=".php">./reports/</directory>
+                <directory suffix=".php">./resources/</directory>
+                <directory suffix=".php">./routes/</directory>
+                <directory suffix=".php">./storage/</directory>
+                <directory suffix=".php">./tests/</directory>
+                <directory suffix=".php">./vendor/</directory>
             </exclude>
         </whitelist>
     </filter>
