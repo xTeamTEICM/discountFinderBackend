@@ -310,8 +310,6 @@ class findDiscountsControllerTest extends TestCase
         ]);
 
 
-        var_dump($response);
-
         //returns the values in  []
         $response->assertJsonStructure([['shopName', 'category', 'shortDescription', 'finalPrice','productImageURL','discountId','distance', 'shopLatPos', 'shopLogPos']]);
 
