@@ -3,14 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Discount;
-use App\Shop;
 use App\User;
-use function GuzzleHttp\default_user_agent;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 
-class discountController extends Controller
+class DiscountController extends Controller
 {
     public function list()
     {
@@ -27,7 +24,7 @@ class discountController extends Controller
             'id' => 'required|numeric'
         ]);
 
-        return Discount::query()->where('shopId', '=', $data['id'])->first();
+        return Discount::query()->where('id', '=', $data['id'])->first();
     }
 
     public function post(Request $request)
@@ -38,8 +35,25 @@ class discountController extends Controller
             'originalPrice' => 'required|numeric',
             'currentPrice' => 'required|numeric',
             'description' => 'required|string',
-            'image' => 'required|string'
+            'imageTitle' => 'required|string',
+            'imageBase' => 'required|string'
         ]);
+
+        $imageController = new ImageController();
+
+        $imageResult = $imageController->save(
+            $data['shopId'] . $data['imageTitle'],
+            $data['imageBase'],
+            public_path() . '/images/'
+        );
+
+        if ($imageResult == "Invalid Data") {
+            return response()->json(
+                [
+                    'message' => 'Invalid picture'
+                ], 400
+            );
+        }
 
         $discount = new Discount();
         $discount->shopId = $data['shopId'];
@@ -47,7 +61,7 @@ class discountController extends Controller
         $discount->originalPrice = $data['originalPrice'];
         $discount->currentPrice = $data['currentPrice'];
         $discount->description = $data['description'];
-        $discount->image = $data['image'];
+        $discount->image = config('app.url') . config('port') . '/images/' . $imageResult;
 
         $discount->save();
         $discount->push();
@@ -75,25 +89,24 @@ class discountController extends Controller
             'category' => 'required|numeric',
             'originalPrice' => 'required|numeric',
             'currentPrice' => 'required|numeric',
-            'description' => 'required|string',
-            'image' => 'required|string'
+            'description' => 'required|string'
         ]);
 
-        $discount = Discount::query()->where('shopId', '=', $data['shopId'])
-            ->where('id', '=', $data['id'])->first();
+        $discount = Discount::query()->where('id', '=', $data['id'])->first();
 
         if ($discount != null) {
             $discount->category = $data['category'];
             $discount->originalPrice = $data['originalPrice'];
             $discount->currentPrice = $data['currentPrice'];
             $discount->description = $data['description'];
-            $discount->image = $data['image'];
 
             $discount->save();
             $discount->push();
             return $discount;
         } else {
-            return "";
+            return response()->json([
+                'message' => 'Not found'
+            ], 404);
         }
     }
 
@@ -102,14 +115,18 @@ class discountController extends Controller
     {
         $request['id'] = $id;
         $data = $this->validate($request, [
-            'shopId' => 'required|numeric',
             'id' => 'required|numeric'
         ]);
 
-        $discount = Discount::query()->where('shopId', '=', $data['shopId'])->find($data['id']);
+        $discount = Discount::query()->where('id', '=', $data['id'])->first();
 
         if ($discount != null) {
             $discount->delete();
+            return response()->json([], 200);
+        } else {
+            return response()->json([
+                'message' => 'Not found'
+            ], 404);
         }
     }
 
