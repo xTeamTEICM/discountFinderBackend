@@ -62,12 +62,23 @@ class ShopControllerTest extends TestCase
         $response->assertJsonStructure([['id', 'ownerId', 'brandName', 'latPos', 'logPos']]) or $response->assertJson([]);
     }
 
-//    public function testMyDiscounts()
-//    {
-//        $response = $this->json('GET', 'api/shop/' . ShopControllerTest::$id . '/discounts', [], []);
-//        $response->assertJsonStructure([['id', 'shopId', 'category', 'originalPrice', 'currentPrice', 'description', 'image']]) or $response->assertJson([[]]);
-//
-//    }
+    public function testMyDiscountsShopExist()
+    {
+        $response = $this->json('GET', 'api/user/shop/' . ShopControllerTest::$id . '/discounts', [], [
+            'Authorization' => ShopControllerTest::$Token_Type . " " . ShopControllerTest::$Access_Token
+        ]);
+
+        $response->assertStatus(200);
+    }
+
+    public function testMyDiscountsShopNotExist()
+    {
+        $response = $this->json('GET', 'api/user/shop/' . '9898989' . '/discounts', [], [
+            'Authorization' => ShopControllerTest::$Token_Type . " " . ShopControllerTest::$Access_Token
+        ]);
+
+        $response->assertStatus(404);
+    }
 
     public function testGetExisted()
     {
