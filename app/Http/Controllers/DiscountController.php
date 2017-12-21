@@ -3,11 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Discount;
-use App\Shop;
-use App\User;
-use function GuzzleHttp\default_user_agent;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 
 class discountController extends Controller
@@ -38,8 +34,25 @@ class discountController extends Controller
             'originalPrice' => 'required|numeric',
             'currentPrice' => 'required|numeric',
             'description' => 'required|string',
-            'image' => 'required|string'
+            'imageTitle' => 'required|string',
+            'imageBase' => 'required|string'
         ]);
+
+        $imageController = new ImageController();
+
+        $imageResult = $imageController->save(
+            $data['shopId'] . $data['imageTitle'],
+            $data['imageBase'],
+            public_path() . '/images/'
+        );
+
+        if ($imageResult == "Invalid Data") {
+            return response()->json(
+                [
+                    'message' => 'Invalid picture'
+                ], 400
+            );
+        }
 
         $discount = new Discount();
         $discount->shopId = $data['shopId'];
@@ -47,19 +60,19 @@ class discountController extends Controller
         $discount->originalPrice = $data['originalPrice'];
         $discount->currentPrice = $data['currentPrice'];
         $discount->description = $data['description'];
-        $discount->image = $data['image'];
+        $discount->image = config('app.url') . config('port') . '/images/' . $imageResult;
 
-        $discount->save();
-        $discount->push();
-
-        $fcm = new FCMController();
-        $fcm->sentToMultiple(
-            User::pluck('deviceToken')->toArray(),
-            'Υπάρχουν νέες προσφορές',
-            'Δείτε τώρα τις νέες προσφορές',
-            [],//data
-            'postedNewDiscount'
-        );
+//        $discount->save();
+//        $discount->push();
+//
+//        $fcm = new FCMController();
+//        $fcm->sentToMultiple(
+//            User::pluck('deviceToken')->toArray(),
+//            'Υπάρχουν νέες προσφορές',
+//            'Δείτε τώρα τις νέες προσφορές',
+//            [],//data
+//            'postedNewDiscount'
+//        );
 
         return $discount;
     }
