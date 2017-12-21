@@ -66,9 +66,9 @@ Route::group(['middleware' => 'auth:api'], function () {
 });
 
 //Discount Controller Routes
+Route::get('/discount', 'DiscountController@list');
+Route::get('/discount/{id}', 'DiscountController@get');
 Route::group(['middleware' => 'auth:api'], function () {
-    Route::get('/discount', 'DiscountController@list');
-    Route::get('/discount/{id}', 'DiscountController@get');
     Route::post('/discount', 'DiscountController@post');
     Route::put('/discount/{id}', 'DiscountController@put');
     Route::delete('discount/{id}', 'DiscountController@delete');

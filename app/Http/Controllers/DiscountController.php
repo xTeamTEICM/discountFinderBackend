@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Discount;
+use App\User;
 use Illuminate\Http\Request;
 
 
-class discountController extends Controller
+class DiscountController extends Controller
 {
     public function list()
     {
@@ -23,7 +24,7 @@ class discountController extends Controller
             'id' => 'required|numeric'
         ]);
 
-        return Discount::query()->where('shopId', '=', $data['id'])->first();
+        return Discount::query()->where('id', '=', $data['id'])->first();
     }
 
     public function post(Request $request)
@@ -62,17 +63,17 @@ class discountController extends Controller
         $discount->description = $data['description'];
         $discount->image = config('app.url') . config('port') . '/images/' . $imageResult;
 
-//        $discount->save();
-//        $discount->push();
-//
-//        $fcm = new FCMController();
-//        $fcm->sentToMultiple(
-//            User::pluck('deviceToken')->toArray(),
-//            'Υπάρχουν νέες προσφορές',
-//            'Δείτε τώρα τις νέες προσφορές',
-//            [],//data
-//            'postedNewDiscount'
-//        );
+        $discount->save();
+        $discount->push();
+
+        $fcm = new FCMController();
+        $fcm->sentToMultiple(
+            User::pluck('deviceToken')->toArray(),
+            'Υπάρχουν νέες προσφορές',
+            'Δείτε τώρα τις νέες προσφορές',
+            [],//data
+            'postedNewDiscount'
+        );
 
         return $discount;
     }
@@ -88,25 +89,24 @@ class discountController extends Controller
             'category' => 'required|numeric',
             'originalPrice' => 'required|numeric',
             'currentPrice' => 'required|numeric',
-            'description' => 'required|string',
-            'image' => 'required|string'
+            'description' => 'required|string'
         ]);
 
-        $discount = Discount::query()->where('shopId', '=', $data['shopId'])
-            ->where('id', '=', $data['id'])->first();
+        $discount = Discount::query()->where('id', '=', $data['id'])->first();
 
         if ($discount != null) {
             $discount->category = $data['category'];
             $discount->originalPrice = $data['originalPrice'];
             $discount->currentPrice = $data['currentPrice'];
             $discount->description = $data['description'];
-            $discount->image = $data['image'];
 
             $discount->save();
             $discount->push();
             return $discount;
         } else {
-            return "";
+            return response()->json([
+                'message' => 'Not found'
+            ], 404);
         }
     }
 
@@ -115,14 +115,18 @@ class discountController extends Controller
     {
         $request['id'] = $id;
         $data = $this->validate($request, [
-            'shopId' => 'required|numeric',
             'id' => 'required|numeric'
         ]);
 
-        $discount = Discount::query()->where('shopId', '=', $data['shopId'])->find($data['id']);
+        $discount = Discount::query()->where('id', '=', $data['id'])->first();
 
         if ($discount != null) {
             $discount->delete();
+            return response()->json([], 200);
+        } else {
+            return response()->json([
+                'message' => 'Not found'
+            ], 404);
         }
     }
 
