@@ -17,11 +17,26 @@
             <directory suffix="Test.php">./tests/Unit/</directory>
         </testsuite>
 
-
     </testsuites>
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
             <directory suffix=".php">./app</directory>
+            <exclude>
+                <directory>./app/Console/*</directory>
+                <directory>./app/Exceptions/*</directory>
+                <directory>./app/Http/Middleware/*</directory>
+                <directory>./app/Providers/*</directory>
+                <directory>./bootstrap/*</directory>
+                <directory>./config/*</directory>
+                <directory>./database/*</directory>
+                <directory>./public/*</directory>
+                <directory>./reports/*</directory>
+                <directory>./resources/*</directory>
+                <directory>./routes/*</directory>
+                <directory>./storage/*</directory>
+                <directory>./tests/*</directory>
+                <directory>./vendor/*</directory>
+            </exclude>
         </whitelist>
     </filter>
     <php>

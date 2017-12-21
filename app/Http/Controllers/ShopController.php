@@ -37,6 +37,10 @@ class shopController extends Controller
 
         if ($shop) {
             return Discount::query()->where('shopId', '=', $shop->id)->get();
+        } else {
+            return response()->json([
+                'message' => 'Shop not found'
+            ], 404);
         }
     }
 
