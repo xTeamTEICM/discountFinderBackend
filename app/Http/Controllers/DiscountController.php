@@ -2,19 +2,27 @@
 
 namespace App\Http\Controllers;
 
+use App\category;
 use App\Discount;
-use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 
 class DiscountController extends Controller
 {
+    /**
+     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     */
     public function list()
     {
         return Discount::all();
     }
 
 
+    /**
+     * @param $id
+     * @return \Illuminate\Database\Eloquent\Model|null|static
+     */
     public function get($id)
     {
         $request = new Request();
@@ -27,8 +35,13 @@ class DiscountController extends Controller
         return Discount::query()->where('id', '=', $data['id'])->first();
     }
 
+    /**
+     * @param Request $request
+     * @return Discount|\Illuminate\Http\JsonResponse
+     */
     public function post(Request $request)
     {
+        // Validate data
         $data = $this->validate($request, [
             'shopId' => 'required|numeric',
             'category' => 'required|numeric',
@@ -39,14 +52,13 @@ class DiscountController extends Controller
             'imageBase' => 'required|string'
         ]);
 
+        // Save image
         $imageController = new ImageController();
-
         $imageResult = $imageController->save(
             $data['shopId'] . $data['imageTitle'],
             $data['imageBase'],
             public_path() . '/images/'
         );
-
         if ($imageResult == "Invalid Data") {
             return response()->json(
                 [
@@ -55,6 +67,7 @@ class DiscountController extends Controller
             );
         }
 
+        // Create discount
         $discount = new Discount();
         $discount->shopId = $data['shopId'];
         $discount->category = $data['category'];
@@ -62,23 +75,47 @@ class DiscountController extends Controller
         $discount->currentPrice = $data['currentPrice'];
         $discount->description = $data['description'];
         $discount->image = config('app.url') . config('port') . '/images/' . $imageResult;
-
         $discount->save();
         $discount->push();
 
-        $fcm = new FCMController();
-        $fcm->sentToMultiple(
-            User::pluck('deviceToken')->toArray(),
-            'Υπάρχουν νέες προσφορές',
-            'Δείτε τώρα τις νέες προσφορές',
-            [],//data
-            'postedNewDiscount'
-        );
+        // Create notification string
+        $msgCategory = Category::query()->where('id', '=', $data['category'])->first(['title'])['title'];
+        $msgOldPrice = $data['originalPrice'];
+        $msgCurrPrice = $data['currentPrice'];
+        $msg = "Υπάρχει νέα προσφορά στην κατηγορία $msgCategory, από $msgOldPrice € μόνο $msgCurrPrice €, δείτε την τώρα !!!";
+
+        // Find users to notify
+        $tokensAsArray = DB::select("call getMatchedUsers(" . $data['category'] . "," . $data['currentPrice'] . ")");
+        // Convert the default array to collection
+        $tokensAsCollection = collect();
+        $count = 0;
+        foreach ($tokensAsArray as $token) {
+            $tokensAsCollection->push($token->deviceToken);
+            $count++;
+        }
+        // Check if we have users to notify, if we have sent notifications
+        if ($count != 0) {
+            $fcm = new FCMController();
+            $fcm->sentToMultiple(
+                $tokensAsCollection->toArray(),
+                'Υπάρχει νέα προσφορά',
+                $msg,
+                [
+                    'id' => $discount->id
+                ],//data
+                'postedNewDiscount'
+            );
+        }
 
         return $discount;
     }
 
 
+    /**
+     * @param $id
+     * @param Request $request
+     * @return \Illuminate\Database\Eloquent\Model|\Illuminate\Http\JsonResponse|null|static
+     */
     public function put($id, Request $request)
     {
         $request['id'] = $id;
@@ -111,6 +148,11 @@ class DiscountController extends Controller
     }
 
 
+    /**
+     * @param $id
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function delete($id, Request $request)
     {
         $request['id'] = $id;
