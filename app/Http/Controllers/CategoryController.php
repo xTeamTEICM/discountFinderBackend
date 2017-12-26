@@ -2,43 +2,96 @@
 
 namespace App\Http\Controllers;
 
-use App\category;
+use App\Category;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Input;
+
 
 class categoryController extends Controller
 {
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     */
     public function list()
     {
-        return category::all();
+        return Category::all();
     }
 
+    /**
+     * @param $id
+     * @return mixed
+     */
     public function get($id)
     {
-        return category::find($id);
+        return Category::find($id);
     }
 
-    public function post()
+    /**
+     * @param Request $request
+     * @return Category
+     */
+    public function post(Request $request)
     {
-        $category = new category();
-        $category->title = Input::get('title');
+        $data = $this->validate($request, [
+            'title' => 'required|string|unique:category'
+        ]);
+
+        $category = new Category();
+        $category->title = $data['title'];
         $category->save();
+        $category->push();
+
         return $category;
     }
 
-    public function update()
+    /**
+     * @param $id
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function update($id, Request $request)
     {
-        $category = category::find(Input::get('id'));
-        $category->title = Input::get('title');
-        $category->save();
-        return $category;
+        $request['id'] = $id;
+        $data = $this->validate($request, [
+            'id' => 'required|numeric',
+            'title' => 'required|string|unique:category'
+        ]);
+
+        $category = Category::find($id);
+
+        if ($category != null) {
+            $category->title = $data['title'];
+            $category->save();
+            $category->push();
+            return $category;
+        } else {
+            return response()->json([
+                'message' => "Category not found"
+            ], 404);
+        }
     }
 
-    public function remove($title)
+    /**
+     * @param $id
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function remove($id, Request $request)
     {
-        $category = category::find($title);
-        $category->delete();
+        $request['id'] = $id;
+        $data = $this->validate($request, [
+            'id' => 'required|numeric'
+        ]);
+
+        $category = category::find($data['id']);
+        if ($category != null) {
+            $category->delete();
+            return response()->json([], 200);
+        } else {
+            return response()->json([
+                'message' => 'Category not found'
+            ], 404);
+        }
     }
 
 }

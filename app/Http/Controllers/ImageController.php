@@ -18,11 +18,16 @@ class ImageController extends Controller
             file_put_contents($path . $file, base64_decode($data));
             return $file;
         } else {
-            return "Invalid Data";
+            return "Invalid data";
         }
 
     }
 
+    /**
+     * @param $title
+     * @param $path
+     * @return string
+     */
     public function delete($title, $path)
     {
         $file = $title . '.jpg';
@@ -34,6 +39,10 @@ class ImageController extends Controller
         }
     }
 
+    /**
+     * @param $data
+     * @return bool
+     */
     private function isBase64Image($data)
     {
         $object = base64_decode($data);

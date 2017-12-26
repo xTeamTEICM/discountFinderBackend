@@ -9,17 +9,27 @@ use Illuminate\Http\Request;
 
 class shopController extends Controller
 {
+    /**
+     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     */
     public function list()
     {
         return Shop::all();
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     */
     public function myList()
     {
         $user = auth('api')->user();
         return Shop::query()->where("ownerId", "=", $user->id)->get();
     }
 
+    /**
+     * @param $id
+     * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Http\JsonResponse|static[]
+     */
     public function myDiscounts($id)
     {
         $request = new Request();
@@ -44,17 +54,29 @@ class shopController extends Controller
         }
     }
 
+    /**
+     * @param $id
+     * @return mixed
+     */
     public function get($id)
     {
         return Shop::find($id);
     }
 
+    /**
+     * @param $id
+     * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|null|static|static[]
+     */
     public function myGet($id)
     {
         $user = auth('api')->user();
         return Shop::query()->where("ownerId", "=", $user->id)->find($id);
     }
 
+    /**
+     * @param Request $request
+     * @return Shop
+     */
     public function post(Request $request)
     {
 
@@ -80,11 +102,14 @@ class shopController extends Controller
 
     }
 
-    public function update(Request $request)
+    /**
+     * @param Request $request
+     * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|null|static|static[]
+     */
+    public function update($id, Request $request)
     {
 
-        $user = auth('api')->user();
-
+        $request['id'] = $id;
         $data = $this->validate($request, [
             'id' => 'required|integer',
             'brandName' => 'required|string',
@@ -92,27 +117,61 @@ class shopController extends Controller
             'latPos' => 'required|numeric'
         ]);
 
-        $shop = Shop::query()->where("ownerId", "=", $user->id)->find($data['id']);
+        $user = auth('api')->user();
+        $shop = Shop::find($data['id']);
 
         if ($shop) {
-            $shop->brandName = $data['brandName'];
-            $shop->logPos = $data['logPos'];
-            $shop->latPos = $data['latPos'];
+            if ($shop->ownerId == $user->id) {
+                $shop->brandName = $data['brandName'];
+                $shop->logPos = $data['logPos'];
+                $shop->latPos = $data['latPos'];
 
-            $shop->save();
-            $shop->push();
+                $shop->save();
+                $shop->push();
 
-            return $shop;
+                return $shop;
+            } else {
+                return response()->json([
+                    'message' => 'Unauthorized'
+                ], 401);
+            }
+        } else {
+            return response()->json([
+                'message' => 'Shop not found'
+            ], 404);
         }
+
     }
 
-    public function delete($id)
+    /**
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function delete($id, Request $request)
     {
-        $user = auth('api')->user();
+        $request['id'] = $id;
+        $data = $this->validate($request, [
+            'id' => 'required|numeric'
+        ]);
 
-        $shop = Shop::query()->where("ownerId", "=", $user->id)->find($id);
+        $user = auth('api')->user();
+        $shop = Shop::find($data['id']);
+
         if ($shop) {
-            $shop->delete();
+            if ($shop->ownerId == $user->id) {
+                $shop->delete();
+                return response()->json([], 200);
+            } else {
+                return response()->json([
+                    'message' => 'Unauthorized'
+                ], 401);
+            }
+        } else {
+            return response()->json([
+                'message' => 'Shop not found'
+            ], 404);
         }
+
+
     }
 }

@@ -114,9 +114,8 @@ class ShopControllerTest extends TestCase
 
     public function testPutExisted()
     {
-        $response = $this->json('PUT', 'api/shop',
+        $response = $this->json('PUT', 'api/shop/' . ShopControllerTest::$id,
             [
-                'id' => ShopControllerTest::$id,
                 'brandName' => 'Digital Minds Ltd',
                 'latPos' => '123.456',
                 'logPos' => '234.567'
@@ -141,9 +140,8 @@ class ShopControllerTest extends TestCase
 
     public function testPutNotExisted()
     {
-        $response = $this->json('PUT', 'api/shop',
+        $response = $this->json('PUT', 'api/shop/' . 99999,
             [
-                'id' => '0',
                 'brandName' => 'Digital Minds Ltd',
                 'latPos' => '123.456',
                 'logPos' => '234.567'
@@ -151,7 +149,7 @@ class ShopControllerTest extends TestCase
                 'Authorization' => ShopControllerTest::$Token_Type . " " . ShopControllerTest::$Access_Token
             ]);
 
-        $this->assertEquals("", $response->content());
+        $this->assertEquals("{\"message\":\"Shop not found\"}", $response->content());
     }
 
     public function testDeleteExisted()
@@ -175,7 +173,7 @@ class ShopControllerTest extends TestCase
                 'Authorization' => ShopControllerTest::$Token_Type . " " . ShopControllerTest::$Access_Token
             ]);
 
-        $this->assertEquals(200, $responseTrue->getStatusCode());
+        $this->assertEquals(404, $responseTrue->getStatusCode());
     }
 
     public function testUserListNotAuth()
@@ -193,20 +191,13 @@ class ShopControllerTest extends TestCase
 
     public function testPutNotAuth()
     {
-        $response = $this->json('PUT', 'api/shop',
+        $response = $this->json('PUT', 'api/shop/' . ShopControllerTest::$id,
             [
-                'id' => '0',
                 'brandName' => 'Digital Minds Ltd',
                 'latPos' => '123.456',
                 'logPos' => '234.567'
             ], []
         );
-        $this->assertEquals("{\"message\":\"Unauthenticated.\"}", $response->content());
-    }
-
-    public function testDeleteNotAuth()
-    {
-        $response = $this->json('DELETE', "api/shop/" . ShopControllerTest::$id, [], []);
         $this->assertEquals("{\"message\":\"Unauthenticated.\"}", $response->content());
     }
 

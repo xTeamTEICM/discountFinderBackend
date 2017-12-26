@@ -28,7 +28,7 @@ class ImageControllerTest extends TestCase
     {
         $imageController = new ImageController();
         self::assertEquals(
-            'Invalid Data',
+            'Invalid data',
             $imageController->save(
                 'test',
                 self::$phpInvalidSampleImage,
