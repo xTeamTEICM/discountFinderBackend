@@ -10,6 +10,9 @@ use Illuminate\Support\Facades\Auth;
 
 class requestedDiscountController extends Controller
 {
+    /**
+     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     */
     public function list()
     {
         $userId = Auth::user()->id;
@@ -22,25 +25,37 @@ class requestedDiscountController extends Controller
         return $requestedDiscounts;
     }
 
-    public function get($id)
+    /**
+     * @param $id
+     * @return \Illuminate\Database\Eloquent\Model|null|static
+     */
+    public function get($id, Request $request)
     {
-        $request = new Request();
         $request['id'] = $id;
 
         $data = $this->validate($request, [
             'id' => 'required|numeric'
         ]);
-        $userId = Auth::user()->id;
-        $requestedDiscount = requestedDiscount::query()->where('userId', '=', $userId)->where('id', '=', $data['id'])->first();
-        if ($requestedDiscount) {
+
+        $requestedDiscount = requestedDiscount::find($data['id']);
+
+        if ($requestedDiscount != null) {
+            // ToDo : Check if the requested discount is from user, if not return 401, Unauthorized
             $requestedDiscount['categoryTitle'] = Category::find($requestedDiscount['category'])['title'];
+            return $requestedDiscount;
+        } else {
+            return response()->json([
+                'message' => 'Requested discount not found'
+            ], 404);
         }
-        return $requestedDiscount;
     }
 
+    /**
+     * @param Request $request
+     * @return requestedDiscount
+     */
     public function post(Request $request)
     {
-
         $data = $this->validate($request, [
             'category' => 'required|numeric',
             'price' => 'required|numeric',
@@ -57,9 +72,15 @@ class requestedDiscountController extends Controller
 
         $requestedDiscount->save();
         $requestedDiscount->push();
+
         return $requestedDiscount;
     }
 
+    /**
+     * @param $id
+     * @param Request $request
+     * @return \Illuminate\Database\Eloquent\Model|null|string|static
+     */
     public function put($id, Request $request)
     {
         $request['id'] = $id;
@@ -71,10 +92,10 @@ class requestedDiscountController extends Controller
             'tags' => 'required|string'
         ]);
 
-        $userId = Auth::user()->id;
+        $requestedDiscount = requestedDiscount::find($data['id']);
 
-        $requestedDiscount = requestedDiscount::query()->where('userId', '=', $userId)->where('id', '=', $data['id'])->first();
         if ($requestedDiscount != null) {
+            // ToDo : Check if the requested discount is from user, if not return 401, Unauthorized
             $requestedDiscount->category = $data['category'];
             $requestedDiscount->price = $data['price'];
             $requestedDiscount->tags = $data['tags'];
@@ -83,24 +104,34 @@ class requestedDiscountController extends Controller
             $requestedDiscount->push();
             return $requestedDiscount;
         } else {
-            return "";
+            return response()->json([
+                'message' => 'Requested discount not found'
+            ], 404);
         }
     }
 
-    public function delete($id)
+    /**
+     * @param $id
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function delete($id, Request $request)
     {
-        $request = new Request();
         $request['id'] = $id;
 
         $data = $this->validate($request, [
             'id' => 'required|numeric'
         ]);
 
-        $userId = Auth::user()->id;
-
-        $requestedDiscount = requestedDiscount::query()->where('userId', '=', $userId)->find($data['id']);
+        $requestedDiscount = requestedDiscount::find($data['id']);
         if ($requestedDiscount != null) {
+            // ToDo : Check if the requested discount is from user, if not return 401, Unauthorized
             $requestedDiscount->delete();
+            return response()->json([], 200);
+        } else {
+            return response()->json([
+                'message' => 'Requested discount not found'
+            ], 404);
         }
     }
 }

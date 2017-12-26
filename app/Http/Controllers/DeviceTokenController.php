@@ -2,20 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use App\User;
 use Illuminate\Http\Request;
 
 class deviceTokenController extends Controller
 {
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function setDeviceToken(Request $request)
     {
-        $this->validate($request, [
+        $data = $this->validate($request, [
             'deviceToken' => 'required|String',
         ]);
 
-        $id = auth('api')->user()->id;
-        User::query()
-            ->where("id", "=", $id)
-            ->update(['deviceToken' => request('deviceToken')]);
+        $user = auth('api')->user();
+        $user->deviceToken = $data['deviceToken'];
+        $user->save();
+        $user->push();
+
+        return response()->json([], 200);
     }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\category;
+use App\Category;
 use App\Discount;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -18,26 +18,25 @@ class DiscountController extends Controller
         return Discount::all();
     }
 
-
     /**
      * @param $id
      * @return \Illuminate\Database\Eloquent\Model|null|static
      */
-    public function get($id)
+    public function get($id, Request $request)
     {
-        $request = new Request();
         $request['id'] = $id;
 
         $data = $this->validate($request, [
             'id' => 'required|numeric'
         ]);
 
-        return Discount::query()->where('id', '=', $data['id'])->first();
+        return Discount::find($data['id']);
     }
 
     /**
      * @param Request $request
      * @return Discount|\Illuminate\Http\JsonResponse
+     * @throws \LaravelFCM\Message\InvalidOptionException
      */
     public function post(Request $request)
     {
@@ -59,7 +58,7 @@ class DiscountController extends Controller
             $data['imageBase'],
             public_path() . '/images/'
         );
-        if ($imageResult == "Invalid Data") {
+        if ($imageResult == "Invalid data") {
             return response()->json(
                 [
                     'message' => 'Invalid picture'
@@ -74,7 +73,7 @@ class DiscountController extends Controller
         $discount->originalPrice = $data['originalPrice'];
         $discount->currentPrice = $data['currentPrice'];
         $discount->description = $data['description'];
-        $discount->image = config('app.url') . config('port') . '/images/' . $imageResult;
+        $discount->image = config('app.url') . ':' . env('APP_PORT', 'default') . '/images/' . $imageResult;
         $discount->save();
         $discount->push();
 
@@ -110,7 +109,6 @@ class DiscountController extends Controller
         return $discount;
     }
 
-
     /**
      * @param $id
      * @param Request $request
@@ -121,17 +119,18 @@ class DiscountController extends Controller
         $request['id'] = $id;
 
         $data = $this->validate($request, [
-            'shopId' => 'required|numeric',
             'id' => 'required|numeric',
+            'shopId' => 'required|numeric',
             'category' => 'required|numeric',
             'originalPrice' => 'required|numeric',
             'currentPrice' => 'required|numeric',
             'description' => 'required|string'
         ]);
 
-        $discount = Discount::query()->where('id', '=', $data['id'])->first();
+        $discount = Discount::find($data['id']);
 
         if ($discount != null) {
+            // ToDo : Check if the discount is from user's shops, if not return 401, Unauthorized
             $discount->category = $data['category'];
             $discount->originalPrice = $data['originalPrice'];
             $discount->currentPrice = $data['currentPrice'];
@@ -142,11 +141,10 @@ class DiscountController extends Controller
             return $discount;
         } else {
             return response()->json([
-                'message' => 'Not found'
+                'message' => 'Discount not found'
             ], 404);
         }
     }
-
 
     /**
      * @param $id
@@ -160,14 +158,15 @@ class DiscountController extends Controller
             'id' => 'required|numeric'
         ]);
 
-        $discount = Discount::query()->where('id', '=', $data['id'])->first();
+        $discount = Discount::find($data['id']);
 
         if ($discount != null) {
+            // ToDo : Check if the discount is from user's shops, if not return 401, Unauthorized
             $discount->delete();
             return response()->json([], 200);
         } else {
             return response()->json([
-                'message' => 'Not found'
+                'message' => 'Discount not found'
             ], 404);
         }
     }

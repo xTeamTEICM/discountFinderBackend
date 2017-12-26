@@ -60,7 +60,7 @@ class requestedDiscountsControllerTest extends TestCase
         $response = $this->json('GET', 'api/requestedDiscount/0', [], [
             'Authorization' => requestedDiscountsControllerTest::$Token_Type . " " . requestedDiscountsControllerTest::$Access_Token
         ]);
-        $this->assertEquals("", $response->content());
+        $this->assertEquals("{\"message\":\"Requested discount not found\"}", $response->content());
     }
 
     public function testPutExisted()
@@ -95,18 +95,18 @@ class requestedDiscountsControllerTest extends TestCase
         ], [
             'Authorization' => requestedDiscountsControllerTest::$Token_Type . " " . requestedDiscountsControllerTest::$Access_Token
         ]);
-        $this->assertEquals("", $response->content());
+        $this->assertEquals("{\"message\":\"Requested discount not found\"}", $response->content());
     }
 
 
     public function testDeleteNotExisted()
     {
-        $responseTrue = $this->json('DELETE', "api/requestedDiscount/" . requestedDiscountsControllerTest::$id,
+        $responseTrue = $this->json('DELETE', "api/requestedDiscount/" . 999999999999,
             [],
             [
                 'Authorization' => requestedDiscountsControllerTest::$Token_Type . " " . requestedDiscountsControllerTest::$Access_Token
             ]);
 
-        $this->assertEquals(200, $responseTrue->getStatusCode());
+        $this->assertEquals(404, $responseTrue->getStatusCode());
     }
 }

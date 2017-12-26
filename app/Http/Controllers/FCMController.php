@@ -10,6 +10,14 @@ use LaravelFCM\Message\PayloadNotificationBuilder;
 
 class FCMController extends Controller
 {
+    /**
+     * @param $userToken
+     * @param $Title
+     * @param $Body
+     * @param $Data
+     * @param $ClickAction
+     * @throws \LaravelFCM\Message\InvalidOptionException
+     */
     public function sentToOne($userToken, $Title, $Body, $Data, $ClickAction)
     {
         $optionBuilder = new OptionsBuilder();
@@ -37,6 +45,14 @@ class FCMController extends Controller
         $downstreamResponse->tokensToRetry();
     }
 
+    /**
+     * @param $userTokens
+     * @param $Title
+     * @param $Body
+     * @param $Data
+     * @param $ClickAction
+     * @throws \LaravelFCM\Message\InvalidOptionException
+     */
     public function sentToMultiple($userTokens, $Title, $Body, $Data, $ClickAction)
     {
         $optionBuilder = new OptionsBuilder();

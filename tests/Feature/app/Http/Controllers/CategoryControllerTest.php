@@ -17,7 +17,7 @@ class CategoryControllerTest extends TestCase
         $length = count($Json);
         for ($i = 0; $i < $length; $i++) {
             if ($Json[$i]['title'] == $titleRequested) {
-                categorycontrollerTest::$idTest = $Json[$i]["id"];
+                self::$idTest = $Json[$i]["id"];
 
             }
         }
@@ -32,7 +32,7 @@ class CategoryControllerTest extends TestCase
     public function testPOSTSucessful()
     {
         $this->idOfTestCase('TestProduct');
-        $this->call('DELETE', 'api/category/' . categorycontrollerTest::$idTest);
+        $this->call('DELETE', 'api/category/' . self::$idTest);
         $response = $this->call('POST', 'api/category', ['id' => 1, 'title' => 'TestProduct']);
         $this->assertEquals(200, $response->getStatusCode());
     }
@@ -47,7 +47,7 @@ class CategoryControllerTest extends TestCase
     public function testGetWithID()
     {
         $this->idOfTestCase('TestProduct');
-        $response = $this->call('GET', 'api/category/' . categorycontrollerTest::$idTest);
+        $response = $this->call('GET', 'api/category/' . CategoryControllerTest::$idTest);
         $this->assertEquals('200', $response->getStatusCode());
     }
 
@@ -55,9 +55,9 @@ class CategoryControllerTest extends TestCase
     {
         $this->call('POST', 'api/category', ['id' => 1, 'title' => 'TestProduct']);
         $this->idOfTestCase('TestProduct');
-        $idOfUpdateCategoryOption = categorycontrollerTest::$idTest;
-        $response = $this->call('PUT', 'api/category', ['id' => $idOfUpdateCategoryOption, 'title' => 'TestProductUpdated']);
-        $this->call('DELETE', 'api/category/' . categorycontrollerTest::$idTest);
+        $idOfUpdateCategoryOption = self::$idTest;
+        $response = $this->call('PUT', 'api/category/' . CategoryControllerTest::$idTest, ['title' => 'TestProductUpdated']);
+        $this->call('DELETE', 'api/category/' . CategoryControllerTest::$idTest);
         $this->assertEquals('200', $response->getStatusCode()); //TODO Thelei implementation
     }
 
@@ -65,8 +65,20 @@ class CategoryControllerTest extends TestCase
     {
         $this->call('POST', 'api/category', ['id' => 1, 'title' => 'TestProduct']);
         $this->idOfTestCase('TestProduct');
-        $response = $this->call('DELETE', 'api/category/' . categorycontrollerTest::$idTest);
+        $response = $this->call('DELETE', 'api/category/' . CategoryControllerTest::$idTest);
         $this->assertEquals(200, $response->getStatusCode());
+    }
+
+    public function testUpdateNotExisted()
+    {
+        $response = $this->call('PUT', 'api/category/' . 999999, ['title' => 'TestProductUpdated']);
+        $this->assertEquals('404', $response->getStatusCode());
+    }
+
+    public function testDeleteNotExisted()
+    {
+        $response = $this->call('DELETE', 'api/category/' . 999999);
+        $this->assertEquals(404, $response->getStatusCode());
     }
 
     public function testIsPostingJSON()

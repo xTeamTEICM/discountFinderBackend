@@ -17,8 +17,6 @@ class UpdateUserLocationControllerTest extends TestCase
     public function helpFunctionForAuthenticate()
     {
         $this->helpFunctionForLogin();
-
-
     }
 
     public function helpFunctionForLogin($username = 'test@test.eu', $password = '12345678')

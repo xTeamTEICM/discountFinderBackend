@@ -32,7 +32,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::get('/user/shop/{id}', 'ShopController@myGet');
     Route::get('/user/shop/{id}/discounts', 'ShopController@myDiscounts');
     Route::post('/shop', 'ShopController@post');
-    Route::put('/shop', 'ShopController@update');
+    Route::put('/shop/{id}', 'ShopController@update');
     Route::delete('/shop/{id}', 'ShopController@delete');
 });
 
@@ -40,8 +40,8 @@ Route::group(['middleware' => 'auth:api'], function () {
 Route::get('/category', 'CategoryController@list');
 Route::get('/category/{id}', 'CategoryController@get');
 Route::post('/category', 'CategoryController@post');
-Route::put('/category', 'CategoryController@update');
-Route::delete('/category/{title}', 'CategoryController@remove');
+Route::put('/category/{id}', 'CategoryController@update');
+Route::delete('/category/{id}', 'CategoryController@remove');
 
 // Find Discounts
 Route::middleware('auth:api')->post('/user/findDiscounts', 'FindDiscountsController@list');
