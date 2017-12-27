@@ -3,78 +3,78 @@
 namespace Tests\Feature;
 
 
+use Tests\AuthForTests;
 use Tests\TestCase;
 
 class ShopControllerTest extends TestCase
 {
-    protected static $Token_Type;
-    protected static $Access_Token;
     protected static $id;
-
-    public function testAuth()
-    {
-        $response = $this->json('POST', 'api/login', [
-            'username' => 'TestUser@JNKSoftware.eu',
-            'password' => '1234567'
-        ]);
-
-        ShopControllerTest::$Token_Type = $response->decodeResponseJson()['token_type'];
-        ShopControllerTest::$Access_Token = $response->decodeResponseJson()['access_token'];
-
-        $this->assertNotEquals("", ShopControllerTest::$Token_Type);
-        $this->assertNotEquals("", ShopControllerTest::$Access_Token);
-    }
 
     public function testPostNotExisted()
     {
+        $token = new AuthForTests();
+        $token->generateToken($this);
+        $tokenKey = $token->getToken();
+
         $response = $this->json('POST', 'api/shop', [
             'brandName' => 'TestingShop',
             'logPos' => '12.34',
             'latPos' => '23.45'
         ], [
-            'Authorization' => ShopControllerTest::$Token_Type . " " . ShopControllerTest::$Access_Token
+            'Authorization' => $tokenKey
         ]);
 
         ShopControllerTest::$id = $response->decodeResponseJson()['id'];
 
         $response->assertJsonStructure(['ownerId', 'brandName', 'logPos', 'latPos']);
+        $response->assertStatus(200);
     }
 
     public function testPostExisted()
     {
+        $token = new AuthForTests();
+        $token->generateToken($this);
+        $tokenKey = $token->getToken();
+
         $response = $this->json('POST', 'api/shop', [
             'brandName' => 'TestingShop',
             'logPos' => '12.34',
             'latPos' => '23.45'
         ], [
-            'Authorization' => ShopControllerTest::$Token_Type . " " . ShopControllerTest::$Access_Token
+            'Authorization' => $tokenKey
         ]);
 
-        $this->assertEquals(
-            "{\"message\":\"The given data was invalid.\",\"errors\":{\"brandName\":[\"The brand name has already been taken.\"]}}",
-            $response->content()
-        );
+        $response->assertStatus(422);
     }
 
     public function testList()
     {
         $response = $this->json('GET', 'api/shop', [], []);
-        $response->assertJsonStructure([['id', 'ownerId', 'brandName', 'latPos', 'logPos']]) or $response->assertJson([]);
+        $response->assertJsonStructure([['id', 'ownerId', 'brandName', 'latPos', 'logPos']]);
+        $response->assertStatus(200);
     }
 
-    public function testMyDiscountsShopExist()
+    public function testListDiscountsExist()
     {
+        $token = new AuthForTests();
+        $token->generateToken($this);
+        $tokenKey = $token->getToken();
+
         $response = $this->json('GET', 'api/user/shop/' . ShopControllerTest::$id . '/discounts', [], [
-            'Authorization' => ShopControllerTest::$Token_Type . " " . ShopControllerTest::$Access_Token
+            'Authorization' => $tokenKey
         ]);
 
         $response->assertStatus(200);
     }
 
-    public function testMyDiscountsShopNotExist()
+    public function testListDiscountsNotExist()
     {
-        $response = $this->json('GET', 'api/user/shop/' . '9898989' . '/discounts', [], [
-            'Authorization' => ShopControllerTest::$Token_Type . " " . ShopControllerTest::$Access_Token
+        $token = new AuthForTests();
+        $token->generateToken($this);
+        $tokenKey = $token->getToken();
+
+        $response = $this->json('GET', 'api/user/shop/' . '999999' . '/discounts', [], [
+            'Authorization' => $tokenKey
         ]);
 
         $response->assertStatus(404);
@@ -83,20 +83,25 @@ class ShopControllerTest extends TestCase
     public function testGetExisted()
     {
         $response = $this->json('GET', 'api/shop/' . ShopControllerTest::$id, [], []);
+        $response->assertStatus(200);
         $response->assertJsonStructure(['id', 'ownerId', 'brandName', 'latPos', 'logPos']);
     }
 
     public function testGetNotExisted()
     {
-        $response = $this->json('GET', 'api/shop/0', [], []);
-        $this->assertEquals("", $response->content());
+        $response = $this->json('GET', 'api/shop/999999', [], []);
+        $response->assertStatus(404);
     }
 
     public function testUserList()
     {
+        $token = new AuthForTests();
+        $token->generateToken($this);
+        $tokenKey = $token->getToken();
+
         $response = $this->json('GET', 'api/user/shop',
             [], [
-                'Authorization' => ShopControllerTest::$Token_Type . " " . ShopControllerTest::$Access_Token
+                'Authorization' => $tokenKey
             ]);
 
         $response->assertJsonStructure([['id', 'ownerId', 'brandName', 'latPos', 'logPos']]);
@@ -104,9 +109,13 @@ class ShopControllerTest extends TestCase
 
     public function testUserGet()
     {
+        $token = new AuthForTests();
+        $token->generateToken($this);
+        $tokenKey = $token->getToken();
+
         $response = $this->json('GET', 'api/user/shop/' . ShopControllerTest::$id,
             [], [
-                'Authorization' => ShopControllerTest::$Token_Type . " " . ShopControllerTest::$Access_Token
+                'Authorization' => $tokenKey
             ]);
 
         $response->assertJsonStructure(['id', 'ownerId', 'brandName', 'latPos', 'logPos']);
@@ -114,13 +123,17 @@ class ShopControllerTest extends TestCase
 
     public function testPutExisted()
     {
+        $token = new AuthForTests();
+        $token->generateToken($this);
+        $tokenKey = $token->getToken();
+
         $response = $this->json('PUT', 'api/shop/' . ShopControllerTest::$id,
             [
                 'brandName' => 'Digital Minds Ltd',
                 'latPos' => '123.456',
                 'logPos' => '234.567'
             ], [
-                'Authorization' => ShopControllerTest::$Token_Type . " " . ShopControllerTest::$Access_Token
+                'Authorization' => $tokenKey
             ]);
 
         // Check Structure
@@ -140,13 +153,17 @@ class ShopControllerTest extends TestCase
 
     public function testPutNotExisted()
     {
+        $token = new AuthForTests();
+        $token->generateToken($this);
+        $tokenKey = $token->getToken();
+
         $response = $this->json('PUT', 'api/shop/' . 99999,
             [
                 'brandName' => 'Digital Minds Ltd',
                 'latPos' => '123.456',
                 'logPos' => '234.567'
             ], [
-                'Authorization' => ShopControllerTest::$Token_Type . " " . ShopControllerTest::$Access_Token
+                'Authorization' => $tokenKey
             ]);
 
         $this->assertEquals("{\"message\":\"Shop not found\"}", $response->content());
@@ -154,12 +171,16 @@ class ShopControllerTest extends TestCase
 
     public function testDeleteExisted()
     {
+        $token = new AuthForTests();
+        $token->generateToken($this);
+        $tokenKey = $token->getToken();
+
         $url = "api/shop/" . ShopControllerTest::$id;
 
         $response = $this->json('DELETE', $url,
             [],
             [
-                'Authorization' => ShopControllerTest::$Token_Type . " " . ShopControllerTest::$Access_Token
+                'Authorization' => $tokenKey
             ]);
 
         $this->assertEquals(200, $response->getStatusCode());
@@ -167,25 +188,31 @@ class ShopControllerTest extends TestCase
 
     public function testDeleteNotExisted()
     {
-        $responseTrue = $this->json('DELETE', "api/shop/" . ShopControllerTest::$id,
+        $token = new AuthForTests();
+        $token->generateToken($this);
+        $tokenKey = $token->getToken();
+
+        $response = $this->json('DELETE', "api/shop/" . ShopControllerTest::$id,
             [],
             [
-                'Authorization' => ShopControllerTest::$Token_Type . " " . ShopControllerTest::$Access_Token
+                'Authorization' => $tokenKey
             ]);
 
-        $this->assertEquals(404, $responseTrue->getStatusCode());
+
+        $response->assertStatus(404);
     }
 
     public function testUserListNotAuth()
     {
         $response = $this->json('GET', 'api/user/shop', [], []);
-
+        $response->assertStatus(401);
         $this->assertEquals("{\"message\":\"Unauthenticated.\"}", $response->content());
     }
 
     public function testUserGetNotAuth()
     {
         $response = $this->json('GET', 'api/user/shop/' . ShopControllerTest::$id, [], []);
+        $response->assertStatus(401);
         $this->assertEquals("{\"message\":\"Unauthenticated.\"}", $response->content());
     }
 
@@ -198,6 +225,7 @@ class ShopControllerTest extends TestCase
                 'logPos' => '234.567'
             ], []
         );
+        $response->assertStatus(401);
         $this->assertEquals("{\"message\":\"Unauthenticated.\"}", $response->content());
     }
 

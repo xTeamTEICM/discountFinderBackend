@@ -2,189 +2,60 @@
 
 namespace Tests\Feature;
 
-
-use App\Http\Controllers\Auth\RegisterController;
+use Tests\AuthForTests;
 use Tests\TestCase;
 
 class UpdateUserLocationControllerTest extends TestCase
 {
-    private static $tokenToValidate;
-
-    /**
-     * HELP FUNCTIONS
-     */
-
-    public function helpFunctionForAuthenticate()
+    public function testUpdateLocationUnauthorized()
     {
-        $this->helpFunctionForLogin();
+        $response = $this->json('PUT', '/api/user/deviceLocation', [], []);
+        $response->assertStatus(401);
     }
 
-    public function helpFunctionForLogin($username = 'test@test.eu', $password = '12345678')
+    public function testUpdateLocationEmpty()
     {
-        if (!$this->helpFunctionForRegister()) {
-            $Json = array();
-            $registerRequest = $this->json('POST', 'api/login', [
-                'username' => $username,
-                'password' => $password
-            ],
-                [
-                    'Content-Type' => 'application/json'
-                ]);
-            $Json = json_decode($registerRequest->getContent(), true);
-            //$length = count($Json);
-            UpdateUserLocationControllerTest::$tokenToValidate = $Json['access_token'];
-        } else {
-            $this->helpFunctionForRegister();
-        }
+        $token = new AuthForTests();
+        $token->generateToken($this);
+        $tokenKey = $token->getToken();
 
-        //$response = $this->call('POST', 'api/category');
-        //$this->assertEquals(200, $response->getStatusCode());
-    }
-
-    /**
-     * @param string $firstname
-     * @param string $lastname
-     * @param string $email
-     * @param string $password
-     */
-    public function helpFunctionForRegister($firstname = 'test', $lastname = 'test', $email = 'test@test.eu', $password = '12345678')
-    {
-        $register = new RegisterController();
-        $Json = array();
-        $registerRequest = $this->json('POST', 'api/register', [
-            'firstName' => $firstname,
-            'lastName' => $lastname,
-            'eMail' => $email,
-            'password' => $password
+        $response = $this->json('PUT', '/api/user/deviceLocation', [], [
+            'Authorization' => $tokenKey
         ]);
-
-        $Json = json_decode($registerRequest->getContent(), true);
-        $length = count($Json);
+        $response->assertStatus(422);
     }
 
-    public function removeCurrentUser($firstname = 'test', $lastname = 'test', $email = 'test@test.eu', $password = '12345678')
+    public function testUpdateLocationSuccess()
     {
+        $token = new AuthForTests();
+        $token->generateToken($this);
+        $tokenKey = $token->getToken();
 
+        $response = $this->json('PUT', '/api/user/deviceLocation', [
+            'logPos' => '123',
+            'latPos' => '321'
+        ], [
+            'Authorization' => $tokenKey
+        ]);
+        $response->assertStatus(200);
     }
 
-    /**
-     * TEST FUNCTIONS
-     */
-    public function testList()
+    public function testGetLocationUnauthorized()
     {
-
-        if ($this->helpFunctionForRegister()) {
-
-            $response = $this->call('POST', 'api/UpdateUserLocationController');
-            $this->assertEquals(200, $response->getStatusCode());
-            $user = auth('api')->user();
-        } else {
-            $response = $this->call('POST', 'api/UpdateUserLocationController');
-            $this->assertEquals(404, $response->getStatusCode());
-
-        }
+        $response = $this->json('GET', '/api/user/deviceLocation', [], []);
+        $response->assertStatus(401);
     }
 
-    public function testUpdate()
+    public function testGetLocationSuccess()
     {
-        $this->assertTrue(true);
+        $token = new AuthForTests();
+        $token->generateToken($this);
+        $tokenKey = $token->getToken();
+
+        $response = $this->json('GET', '/api/user/deviceLocation', [], [
+            'Authorization' => $tokenKey
+        ]);
+        $response->assertStatus(200);
     }
 
-    public function testIsNull()
-    {
-        $this->assertTrue(true);
-    }
-
-    public function testIsTrue()
-    {
-        $this->assertTrue(true);
-    }
-
-    public function testIsNotTrue()
-    {
-        $this->assertTrue(true);
-    }
-
-    public function testIsJSON()
-    {
-        $this->assertTrue(true);
-    }
-
-    public function testIsEmpty()
-    {
-
-        $this->assertTrue(true);
-    }
-
-    public function testIsNotAuth()
-    {
-        if (!$user = auth('api')->user()) {
-            $response = $this->call('POST', 'api/UpdateUserLocationController');
-            $this->assertEquals(404, $response->getStatusCode());
-        }
-    }
-
-    public function testIsFalseValueAuth()
-    {
-
-        $this->helpFunctionForLogin();
-        if ($response = $this->put('api/updateUserLocation', [
-            'latPos' => '',
-            'logPos' => ''
-        ],
-            [
-                'Accept' => 'Application/json',
-                'Content-Type' => 'Application/json',
-                'Authorization' => 'Bearer ' . UpdateUserLocationControllerTest::$tokenToValidate]
-        )
-        ) {
-
-            $this->assertEquals(422, $response->getStatusCode());
-        } else {
-            $this->assertFalse(true);
-        }
-    }
-
-
-    public function testIsFalseValueLogPos($latPos = '12345', $logPos = '12345')
-    {
-        $this->helpFunctionForLogin();
-        if ($response = $this->put('api/updateUserLocation',
-            [
-                'latPos' => 12345,
-                'logPos' => 12345
-            ],
-
-            [
-                'Accept' => 'Application/json',
-                'Content-Type' => 'Application/json',
-                'Authorization' => 'Bearer ' . UpdateUserLocationControllerTest::$tokenToValidate
-            ]
-
-        )
-        ) {
-
-            $this->assertEquals(422, $response->getStatusCode());
-        } else
-            $this->assertFalse(true);
-    }
-
-    public function testIsFalseValueLatPos($latPos = 'stringLatPos', $logPos = '12345')
-    {
-        $this->helpFunctionForLogin();
-        if ($response = $this->put('api/updateUserLocation', [
-            'latPos' => $latPos,
-            'logPos' => $logPos
-        ],
-            [
-                'Accept' => 'Application/json',
-                'Content-Type' => 'Application/json',
-                'Authorization' => 'Bearer ' . UpdateUserLocationControllerTest::$tokenToValidate]
-        )
-        ) {
-
-            $this->assertEquals(422, $response->getStatusCode());
-        } else
-            $this->assertFalse(true);
-    }
 }
