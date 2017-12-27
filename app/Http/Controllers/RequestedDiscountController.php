@@ -27,6 +27,7 @@ class requestedDiscountController extends Controller
 
     /**
      * @param $id
+     * @param Request $request
      * @return \Illuminate\Database\Eloquent\Model|null|static
      */
     public function get($id, Request $request)

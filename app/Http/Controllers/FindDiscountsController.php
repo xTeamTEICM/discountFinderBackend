@@ -14,11 +14,16 @@ class findDiscountsController extends Controller
 {
 
     /**
+     * @param $distance
      * @param Request $request
      * @return DiscountsCollection
      */
-    public function list(Request $request)
+    public function list($distance, Request $request)
     {
+        $request['distanceInMeters'] = $distance;
+        $request['logPos'] = auth()->user()->logPos;
+        $request['latPos'] = auth()->user()->latPos;
+
         $data = $this->validate($request, [
             'logPos' => 'required|numeric',
             'latPos' => 'required|numeric',
@@ -49,12 +54,18 @@ class findDiscountsController extends Controller
     }
 
     /**
+     * @param $distance
      * @param Request $request
      * @return DiscountsCollection
      */
-    public function TopList(Request $request)
+    public function TopList($distance, Request $request)
     {
-        $this->validate($request, [
+        $request['distanceInMeters'] = $distance;
+        $request['logPos'] = auth()->user()->logPos;
+        $request['latPos'] = auth()->user()->latPos;
+
+        $data = $this->validate($request, [
+            'distanceInMeters' => 'required|numeric',
             'logPos' => 'required|numeric',
             'latPos' => 'required|numeric'
         ]);
@@ -66,11 +77,11 @@ class findDiscountsController extends Controller
         foreach ($discounts as $discount) {
             $shopLogPos = Shop::query()->where('id', $discount->shopId)->pluck('logPos')->first();
             $shopLatPos = Shop::query()->where('id', $discount->shopId)->pluck('latPos')->first();
-            $distanceObject = new Distance(request('latPos'), request('logPos'));
+            $distanceObject = new Distance($data['latPos'], $data['logPos']);
             $distance = $distanceObject->calculateDistanceInMeters($shopLatPos, $shopLogPos);
 
             // ToDo : Get and pass the distance for discounts
-            if ($distance <= 3000) {
+            if ($distance <= $data['distanceInMeters']) {
                 \App\Http\Resources\Discounts::$distance[] = $distance;
                 $topList->push($discount);
             }

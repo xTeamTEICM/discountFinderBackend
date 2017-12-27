@@ -7,6 +7,14 @@ use Illuminate\Http\Request;
 class UpdateUserLocationController extends Controller
 {
 
+    public function get(Request $request)
+    {
+        $user = auth()->user();
+        $response['latPos'] = $user->latPos;
+        $response['logPos'] = $user->logPos;
+        return $response;
+    }
+
     /**
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse

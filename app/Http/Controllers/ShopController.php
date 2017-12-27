@@ -56,11 +56,24 @@ class shopController extends Controller
 
     /**
      * @param $id
+     * @param Request $request
      * @return mixed
      */
-    public function get($id)
+    public function get($id, Request $request)
     {
-        return Shop::find($id);
+        $request['id'] = $id;
+        $data = $this->validate($request, [
+            'id' => 'required|numeric'
+        ]);
+        $shop = Shop::find($data['id']);
+
+        if ($shop != null) {
+            return $shop;
+        } else {
+            return response()->json([
+                'message' => 'Shop not found'
+            ], 404);
+        }
     }
 
     /**
@@ -103,6 +116,7 @@ class shopController extends Controller
     }
 
     /**
+     * @param $id
      * @param Request $request
      * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|null|static|static[]
      */
@@ -145,6 +159,7 @@ class shopController extends Controller
 
     /**
      * @param $id
+     * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function delete($id, Request $request)
