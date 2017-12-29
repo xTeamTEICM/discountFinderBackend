@@ -48,16 +48,18 @@ class GeocoderController extends Controller
         $buildedURL .= $this->lat . ',' . $this->log;
 
         $response = json_decode($client->get($buildedURL)->getBody());
-        $results = $response->results[1];
-        $address_components = $results->address_components;
+        if (isset($response->results[1])) {
+            $results = $response->results[1];
+            $address_components = $results->address_components;
 
-        // Find only city
-        foreach ($address_components as $address_component) {
-            if (isset($address_component->types)) {
-                foreach ($address_component->types as $type) {
-                    if ($type == 'administrative_area_level_3') {
-                        $this->city = $address_component->long_name;
-                        break;
+            // Find only city
+            foreach ($address_components as $address_component) {
+                if (isset($address_component->types)) {
+                    foreach ($address_component->types as $type) {
+                        if ($type == 'administrative_area_level_3') {
+                            $this->city = $address_component->long_name;
+                            break;
+                        }
                     }
                 }
             }
