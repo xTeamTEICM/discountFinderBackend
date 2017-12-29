@@ -187,6 +187,42 @@ class ShopControllerTest extends TestCase
         $this->assertEquals("{\"message\":\"Shop not found\"}", $response->content());
     }
 
+    public function testPutNotMine()
+    {
+        $token = new AuthForTests();
+        $token->generateToken($this);
+        $tokenKey = $token->getToken();
+
+        $response = $this->json('PUT', 'api/shop/2',
+            [
+                'brandName' => 'Digital Minds Ltd',
+                'latPos' => '12.34',
+                'logPos' => '56.78'
+            ], [
+                'Authorization' => $tokenKey
+            ]);
+
+        $response->assertStatus(401);
+    }
+
+    public function testPutInvalidLatLog()
+    {
+        $token = new AuthForTests();
+        $token->generateToken($this);
+        $tokenKey = $token->getToken();
+
+        $response = $this->json('PUT', 'api/shop/' . ShopControllerTest::$id,
+            [
+                'brandName' => 'Digital Minds Ltd',
+                'latPos' => '456',
+                'logPos' => '456'
+            ], [
+                'Authorization' => $tokenKey
+            ]);
+
+        $response->assertStatus(422);
+    }
+
     public function testDeleteExisted()
     {
         $token = new AuthForTests();
@@ -202,6 +238,23 @@ class ShopControllerTest extends TestCase
             ]);
 
         $this->assertEquals(200, $response->getStatusCode());
+    }
+
+    public function testDeleteNotMine()
+    {
+        $token = new AuthForTests();
+        $token->generateToken($this);
+        $tokenKey = $token->getToken();
+
+        $url = "api/shop/2";
+
+        $response = $this->json('DELETE', $url,
+            [],
+            [
+                'Authorization' => $tokenKey
+            ]);
+
+        $this->assertEquals(401, $response->getStatusCode());
     }
 
     public function testDeleteNotExisted()

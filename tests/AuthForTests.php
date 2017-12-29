@@ -30,6 +30,9 @@ class AuthForTests extends TestCase
 
     }
 
+    /**
+     * @return string
+     */
     public function getToken()
     {
         return $this->token;

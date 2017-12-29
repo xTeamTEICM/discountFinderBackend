@@ -46,7 +46,6 @@ class LoginController extends Controller
         $proxy = Request::create('oauth/token', 'POST');
 
         return Route::dispatch($proxy);
-
     }
 
     /**

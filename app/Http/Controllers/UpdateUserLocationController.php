@@ -9,6 +9,10 @@ use LaravelFCM\Message\InvalidOptionException;
 class UpdateUserLocationController extends Controller
 {
 
+    /**
+     * @param Request $request
+     * @return mixed
+     */
     public function get(Request $request)
     {
         $user = auth()->user();

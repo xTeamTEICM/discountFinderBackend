@@ -50,7 +50,6 @@ class findDiscountsController extends Controller
         }
 
         return new DiscountsCollection($requestedDiscounts);
-
     }
 
     /**
@@ -88,7 +87,6 @@ class findDiscountsController extends Controller
         }
 
         return new DiscountsCollection($topList);
-
     }
 
     /**
@@ -115,7 +113,6 @@ class findDiscountsController extends Controller
         }
 
         return new DiscountsCollection($topList);
-
     }
 
 }
