@@ -62,15 +62,15 @@ class UpdateUserLocationControllerTest extends TestCase
         $tokenKey = $token->getToken();
 
         $response = $this->json('PUT', '/api/user/deviceLocation', [
-            'logPos' => '22.708959',
-            'latPos' => '40.769614'
+            'logPos' => '22.707163',
+            'latPos' => '40.770053'
         ], [
             'Authorization' => $tokenKey
         ]);
         $response->assertStatus(200);
     }
 
-    public function testUpdateLocationSuccessMammasPizza()
+    public function testUpdateLocationSuccessSerres()
     {
         $token = new AuthForTests();
         $token->generateToken($this);
@@ -78,27 +78,13 @@ class UpdateUserLocationControllerTest extends TestCase
 
         $response = $this->json('PUT', '/api/user/deviceLocation', [
             'logPos' => '23.543211',
-            'latPos' => '41.082201'
+            'latPos' => '41.08220'
         ], [
             'Authorization' => $tokenKey
         ]);
         $response->assertStatus(200);
     }
 
-    public function testUpdateLocationSuccessTEICafe()
-    {
-        $token = new AuthForTests();
-        $token->generateToken($this);
-        $tokenKey = $token->getToken();
-
-        $response = $this->json('PUT', '/api/user/deviceLocation', [
-            'logPos' => '23.553907',
-            'latPos' => '41.074601'
-        ], [
-            'Authorization' => $tokenKey
-        ]);
-        $response->assertStatus(200);
-    }
 
     public function testGetLocationUnauthorized()
     {

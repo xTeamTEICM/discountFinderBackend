@@ -205,6 +205,5 @@ class shopController extends Controller
             ], 404);
         }
 
-
     }
 }
