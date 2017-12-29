@@ -36,8 +36,11 @@ class UpdateUserLocationController extends Controller
             ], 422);
         }
 
+        $geocoder = new GeocoderController($data['latPos'], $data['logPos'], 'el');
+
         $user->logPos = $data['logPos'];
         $user->latPos = $data['latPos'];
+        $user->city = $geocoder->getCity();
         $user->save();
         $user->push();
 
