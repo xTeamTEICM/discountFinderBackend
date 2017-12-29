@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\CustomClasses\CoordinatesValidator;
 use GuzzleHttp\Client;
 
 
@@ -24,11 +25,13 @@ class GeocoderController extends Controller
      */
     public function __construct($lat, $log, $lang)
     {
-        $this->key .= env('GOOGLE_API_KEY', 'default');
-        $this->lat = $lat;
-        $this->log = $log;
-        $this->lang .= $lang;
-        $this->callGoogleAPI();
+        if (CoordinatesValidator::isValid($lat, $log)) {
+            $this->key .= env('GOOGLE_API_KEY', 'default');
+            $this->lat = $lat;
+            $this->log = $log;
+            $this->lang .= $lang;
+            $this->callGoogleAPI();
+        }
     }
 
 

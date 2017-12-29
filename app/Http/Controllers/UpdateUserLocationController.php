@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\CustomClasses\CoordinatesValidator;
 use Illuminate\Http\Request;
 use LaravelFCM\Message\InvalidOptionException;
 
@@ -28,6 +29,12 @@ class UpdateUserLocationController extends Controller
             'logPos' => 'required|numeric',
             'latPos' => 'required|numeric'
         ]);
+
+        if (!CoordinatesValidator::isValid($data['latPos'], $data['logPos'])) {
+            return response()->json([
+                'message' => "Invalid logPos and/or latPos"
+            ], 422);
+        }
 
         $geocoder = new GeocoderController($data['latPos'], $data['logPos'], 'el');
 

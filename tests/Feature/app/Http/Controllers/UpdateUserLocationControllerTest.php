@@ -1,61 +1,84 @@
 <?php
 
-namespace Tests\Feature;
+namespace App\Http\Controllers;
 
-use Tests\AuthForTests;
-use Tests\TestCase;
+use App\CustomClasses\CoordinatesValidator;
+use Illuminate\Http\Request;
+use LaravelFCM\Message\InvalidOptionException;
 
-class UpdateUserLocationControllerTest extends TestCase
+class UpdateUserLocationController extends Controller
 {
-    public function testUpdateLocationUnauthorized()
+
+    public function get(Request $request)
     {
-        $response = $this->json('PUT', '/api/user/deviceLocation', [], []);
-        $response->assertStatus(401);
+        $user = auth()->user();
+        $response['latPos'] = $user->latPos;
+        $response['logPos'] = $user->logPos;
+        return $response;
     }
 
-    public function testUpdateLocationEmpty()
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function update(Request $request)
     {
-        $token = new AuthForTests();
-        $token->generateToken($this);
-        $tokenKey = $token->getToken();
+        $user = auth('api')->user();
 
-        $response = $this->json('PUT', '/api/user/deviceLocation', [], [
-            'Authorization' => $tokenKey
+        $data = $this->validate($request, [
+            'logPos' => 'required|numeric',
+            'latPos' => 'required|numeric'
         ]);
-        $response->assertStatus(422);
+
+        if (!CoordinatesValidator::isValid($data['latPos'], $data['logPos'])) {
+            return response()->json([
+                'message' => "Invalid logPos and/or latPos"
+            ], 422);
+        }
+
+        $user->logPos = $data['logPos'];
+        $user->latPos = $data['latPos'];
+        $user->save();
+        $user->push();
+
+        $findDiscounts = new FindDiscountsController();
+        $response = $findDiscounts->list(500, $request);
+
+        $count = 0;
+        foreach ($response as $sample) {
+            $count++;
+        }
+        try {
+            if ($count == 1) {
+                $fcm = new FCMController();
+
+                $fcm->sentToOne($user->deviceToken,
+                    'Βρήκαμε 1 προσφορά κοντά σας',
+                    'Δείτε την τώρα !',
+                    [
+                        'distance' => 500
+                    ],
+                    'discountNotification');
+
+            } elseif ($count >= 2) {
+
+                $fcm = new FCMController();
+
+                $fcm->sentToOne($user->deviceToken,
+                    'Βρήκαμε ' . $count . ' προσφορές κοντά σας',
+                    'Δείτε τις τώρα !',
+                    [
+                        'distance' => 500
+                    ],
+                    'discountsNotification');
+
+            }
+        } catch (InvalidOptionException $e) {
+            // ToDo : Handle Exception
+        }
+
+
+        return response()->json([], 200);
+
     }
-
-    public function testUpdateLocationSuccess()
-    {
-        $token = new AuthForTests();
-        $token->generateToken($this);
-        $tokenKey = $token->getToken();
-
-        $response = $this->json('PUT', '/api/user/deviceLocation', [
-            'logPos' => '23.553907',
-            'latPos' => '41.074601'
-        ], [
-            'Authorization' => $tokenKey
-        ]);
-        $response->assertStatus(200);
-    }
-
-    public function testGetLocationUnauthorized()
-    {
-        $response = $this->json('GET', '/api/user/deviceLocation', [], []);
-        $response->assertStatus(401);
-    }
-
-    public function testGetLocationSuccess()
-    {
-        $token = new AuthForTests();
-        $token->generateToken($this);
-        $tokenKey = $token->getToken();
-
-        $response = $this->json('GET', '/api/user/deviceLocation', [], [
-            'Authorization' => $tokenKey
-        ]);
-        $response->assertStatus(200);
-    }
-
 }

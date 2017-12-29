@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\CustomClasses\CoordinatesValidator;
 use App\Discount;
 use App\Shop;
 use Illuminate\Http\Request;
@@ -101,6 +102,12 @@ class shopController extends Controller
             'latPos' => 'required|numeric'
         ]);
 
+        if (!CoordinatesValidator::isValid($data['latPos'], $data['logPos'])) {
+            return response()->json([
+                'message' => "Invalid logPos and/or latPos"
+            ], 422);
+        }
+
         $shop = new Shop();
 
         $shop->ownerId = $user->id;
@@ -130,6 +137,12 @@ class shopController extends Controller
             'logPos' => 'required|numeric',
             'latPos' => 'required|numeric'
         ]);
+
+        if (!CoordinatesValidator::isValid($data['latPos'], $data['logPos'])) {
+            return response()->json([
+                'message' => "Invalid logPos and/or latPos"
+            ], 422);
+        }
 
         $user = auth('api')->user();
         $shop = Shop::find($data['id']);

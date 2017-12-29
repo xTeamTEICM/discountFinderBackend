@@ -10,6 +10,24 @@ class ShopControllerTest extends TestCase
 {
     protected static $id;
 
+    public function testPostInvalidLatLog()
+    {
+        $token = new AuthForTests();
+        $token->generateToken($this);
+        $tokenKey = $token->getToken();
+
+        $response = $this->json('POST', 'api/shop', [
+            'brandName' => 'TestingShop',
+            'logPos' => '123',
+            'latPos' => '456'
+        ], [
+            'Authorization' => $tokenKey
+        ]);
+
+        $response->assertJsonStructure(['message']);
+        $response->assertStatus(422);
+    }
+
     public function testPostNotExisted()
     {
         $token = new AuthForTests();
@@ -130,8 +148,8 @@ class ShopControllerTest extends TestCase
         $response = $this->json('PUT', 'api/shop/' . ShopControllerTest::$id,
             [
                 'brandName' => 'Digital Minds Ltd',
-                'latPos' => '123.456',
-                'logPos' => '234.567'
+                'latPos' => '12.34',
+                'logPos' => '56.78'
             ], [
                 'Authorization' => $tokenKey
             ]);
@@ -141,14 +159,14 @@ class ShopControllerTest extends TestCase
 
         // Check Response Data from PUT call
         $this->assertEquals("Digital Minds Ltd", $response->decodeResponseJson()['brandName']);
-        $this->assertEquals('123.456', $response->decodeResponseJson()['latPos']);
-        $this->assertEquals('234.567', $response->decodeResponseJson()['logPos']);
+        $this->assertEquals('12.34', $response->decodeResponseJson()['latPos']);
+        $this->assertEquals('56.78', $response->decodeResponseJson()['logPos']);
 
         // Check Response Data from a GET call
         $responseGet = $this->json('GET', 'api/shop/' . ShopControllerTest::$id, [], []);
         $this->assertEquals("Digital Minds Ltd", $responseGet->decodeResponseJson()['brandName']);
-        $this->assertEquals('123.456', $responseGet->decodeResponseJson()['latPos']);
-        $this->assertEquals('234.567', $responseGet->decodeResponseJson()['logPos']);
+        $this->assertEquals('12.34', $responseGet->decodeResponseJson()['latPos']);
+        $this->assertEquals('56.78', $responseGet->decodeResponseJson()['logPos']);
     }
 
     public function testPutNotExisted()
@@ -160,8 +178,8 @@ class ShopControllerTest extends TestCase
         $response = $this->json('PUT', 'api/shop/' . 99999,
             [
                 'brandName' => 'Digital Minds Ltd',
-                'latPos' => '123.456',
-                'logPos' => '234.567'
+                'latPos' => '12.34',
+                'logPos' => '56.78'
             ], [
                 'Authorization' => $tokenKey
             ]);
