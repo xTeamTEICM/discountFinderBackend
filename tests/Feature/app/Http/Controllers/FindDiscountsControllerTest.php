@@ -95,5 +95,27 @@ class findDiscountsControllerTest extends TestCase
         $response->assertStatus(200);
     }
 
+    public function testUnauthorizedTopCity()
+    {
+        $token = self::$AuthValues['access_token'];
+        $response = $this->json('GET', 'api/discount/top/city/me',
+            [], [
+
+            ]);
+
+        $response->assertStatus(401);
+    }
+
+    public function testSuccessTopCity()
+    {
+        $token = self::$AuthValues['access_token'];
+        $response = $this->json('GET', 'api/discount/top/city/me',
+            [], [
+                'Authorization' => 'Bearer ' . $token
+            ]);
+
+        $response->assertStatus(200);
+    }
+
 
 }
