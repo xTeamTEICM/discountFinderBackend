@@ -32,8 +32,8 @@ class UpdateUserLocationControllerTest extends TestCase
         $tokenKey = $token->getToken();
 
         $response = $this->json('PUT', '/api/user/deviceLocation', [
-            'logPos' => '123',
-            'latPos' => '321'
+            'logPos' => '23.553907',
+            'latPos' => '41.074601'
         ], [
             'Authorization' => $tokenKey
         ]);
