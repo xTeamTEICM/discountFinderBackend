@@ -55,8 +55,8 @@ class UpdateUserLocationController extends Controller
         foreach ($response as $sample) {
             $count++;
         }
-        try {
-            if ($count == 1) {
+
+        if ($count == 1) {
                 $fcm = new FCMController();
 
                 $fcm->sentToOne($user->deviceToken,
@@ -80,9 +80,6 @@ class UpdateUserLocationController extends Controller
                     'discountsNotification');
 
             }
-        } catch (InvalidOptionException $e) {
-            // ToDo : Handle Exception
-        }
 
 
         return response()->json([], 200);

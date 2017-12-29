@@ -16,7 +16,6 @@ class FCMController extends Controller
      * @param $Body
      * @param $Data
      * @param $ClickAction
-     * @throws \LaravelFCM\Message\InvalidOptionException
      */
     public function sentToOne($userToken, $Title, $Body, $Data, $ClickAction)
     {
@@ -51,7 +50,6 @@ class FCMController extends Controller
      * @param $Body
      * @param $Data
      * @param $ClickAction
-     * @throws \LaravelFCM\Message\InvalidOptionException
      */
     public function sentToMultiple($userTokens, $Title, $Body, $Data, $ClickAction)
     {
