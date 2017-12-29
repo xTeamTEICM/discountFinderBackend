@@ -66,6 +66,7 @@ Route::group(['middleware' => 'auth:api'], function () {
 Route::group(['middleware' => 'auth:api'], function () {
     Route::get('discount/find/{distance}', 'FindDiscountsController@list');
     Route::get('discount/top/{distance}', 'FindDiscountsController@TopList');
+    Route::get('discount/top/city/me', 'FindDiscountsController@TopListCity');
 });
 
 // FCM DeviceToken

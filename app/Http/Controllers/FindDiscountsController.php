@@ -91,4 +91,31 @@ class findDiscountsController extends Controller
 
     }
 
+    /**
+     * @param Request $request
+     * @return DiscountsCollection
+     */
+    public function TopListCity(Request $request)
+    {
+
+        $user = auth()->user();
+        $userCity = $user->city;
+
+        $discounts = DB::select("call getTopDiscountsCity('$userCity',10)");
+        $topList = collect();
+
+        foreach ($discounts as $discount) {
+            $shopLogPos = Shop::query()->where('id', $discount->shopId)->pluck('logPos')->first();
+            $shopLatPos = Shop::query()->where('id', $discount->shopId)->pluck('latPos')->first();
+            $distanceObject = new Distance($user->latPos, $user->logPos);
+            $distance = $distanceObject->calculateDistanceInMeters($shopLatPos, $shopLogPos);
+
+            \App\Http\Resources\Discounts::$distance[] = $distance;
+            $topList->push($discount);
+        }
+
+        return new DiscountsCollection($topList);
+
+    }
+
 }
