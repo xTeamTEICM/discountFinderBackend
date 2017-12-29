@@ -108,12 +108,15 @@ class shopController extends Controller
             ], 422);
         }
 
+        $geocoder = new GeocoderController($data['latPos'], $data['logPos'], 'el');
+
         $shop = new Shop();
 
         $shop->ownerId = $user->id;
         $shop->brandName = $data['brandName'];
         $shop->logPos = $data['logPos'];
         $shop->latPos = $data['latPos'];
+        $shop->city = $geocoder->getCity();
 
         $shop->save();
         $shop->push();
@@ -149,9 +152,11 @@ class shopController extends Controller
 
         if ($shop) {
             if ($shop->ownerId == $user->id) {
+                $geocoder = new GeocoderController($data['latPos'], $data['logPos'], 'el');
                 $shop->brandName = $data['brandName'];
                 $shop->logPos = $data['logPos'];
                 $shop->latPos = $data['latPos'];
+                $shop->city = $geocoder->getCity();
 
                 $shop->save();
                 $shop->push();
