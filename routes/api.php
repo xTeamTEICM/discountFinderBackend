@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\GeocoderController;
 use Illuminate\Http\Request;
 
 /*
@@ -76,4 +77,9 @@ Route::group(['middleware' => 'auth:api'], function () {
 Route::group(['middleware' => 'auth:api'], function () {
     Route::put('/user/deviceLocation', 'UpdateUserLocationController@update');
     Route::get('/user/deviceLocation', 'UpdateUserLocationController@get');
+});
+
+Route::get('/getCity/{lat}/{log}', function ($lat, $log) {
+    $geo = new GeocoderController($lat, $log, 'el');
+    return $geo->getCity();
 });
