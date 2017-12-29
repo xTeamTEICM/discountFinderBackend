@@ -66,4 +66,10 @@ class GeocoderControllerTest extends TestCase
         $geocoder = new GeocoderController(40.946982, 24.369537, 'el');
         $this->assertEquals('Καβάλα', $geocoder->getCity());
     }
+
+    public function test0_0City()
+    {
+        new GeocoderController(0, 0, 'el');
+        self::assertTrue(true);
+    }
 }
