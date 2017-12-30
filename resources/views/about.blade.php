@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Προσφορές</title>
+    <title>Σχετικά με</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -60,10 +60,10 @@
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="{{ url('') }}">Αρχική</a></li>
+                <li><a href="{{ url('') }}">Αρχική</a></li>
                 <li><a href="{{ url('shop') }}">Καταστήματα</a></li>
                 <li><a href="{{ url('discount') }}">Προσφορές</a></li>
-                <li><a href="{{ url('about') }}">Σχετικά με</a></li>
+                <li class="active"><a href="{{ url('about') }}">Σχετικά με</a></li>
             </ul>
         </div>
     </div>
@@ -72,39 +72,29 @@
 <div class="container-fluid text-center">
     <div class="row content">
         <div class="text-center">
-            <h1>Αρχική</h1>
+            <h1>Σχετικά με</h1>
             <p>
                 @php
-                    $discounts = DB::select("call getTopDiscounts(10)");
+                    $data = new \App\Http\Controllers\AboutController();
+                    $json = $data->get(new \Illuminate\Http\Request());
+                    $jsonContent = json_decode($json->getContent(), true);
+
+                    $title = $jsonContent['Τίτλος Εφαρμογής'];
+                    $team = $jsonContent['Ομάδα'];
+                    $programmers = $jsonContent['Προγραμματιστές'];
+                    $teacher = $jsonContent['Υπέυθυνος Καθηγητής'];
+                    $version = $jsonContent['Έκδοση'];
                 @endphp
-                <marquee behavior="scroll" direction="left">
-
-                    @foreach($discounts as $discount)
-                        --
-                        {{ $discount->description }}
-                        <a href="{{ url('/discount') . '?id=' . $discount->id }}">
-                            <img src="{{ $discount->image }}" width="120" height="80"/>
-                        </a>
-                        Από {{ $discount->originalPrice }}€ μόνο {{ $discount->currentPrice }}€
-                        --
-                    @endforeach
-                </marquee>
-
-            </p>
-            <hr/>
-            <p>
-                <img height="256px" src="{{ url('/images') . '/android' . '/screen1.png' }}"/>
-                <img height="256px" src="{{ url('/images') . '/android' . '/screen2.png' }}"/>
-                <img height="256px" src="{{ url('/images') . '/android' . '/screen3.png' }}"/>
-                <img height="256px" src="{{ url('/images') . '/android' . '/screen4.png' }}"/>
-            </p>
-            <hr/>
-            <p>
-                Βρείτε την android εφαρμογή μας στο Google Play Store <br/>
-                <a href="https://play.google.com/store/apps/details?id=eu.jnksoftware.discountfinderandroid">
-                    <img src="https://storage.googleapis.com/support-kms-prod/D90D94331E54D2005CC8CEE352FF98ECF639"
-                         height="128px"/>
-                </a>
+                Τίτλος Εφαρμογής : {{ $title }} <br/>
+                Ομάδα : {{ $team }} <br/>
+                Προγραμματιστές
+            <ul style="list-style:none;">
+                @foreach($programmers as $programmer)
+                    <li>{{ $programmer }}</li>
+                @endforeach
+            </ul>
+            Υπεύθυνος Καθηγητής : {{ $teacher }} <br/>
+            Έκδοση : {{ $version }} <br/>
             </p>
         </div>
     </div>
