@@ -24,6 +24,9 @@ class AboutController extends Controller
             ],
             'Υπέυθυνος Καθηγητής' => 'Νικόλαος Πεταλίδης',
             'Έκδοση' => config("APP_VERSION", 'local')
-        ]);
+        ], '200', [
+            'Content-Type' => 'application/json; charset=UTF-8',
+            'charset' => 'utf-8'
+        ], JSON_UNESCAPED_UNICODE);
     }
 }
