@@ -23,7 +23,7 @@ class AboutController extends Controller
                 'Αρντίτ Ντόμι'
             ],
             'Υπέυθυνος Καθηγητής' => 'Νικόλαος Πεταλίδης',
-            'Έκδοση' => config("APP_VERSION", 'local')
+            'Έκδοση' => env("APP_VERSION", 'local')
         ], '200', [
             'Content-Type' => 'application/json; charset=UTF-8',
             'charset' => 'utf-8'
