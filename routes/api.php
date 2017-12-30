@@ -84,3 +84,5 @@ Route::get('/getCity/{lat}/{log}', function ($lat, $log) {
     $geo = new GeocoderController($lat, $log, 'el');
     return $geo->getCity();
 });
+
+Route::get('/about', 'AboutController@get');
