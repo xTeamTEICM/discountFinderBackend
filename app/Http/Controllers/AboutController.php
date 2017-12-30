@@ -23,7 +23,7 @@ class AboutController extends Controller
                 'Αρντίτ Ντόμι'
             ],
             'Υπέυθυνος Καθηγητής' => 'Νικόλαος Πεταλίδης',
-            'Έκδοση' => config("APP_VERSION", 'local')
+            'Έκδοση' => env("APP_VERSION", 'local')
         ]);
     }
 }
