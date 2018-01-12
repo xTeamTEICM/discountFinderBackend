@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\CustomClasses\CoordinatesValidator;
 use App\Discount;
 use App\Shop;
 use Illuminate\Http\Request;
@@ -9,17 +10,27 @@ use Illuminate\Http\Request;
 
 class shopController extends Controller
 {
+    /**
+     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     */
     public function list()
     {
         return Shop::all();
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     */
     public function myList()
     {
         $user = auth('api')->user();
         return Shop::query()->where("ownerId", "=", $user->id)->get();
     }
 
+    /**
+     * @param $id
+     * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Http\JsonResponse|static[]
+     */
     public function myDiscounts($id)
     {
         $request = new Request();
@@ -37,20 +48,49 @@ class shopController extends Controller
 
         if ($shop) {
             return Discount::query()->where('shopId', '=', $shop->id)->get();
+        } else {
+            return response()->json([
+                'message' => 'Shop not found'
+            ], 404);
         }
     }
 
-    public function get($id)
+    /**
+     * @param $id
+     * @param Request $request
+     * @return mixed
+     */
+    public function get($id, Request $request)
     {
-        return Shop::find($id);
+        $request['id'] = $id;
+        $data = $this->validate($request, [
+            'id' => 'required|numeric'
+        ]);
+        $shop = Shop::find($data['id']);
+
+        if ($shop != null) {
+            return $shop;
+        } else {
+            return response()->json([
+                'message' => 'Shop not found'
+            ], 404);
+        }
     }
 
+    /**
+     * @param $id
+     * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|null|static|static[]
+     */
     public function myGet($id)
     {
         $user = auth('api')->user();
         return Shop::query()->where("ownerId", "=", $user->id)->find($id);
     }
 
+    /**
+     * @param Request $request
+     * @return Shop
+     */
     public function post(Request $request)
     {
 
@@ -62,12 +102,21 @@ class shopController extends Controller
             'latPos' => 'required|numeric'
         ]);
 
+        if (!CoordinatesValidator::isValid($data['latPos'], $data['logPos'])) {
+            return response()->json([
+                'message' => "Invalid logPos and/or latPos"
+            ], 422);
+        }
+
+        $geocoder = new GeocoderController($data['latPos'], $data['logPos'], 'el');
+
         $shop = new Shop();
 
         $shop->ownerId = $user->id;
         $shop->brandName = $data['brandName'];
         $shop->logPos = $data['logPos'];
         $shop->latPos = $data['latPos'];
+        $shop->city = $geocoder->getCity();
 
         $shop->save();
         $shop->push();
@@ -76,11 +125,15 @@ class shopController extends Controller
 
     }
 
-    public function update(Request $request)
+    /**
+     * @param $id
+     * @param Request $request
+     * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|null|static|static[]
+     */
+    public function update($id, Request $request)
     {
 
-        $user = auth('api')->user();
-
+        $request['id'] = $id;
         $data = $this->validate($request, [
             'id' => 'required|integer',
             'brandName' => 'required|string',
@@ -88,27 +141,69 @@ class shopController extends Controller
             'latPos' => 'required|numeric'
         ]);
 
-        $shop = Shop::query()->where("ownerId", "=", $user->id)->find($data['id']);
+        if (!CoordinatesValidator::isValid($data['latPos'], $data['logPos'])) {
+            return response()->json([
+                'message' => "Invalid logPos and/or latPos"
+            ], 422);
+        }
+
+        $user = auth('api')->user();
+        $shop = Shop::find($data['id']);
 
         if ($shop) {
-            $shop->brandName = $data['brandName'];
-            $shop->logPos = $data['logPos'];
-            $shop->latPos = $data['latPos'];
+            if ($shop->ownerId == $user->id) {
+                $geocoder = new GeocoderController($data['latPos'], $data['logPos'], 'el');
+                $shop->brandName = $data['brandName'];
+                $shop->logPos = $data['logPos'];
+                $shop->latPos = $data['latPos'];
+                $shop->city = $geocoder->getCity();
 
-            $shop->save();
-            $shop->push();
+                $shop->save();
+                $shop->push();
 
-            return $shop;
+                return $shop;
+            } else {
+                return response()->json([
+                    'message' => 'Unauthorized'
+                ], 401);
+            }
+        } else {
+            return response()->json([
+                'message' => 'Shop not found'
+            ], 404);
         }
+
     }
 
-    public function delete($id)
+    /**
+     * @param $id
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function delete($id, Request $request)
     {
-        $user = auth('api')->user();
+        $request['id'] = $id;
+        $data = $this->validate($request, [
+            'id' => 'required|numeric'
+        ]);
 
-        $shop = Shop::query()->where("ownerId", "=", $user->id)->find($id);
+        $user = auth('api')->user();
+        $shop = Shop::find($data['id']);
+
         if ($shop) {
-            $shop->delete();
+            if ($shop->ownerId == $user->id) {
+                $shop->delete();
+                return response()->json([], 200);
+            } else {
+                return response()->json([
+                    'message' => 'Unauthorized'
+                ], 401);
+            }
+        } else {
+            return response()->json([
+                'message' => 'Shop not found'
+            ], 404);
         }
+
     }
 }

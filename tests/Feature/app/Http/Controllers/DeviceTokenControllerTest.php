@@ -3,72 +3,57 @@
 
 namespace Tests\Feature;
 
+use Tests\AuthForTests;
 use Tests\TestCase;
 
 class deviceTokenControllerTest extends TestCase
 {
 
-    protected static $AuthValues;
-
-    // getting access_token
-    public function testGetAuthValuesFromStaticUser()
+    public function testPutEmptyBody()
     {
-        $response = $this->json('POST', 'api/login', [
-            'username' => 'TestUser@JNKSoftware.eu',
-            'password' => '1234567'
+        $token = new AuthForTests();
+        $token->generateToken($this);
+        $tokenKey = $token->getToken();
+
+        $response = $this->json('PUT', 'api/user/deviceToken', [
+
+        ], [
+            "Authorization" => $tokenKey
         ]);
 
-        deviceTokenControllerTest::$AuthValues = json_decode($response->getContent(), true);
-        $response->assertStatus(200);
+        $response->assertStatus(422);
+
     }
 
-
-    public function testEmptyFieldDeviceToken()
+    public function testPutWithBodyInvalid()
     {
-        $token = deviceTokenControllerTest::$AuthValues['access_token'];
-        $response = $this->withHeader(
-            'Authorization',
-            'Bearer ' . $token
-        )->json(
-            'POST', 'api/user/deviceToken', [
+        $token = new AuthForTests();
+        $token->generateToken($this);
+        $tokenKey = $token->getToken();
 
+        $response = $this->json('PUT', 'api/user/deviceToken', [
+            'deviceToken' => 12313213123123123123
+        ], [
+            "Authorization" => $tokenKey
         ]);
 
-        $response->assertJson([
-            'errors' => ['deviceToken' => ['The device token field is required.']]]);
-
+        $response->assertStatus(422);
     }
 
-    public function testSuccessStatus()
+    public function testPutWithBodyValid()
     {
-        $token = deviceTokenControllerTest::$AuthValues['access_token'];
+        $token = new AuthForTests();
+        $token->generateToken($this);
+        $tokenKey = $token->getToken();
 
-        $response = $this->withHeader('Authorization', 'Bearer ' . $token)->json('POST', 'api/user/deviceToken', [
-            'deviceToken' => 'testing'
-
-        ]);
-
-        $response->assertStatus(200);
-    }
-
-    public function testDatabaseData()
-    {
-        $this->assertDatabaseHas('users', ['deviceToken' => 'testing']);
-
-    }
-
-    public function testUpdateSuccessStatus()
-    {
-        $token = deviceTokenControllerTest::$AuthValues['access_token'];
-
-        $response = $this->withHeader('Authorization', 'Bearer ' . $token)->json('POST', 'api/user/deviceToken', [
-            'deviceToken' => 'Test'
-
+        $response = $this->json('PUT', 'api/user/deviceToken', [
+            'deviceToken' => 'lalakis'
+        ], [
+            "Authorization" => $tokenKey
         ]);
 
         $response->assertStatus(200);
-        $this->assertDatabaseMissing('users', ['deviceToken' => 'testing']);
-        $this->assertDatabaseHas('users', ['deviceToken' => 'Test']);
     }
+
 
 }

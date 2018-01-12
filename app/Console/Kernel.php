@@ -38,7 +38,7 @@ class Kernel extends ConsoleKernel
         $schedule->call(function () {
             DB::table('oauth_access_tokens')->where('expires_at','<',Carbon::now())->delete();
             DB::table('oauth_refresh_tokens')->where('expires_at','<',Carbon::now())->delete();
-        })->daily();
+        })->everyMinute();
 
 
     }

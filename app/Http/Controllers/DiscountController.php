@@ -2,116 +2,173 @@
 
 namespace App\Http\Controllers;
 
+use App\Category;
 use App\Discount;
-use App\Shop;
-use App\User;
-use function GuzzleHttp\default_user_agent;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 
-class discountController extends Controller
+class DiscountController extends Controller
 {
+    /**
+     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     */
     public function list()
     {
         return Discount::all();
     }
 
-
-    public function get($id)
+    /**
+     * @param $id
+     * @return \Illuminate\Database\Eloquent\Model|null|static
+     */
+    public function get($id, Request $request)
     {
-        $request = new Request();
         $request['id'] = $id;
 
         $data = $this->validate($request, [
             'id' => 'required|numeric'
         ]);
 
-        return Discount::query()->where('shopId', '=', $data['id'])->first();
+        return Discount::find($data['id']);
     }
 
+    /**
+     * @param Request $request
+     * @return Discount|\Illuminate\Http\JsonResponse
+     * @throws \LaravelFCM\Message\InvalidOptionException
+     */
     public function post(Request $request)
     {
+        // Validate data
         $data = $this->validate($request, [
             'shopId' => 'required|numeric',
             'category' => 'required|numeric',
             'originalPrice' => 'required|numeric',
             'currentPrice' => 'required|numeric',
             'description' => 'required|string',
-            'image' => 'required|string'
+            'imageTitle' => 'required|string',
+            'imageBase' => 'required|string'
         ]);
 
+        // Save image
+        $imageController = new ImageController();
+        $imageResult = $imageController->save(
+            $data['shopId'] . $data['imageTitle'],
+            $data['imageBase'],
+            public_path() . '/images/'
+        );
+        if ($imageResult == "Invalid data") {
+            return response()->json(
+                [
+                    'message' => 'Invalid picture'
+                ], 400
+            );
+        }
+
+        // Create discount
         $discount = new Discount();
         $discount->shopId = $data['shopId'];
         $discount->category = $data['category'];
         $discount->originalPrice = $data['originalPrice'];
         $discount->currentPrice = $data['currentPrice'];
         $discount->description = $data['description'];
-        $discount->image = $data['image'];
-
+        $discount->image = config('app.url') . ':' . env('APP_PORT', 'default') . '/images/' . $imageResult;
         $discount->save();
         $discount->push();
 
-        $fcm = new FCMController();
-        $fcm->sentToMultiple(
-            User::pluck('deviceToken')->toArray(),
-            'Υπάρχουν νέες προσφορές',
-            'Δείτε τώρα τις νέες προσφορές',
-            [],//data
-            'postedNewDiscount'
-        );
+        // Create notification string
+        $msgCategory = Category::query()->where('id', '=', $data['category'])->first(['title'])['title'];
+        $msgOldPrice = $data['originalPrice'];
+        $msgCurrPrice = $data['currentPrice'];
+        $msg = "Υπάρχει νέα προσφορά στην κατηγορία $msgCategory, από $msgOldPrice € μόνο $msgCurrPrice €, δείτε την τώρα !!!";
+
+        // Find users to notify
+        $tokensAsArray = DB::select("call getMatchedUsers(" . $data['category'] . "," . $data['currentPrice'] . ")");
+        // Convert the default array to collection
+        $tokensAsCollection = collect();
+        $count = 0;
+        foreach ($tokensAsArray as $token) {
+            $tokensAsCollection->push($token->deviceToken);
+            $count++;
+        }
+        // Check if we have users to notify, if we have sent notifications
+        if ($count != 0) {
+            $fcm = new FCMController();
+            $fcm->sentToMultiple(
+                $tokensAsCollection->toArray(),
+                'Υπάρχει νέα προσφορά',
+                $msg,
+                [
+                    'id' => $discount->id
+                ],//data
+                'postedNewDiscount'
+            );
+        }
 
         return $discount;
     }
 
-
+    /**
+     * @param $id
+     * @param Request $request
+     * @return \Illuminate\Database\Eloquent\Model|\Illuminate\Http\JsonResponse|null|static
+     */
     public function put($id, Request $request)
     {
         $request['id'] = $id;
 
         $data = $this->validate($request, [
-            'shopId' => 'required|numeric',
             'id' => 'required|numeric',
+            'shopId' => 'required|numeric',
             'category' => 'required|numeric',
             'originalPrice' => 'required|numeric',
             'currentPrice' => 'required|numeric',
-            'description' => 'required|string',
-            'image' => 'required|string'
+            'description' => 'required|string'
         ]);
 
-        $discount = Discount::query()->where('shopId', '=', $data['shopId'])
-            ->where('id', '=', $data['id'])->first();
+        $discount = Discount::find($data['id']);
 
         if ($discount != null) {
+            // ToDo : Check if the discount is from user's shops, if not return 401, Unauthorized
             $discount->category = $data['category'];
             $discount->originalPrice = $data['originalPrice'];
             $discount->currentPrice = $data['currentPrice'];
             $discount->description = $data['description'];
-            $discount->image = $data['image'];
 
             $discount->save();
             $discount->push();
             return $discount;
         } else {
-            return "";
+            return response()->json([
+                'message' => 'Discount not found'
+            ], 404);
         }
     }
 
-
+    /**
+     * @param $id
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function delete($id, Request $request)
     {
         $request['id'] = $id;
         $data = $this->validate($request, [
-            'shopId' => 'required|numeric',
             'id' => 'required|numeric'
         ]);
 
-        $discount = Discount::query()->where('shopId', '=', $data['shopId'])->find($data['id']);
+        $discount = Discount::find($data['id']);
 
         if ($discount != null) {
+            // ToDo : Check if the discount is from user's shops, if not return 401, Unauthorized
             $discount->delete();
+            return response()->json([], 200);
+        } else {
+            return response()->json([
+                'message' => 'Discount not found'
+            ], 404);
         }
     }
-
 
 }
