@@ -206,4 +206,22 @@ class requestedDiscountsControllerTest extends TestCase
             'message' => 'Requested discount not found'
         ]);
     }
+
+    public function testDeleteNotExisted2()
+    {
+        $token = new AuthForTests();
+        $token->generateToken($this);
+        $tokenKey = $token->getToken();
+
+        $response = $this->json('DELETE', "api/requestedDiscount/" . 21,
+            [],
+            [
+                'Authorization' => $tokenKey
+            ]);
+
+        $response->assertStatus(404);
+        $response->assertJson([
+            'message' => 'Requested discount not found'
+        ]);
+    }
 }
