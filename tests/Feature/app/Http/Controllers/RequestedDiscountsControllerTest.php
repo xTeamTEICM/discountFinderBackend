@@ -30,6 +30,26 @@ class requestedDiscountsControllerTest extends TestCase
         $response->assertJsonStructure(['userId', 'category', 'price', 'tags', 'id']);
     }
 
+    public function testPostNotExisted2()
+    {
+        $token = new AuthForTests();
+        $token->generateToken($this);
+        $tokenKey = $token->getToken();
+
+        $response = $this->json('POST', 'api/requestedDiscount', [
+            'category' => '2',
+            'price' => '123',
+            'tags' => 'Fgj'
+        ], [
+            'Authorization' => $tokenKey
+        ]);
+
+        requestedDiscountsControllerTest::$id = $response->decodeResponseJson()['id'];
+
+        $response->assertStatus(200);
+        $response->assertJsonStructure(['userId', 'category', 'price', 'tags', 'id']);
+    }
+
     public function testList()
     {
         $token = new AuthForTests();
@@ -93,6 +113,25 @@ class requestedDiscountsControllerTest extends TestCase
 
     }
 
+    public function testPutExisted2()
+    {
+        $token = new AuthForTests();
+        $token->generateToken($this);
+        $tokenKey = $token->getToken();
+
+        $response = $this->json('PUT', 'api/requestedDiscount/' . requestedDiscountsControllerTest::$id, [
+            'category' => '2',
+            'price' => '123',
+            'tags' => 'Fgj'
+        ], [
+            'Authorization' => $tokenKey
+        ]);
+
+        $response->assertStatus(200);
+        $response->assertJsonStructure(['id', 'userId', 'category', 'price', 'tags']);
+
+    }
+
     public function testPutNotExisted()
     {
         $token = new AuthForTests();
@@ -103,6 +142,27 @@ class requestedDiscountsControllerTest extends TestCase
             'category' => '1',
             'price' => '999',
             'tags' => 'testingAPI2'
+        ], [
+            'Authorization' => $tokenKey
+        ]);
+
+        $response->assertStatus(404);
+        $response->assertJson([
+            'message' => 'Requested discount not found'
+        ]);
+    }
+
+
+    public function testPutNotExisted2()
+    {
+        $token = new AuthForTests();
+        $token->generateToken($this);
+        $tokenKey = $token->getToken();
+
+        $response = $this->json('PUT', 'api/requestedDiscount/0', [
+            'category' => '2',
+            'price' => '123',
+            'tags' => 'Fgj'
         ], [
             'Authorization' => $tokenKey
         ]);
