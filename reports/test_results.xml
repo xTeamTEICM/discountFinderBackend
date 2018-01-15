@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="./tests" tests="116" assertions="190" errors="4" failures="6" skipped="0" time="102.942901">
+    <testsuite name="Tests\Feature\AboutControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/AboutControllerTest.php" tests="1" assertions="1" errors="0" failures="0" skipped="0" time="0.060602">
+      <testcase name="testAboutSuccess" class="Tests\Feature\AboutControllerTest" classname="Tests.Feature.AboutControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/AboutControllerTest.php" line="9" assertions="1" time="0.060602"/>
+    </testsuite>
+    <testsuite name="Tests\Feature\Auth\LoginControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/Auth/LoginControllerTest.php" tests="10" assertions="13" errors="0" failures="1" skipped="0" time="7.142504">
+      <testcase name="testRegisterUser" class="Tests\Feature\Auth\LoginControllerTest" classname="Tests.Feature.Auth.LoginControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/Auth/LoginControllerTest.php" line="14" assertions="1" time="0.454074">
+        <failure type="PHPUnit\Framework\ExpectationFailedException">Tests\Feature\Auth\LoginControllerTest::testRegisterUser
+Failed asserting that an array has the key 'token_type'.
+
+/home/elgreko/PhpstormProjects/discountFinderBackend/vendor/laravel/framework/src/Illuminate/Foundation/Testing/TestResponse.php:447
+/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/Auth/LoginControllerTest.php:23
+</failure>
+      </testcase>
+      <testcase name="testRegisterUserEmailExists" class="Tests\Feature\Auth\LoginControllerTest" classname="Tests.Feature.Auth.LoginControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/Auth/LoginControllerTest.php" line="28" assertions="1" time="0.533082"/>
+      <testcase name="testLoginUser" class="Tests\Feature\Auth\LoginControllerTest" classname="Tests.Feature.Auth.LoginControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/Auth/LoginControllerTest.php" line="44" assertions="4" time="1.280921"/>
+      <testcase name="testInvalidLoginUserPassword" class="Tests\Feature\Auth\LoginControllerTest" classname="Tests.Feature.Auth.LoginControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/Auth/LoginControllerTest.php" line="55" assertions="1" time="0.608539"/>
+      <testcase name="testInvalidLoginUserEmail" class="Tests\Feature\Auth\LoginControllerTest" classname="Tests.Feature.Auth.LoginControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/Auth/LoginControllerTest.php" line="67" assertions="1" time="0.507442"/>
+      <testcase name="testEndPointUser" class="Tests\Feature\Auth\LoginControllerTest" classname="Tests.Feature.Auth.LoginControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/Auth/LoginControllerTest.php" line="80" assertions="1" time="0.678600"/>
+      <testcase name="testInvalidToken" class="Tests\Feature\Auth\LoginControllerTest" classname="Tests.Feature.Auth.LoginControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/Auth/LoginControllerTest.php" line="90" assertions="1" time="0.006895"/>
+      <testcase name="testRefreshToken" class="Tests\Feature\Auth\LoginControllerTest" classname="Tests.Feature.Auth.LoginControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/Auth/LoginControllerTest.php" line="101" assertions="1" time="1.859433"/>
+      <testcase name="testLogout" class="Tests\Feature\Auth\LoginControllerTest" classname="Tests.Feature.Auth.LoginControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/Auth/LoginControllerTest.php" line="116" assertions="1" time="0.802513"/>
+      <testcase name="testDeleteUser" class="Tests\Feature\Auth\LoginControllerTest" classname="Tests.Feature.Auth.LoginControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/Auth/LoginControllerTest.php" line="128" assertions="1" time="0.411005"/>
+    </testsuite>
+    <testsuite name="Tests\Feature\Auth\RegisterControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/Auth/RegisterControllerTest.php" tests="8" assertions="8" errors="0" failures="0" skipped="0" time="3.366158">
+      <testcase name="testInvalidEmailDuckSymbol" class="Tests\Feature\Auth\RegisterControllerTest" classname="Tests.Feature.Auth.RegisterControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/Auth/RegisterControllerTest.php" line="10" assertions="1" time="0.339111"/>
+      <testcase name="testInvalidEmailDot" class="Tests\Feature\Auth\RegisterControllerTest" classname="Tests.Feature.Auth.RegisterControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/Auth/RegisterControllerTest.php" line="24" assertions="1" time="0.432961"/>
+      <testcase name="testInvalidPasswordMin6" class="Tests\Feature\Auth\RegisterControllerTest" classname="Tests.Feature.Auth.RegisterControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/Auth/RegisterControllerTest.php" line="38" assertions="1" time="0.423245"/>
+      <testcase name="testInvalidPasswordMax50" class="Tests\Feature\Auth\RegisterControllerTest" classname="Tests.Feature.Auth.RegisterControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/Auth/RegisterControllerTest.php" line="53" assertions="1" time="0.465811"/>
+      <testcase name="testEmptyFieldFirstName" class="Tests\Feature\Auth\RegisterControllerTest" classname="Tests.Feature.Auth.RegisterControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/Auth/RegisterControllerTest.php" line="68" assertions="1" time="0.410779"/>
+      <testcase name="testEmptyFieldLastName" class="Tests\Feature\Auth\RegisterControllerTest" classname="Tests.Feature.Auth.RegisterControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/Auth/RegisterControllerTest.php" line="83" assertions="1" time="0.494460"/>
+      <testcase name="testEmptyFieldEmail" class="Tests\Feature\Auth\RegisterControllerTest" classname="Tests.Feature.Auth.RegisterControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/Auth/RegisterControllerTest.php" line="99" assertions="1" time="0.359252"/>
+      <testcase name="testEmptyFieldPassword" class="Tests\Feature\Auth\RegisterControllerTest" classname="Tests.Feature.Auth.RegisterControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/Auth/RegisterControllerTest.php" line="114" assertions="1" time="0.440539"/>
+    </testsuite>
+    <testsuite name="Tests\Feature\CategoryControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/CategoryControllerTest.php" tests="7" assertions="7" errors="0" failures="0" skipped="0" time="3.029909">
+      <testcase name="testListSuccessful" class="Tests\Feature\CategoryControllerTest" classname="Tests.Feature.CategoryControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/CategoryControllerTest.php" line="11" assertions="1" time="0.373980"/>
+      <testcase name="testPOSTSuccessful" class="Tests\Feature\CategoryControllerTest" classname="Tests.Feature.CategoryControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/CategoryControllerTest.php" line="17" assertions="1" time="0.454102"/>
+      <testcase name="testGETSuccessful" class="Tests\Feature\CategoryControllerTest" classname="Tests.Feature.CategoryControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/CategoryControllerTest.php" line="26" assertions="1" time="0.442472"/>
+      <testcase name="testPUTSuccessful" class="Tests\Feature\CategoryControllerTest" classname="Tests.Feature.CategoryControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/CategoryControllerTest.php" line="32" assertions="1" time="0.495628"/>
+      <testcase name="testDeleteSuccessful" class="Tests\Feature\CategoryControllerTest" classname="Tests.Feature.CategoryControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/CategoryControllerTest.php" line="40" assertions="1" time="0.440710"/>
+      <testcase name="testUpdateNotExisted" class="Tests\Feature\CategoryControllerTest" classname="Tests.Feature.CategoryControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/CategoryControllerTest.php" line="46" assertions="1" time="0.434967"/>
+      <testcase name="testDeleteNotExisted" class="Tests\Feature\CategoryControllerTest" classname="Tests.Feature.CategoryControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/CategoryControllerTest.php" line="54" assertions="1" time="0.388050"/>
+    </testsuite>
+    <testsuite name="Tests\Feature\deviceTokenControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/DeviceTokenControllerTest.php" tests="3" assertions="3" errors="0" failures="0" skipped="0" time="4.864927">
+      <testcase name="testPutEmptyBody" class="Tests\Feature\deviceTokenControllerTest" classname="Tests.Feature.deviceTokenControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/DeviceTokenControllerTest.php" line="12" assertions="1" time="1.594895"/>
+      <testcase name="testPutWithBodyInvalid" class="Tests\Feature\deviceTokenControllerTest" classname="Tests.Feature.deviceTokenControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/DeviceTokenControllerTest.php" line="28" assertions="1" time="1.748085"/>
+      <testcase name="testPutWithBodyValid" class="Tests\Feature\deviceTokenControllerTest" classname="Tests.Feature.deviceTokenControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/DeviceTokenControllerTest.php" line="43" assertions="1" time="1.521947"/>
+    </testsuite>
+    <testsuite name="Tests\Feature\DiscountControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/DiscountControllerTest.php" tests="11" assertions="17" errors="2" failures="4" skipped="0" time="13.619403">
+      <testcase name="testList" class="Tests\Feature\DiscountControllerTest" classname="Tests.Feature.DiscountControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/DiscountControllerTest.php" line="13" assertions="9" time="0.418376"/>
+      <testcase name="testPostInvalidData" class="Tests\Feature\DiscountControllerTest" classname="Tests.Feature.DiscountControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/DiscountControllerTest.php" line="20" assertions="1" time="1.486584"/>
+      <testcase name="testPostInvalidImage" class="Tests\Feature\DiscountControllerTest" classname="Tests.Feature.DiscountControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/DiscountControllerTest.php" line="41" assertions="1" time="2.062077"/>
+      <testcase name="testPostValidData" class="Tests\Feature\DiscountControllerTest" classname="Tests.Feature.DiscountControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/DiscountControllerTest.php" line="62" assertions="0" time="1.579573">
+        <error type="ErrorException">Tests\Feature\DiscountControllerTest::testPostValidData
+ErrorException: Undefined index: id
+
+/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/DiscountControllerTest.php:80
+</error>
+      </testcase>
+      <testcase name="testPostValidData2" class="Tests\Feature\DiscountControllerTest" classname="Tests.Feature.DiscountControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/DiscountControllerTest.php" line="85" assertions="0" time="1.337101">
+        <error type="ErrorException">Tests\Feature\DiscountControllerTest::testPostValidData2
+ErrorException: Undefined index: id
+
+/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/DiscountControllerTest.php:103
+</error>
+      </testcase>
+      <testcase name="testGet" class="Tests\Feature\DiscountControllerTest" classname="Tests.Feature.DiscountControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/DiscountControllerTest.php" line="110" assertions="1" time="0.537388">
+        <failure type="PHPUnit\Framework\ExpectationFailedException">Tests\Feature\DiscountControllerTest::testGet
+Failed asserting that an array has the key 'id'.
+
+/home/elgreko/PhpstormProjects/discountFinderBackend/vendor/laravel/framework/src/Illuminate/Foundation/Testing/TestResponse.php:447
+/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/DiscountControllerTest.php:113
+</failure>
+      </testcase>
+      <testcase name="testPutValidData" class="Tests\Feature\DiscountControllerTest" classname="Tests.Feature.DiscountControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/DiscountControllerTest.php" line="116" assertions="1" time="1.363350">
+        <failure type="PHPUnit\Framework\ExpectationFailedException">Tests\Feature\DiscountControllerTest::testPutValidData
+Failed asserting that an array has the key 'id'.
+
+/home/elgreko/PhpstormProjects/discountFinderBackend/vendor/laravel/framework/src/Illuminate/Foundation/Testing/TestResponse.php:447
+/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/DiscountControllerTest.php:134
+</failure>
+      </testcase>
+      <testcase name="testPutValidData2" class="Tests\Feature\DiscountControllerTest" classname="Tests.Feature.DiscountControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/DiscountControllerTest.php" line="138" assertions="1" time="1.245310">
+        <failure type="PHPUnit\Framework\ExpectationFailedException">Tests\Feature\DiscountControllerTest::testPutValidData2
+Failed asserting that an array has the key 'id'.
+
+/home/elgreko/PhpstormProjects/discountFinderBackend/vendor/laravel/framework/src/Illuminate/Foundation/Testing/TestResponse.php:447
+/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/DiscountControllerTest.php:156
+</failure>
+      </testcase>
+      <testcase name="testPutInvalidRecord" class="Tests\Feature\DiscountControllerTest" classname="Tests.Feature.DiscountControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/DiscountControllerTest.php" line="159" assertions="1" time="1.462020"/>
+      <testcase name="testDeleteValidData" class="Tests\Feature\DiscountControllerTest" classname="Tests.Feature.DiscountControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/DiscountControllerTest.php" line="180" assertions="1" time="0.987537">
+        <failure type="PHPUnit\Framework\ExpectationFailedException">Tests\Feature\DiscountControllerTest::testDeleteValidData
+Expected status code 200 but received 405.
+Failed asserting that false is true.
+
+/home/elgreko/PhpstormProjects/discountFinderBackend/vendor/laravel/framework/src/Illuminate/Foundation/Testing/TestResponse.php:78
+/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/DiscountControllerTest.php:190
+</failure>
+      </testcase>
+      <testcase name="testDeleteInvalidRecord" class="Tests\Feature\DiscountControllerTest" classname="Tests.Feature.DiscountControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/DiscountControllerTest.php" line="193" assertions="1" time="1.140086"/>
+    </testsuite>
+    <testsuite name="Tests\Feature\findDiscountsControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/FindDiscountsControllerTest.php" tests="9" assertions="9" errors="0" failures="0" skipped="0" time="13.171730">
+      <testcase name="testGetAuthValuesFromStaticUser" class="Tests\Feature\findDiscountsControllerTest" classname="Tests.Feature.findDiscountsControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/FindDiscountsControllerTest.php" line="15" assertions="1" time="1.010477"/>
+      <testcase name="testUnauthorizedFind" class="Tests\Feature\findDiscountsControllerTest" classname="Tests.Feature.findDiscountsControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/FindDiscountsControllerTest.php" line="32" assertions="1" time="0.006967"/>
+      <testcase name="testInvalidMetersFind" class="Tests\Feature\findDiscountsControllerTest" classname="Tests.Feature.findDiscountsControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/FindDiscountsControllerTest.php" line="43" assertions="1" time="0.703024"/>
+      <testcase name="testSuccessFind" class="Tests\Feature\findDiscountsControllerTest" classname="Tests.Feature.findDiscountsControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/FindDiscountsControllerTest.php" line="54" assertions="1" time="2.751599"/>
+      <testcase name="testUnauthorizedTop" class="Tests\Feature\findDiscountsControllerTest" classname="Tests.Feature.findDiscountsControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/FindDiscountsControllerTest.php" line="65" assertions="1" time="0.005535"/>
+      <testcase name="testInvalidMetersTop" class="Tests\Feature\findDiscountsControllerTest" classname="Tests.Feature.findDiscountsControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/FindDiscountsControllerTest.php" line="76" assertions="1" time="0.665174"/>
+      <testcase name="testSuccessTop" class="Tests\Feature\findDiscountsControllerTest" classname="Tests.Feature.findDiscountsControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/FindDiscountsControllerTest.php" line="87" assertions="1" time="3.630847"/>
+      <testcase name="testUnauthorizedTopCity" class="Tests\Feature\findDiscountsControllerTest" classname="Tests.Feature.findDiscountsControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/FindDiscountsControllerTest.php" line="98" assertions="1" time="0.009323"/>
+      <testcase name="testSuccessTopCity" class="Tests\Feature\findDiscountsControllerTest" classname="Tests.Feature.findDiscountsControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/FindDiscountsControllerTest.php" line="109" assertions="1" time="4.388783"/>
+    </testsuite>
+    <testsuite name="Tests\Feature\GeocoderControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/GeocoderControllerTest.php" tests="11" assertions="11" errors="0" failures="0" skipped="0" time="7.397874">
+      <testcase name="testTEICMCity" class="Tests\Feature\GeocoderControllerTest" classname="Tests.Feature.GeocoderControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/GeocoderControllerTest.php" line="10" assertions="1" time="0.693367"/>
+      <testcase name="testMammasPizzaCity" class="Tests\Feature\GeocoderControllerTest" classname="Tests.Feature.GeocoderControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/GeocoderControllerTest.php" line="16" assertions="1" time="0.706858"/>
+      <testcase name="testEptamiloiCity" class="Tests\Feature\GeocoderControllerTest" classname="Tests.Feature.GeocoderControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/GeocoderControllerTest.php" line="22" assertions="1" time="0.660209"/>
+      <testcase name="testAgiosIwannisCity" class="Tests\Feature\GeocoderControllerTest" classname="Tests.Feature.GeocoderControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/GeocoderControllerTest.php" line="28" assertions="1" time="0.716604"/>
+      <testcase name="testBenizelouTest" class="Tests\Feature\GeocoderControllerTest" classname="Tests.Feature.GeocoderControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/GeocoderControllerTest.php" line="34" assertions="1" time="0.673789"/>
+      <testcase name="testLefkwnasTest" class="Tests\Feature\GeocoderControllerTest" classname="Tests.Feature.GeocoderControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/GeocoderControllerTest.php" line="40" assertions="1" time="0.639682"/>
+      <testcase name="testMitrousiTest" class="Tests\Feature\GeocoderControllerTest" classname="Tests.Feature.GeocoderControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/GeocoderControllerTest.php" line="46" assertions="1" time="0.654700"/>
+      <testcase name="testKamilaTest" class="Tests\Feature\GeocoderControllerTest" classname="Tests.Feature.GeocoderControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/GeocoderControllerTest.php" line="52" assertions="1" time="0.707038"/>
+      <testcase name="testToskaTest" class="Tests\Feature\GeocoderControllerTest" classname="Tests.Feature.GeocoderControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/GeocoderControllerTest.php" line="58" assertions="1" time="0.747052"/>
+      <testcase name="testStaurosTest" class="Tests\Feature\GeocoderControllerTest" classname="Tests.Feature.GeocoderControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/GeocoderControllerTest.php" line="64" assertions="1" time="0.636419"/>
+      <testcase name="test0_0City" class="Tests\Feature\GeocoderControllerTest" classname="Tests.Feature.GeocoderControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/GeocoderControllerTest.php" line="70" assertions="1" time="0.562156"/>
+    </testsuite>
+    <testsuite name="Tests\Feature\app\Http\Controllers\ImageControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/ImageControllerTest.php" tests="4" assertions="2" errors="2" failures="1" skipped="0" time="0.019056">
+      <testcase name="testSaveValidImage" class="Tests\Feature\app\Http\Controllers\ImageControllerTest" classname="Tests.Feature.app.Http.Controllers.ImageControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/ImageControllerTest.php" line="14" assertions="0" time="0.004554">
+        <error type="Error">Tests\Feature\app\Http\Controllers\ImageControllerTest::testSaveValidImage
+Error: Call to undefined function App\Http\Controllers\imagecreatefromstring()
+
+/home/elgreko/PhpstormProjects/discountFinderBackend/app/Http/Controllers/ImageController.php:49
+/home/elgreko/PhpstormProjects/discountFinderBackend/app/Http/Controllers/ImageController.php:16
+/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/ImageControllerTest.php:22
+</error>
+      </testcase>
+      <testcase name="testSaveInvalidImage" class="Tests\Feature\app\Http\Controllers\ImageControllerTest" classname="Tests.Feature.app.Http.Controllers.ImageControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/ImageControllerTest.php" line="27" assertions="0" time="0.004310">
+        <error type="Error">Tests\Feature\app\Http\Controllers\ImageControllerTest::testSaveInvalidImage
+Error: Call to undefined function App\Http\Controllers\imagecreatefromstring()
+
+/home/elgreko/PhpstormProjects/discountFinderBackend/app/Http/Controllers/ImageController.php:49
+/home/elgreko/PhpstormProjects/discountFinderBackend/app/Http/Controllers/ImageController.php:16
+/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/ImageControllerTest.php:35
+</error>
+      </testcase>
+      <testcase name="testDeleteExistImage" class="Tests\Feature\app\Http\Controllers\ImageControllerTest" classname="Tests.Feature.app.Http.Controllers.ImageControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/ImageControllerTest.php" line="40" assertions="1" time="0.005178">
+        <failure type="PHPUnit\Framework\ExpectationFailedException">Tests\Feature\app\Http\Controllers\ImageControllerTest::testDeleteExistImage
+Failed asserting that two strings are equal.
+--- Expected
++++ Actual
+@@ @@
+-'Deleted'
++'File not found'
+
+/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/ImageControllerTest.php:47
+</failure>
+      </testcase>
+      <testcase name="testDeleteNotExistImage" class="Tests\Feature\app\Http\Controllers\ImageControllerTest" classname="Tests.Feature.app.Http.Controllers.ImageControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/ImageControllerTest.php" line="52" assertions="1" time="0.005014"/>
+    </testsuite>
+    <testsuite name="Tests\Feature\requestedDiscountsControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/RequestedDiscountsControllerTest.php" tests="8" assertions="34" errors="0" failures="0" skipped="0" time="12.581690">
+      <testcase name="testPostNotExisted" class="Tests\Feature\requestedDiscountsControllerTest" classname="Tests.Feature.requestedDiscountsControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/RequestedDiscountsControllerTest.php" line="13" assertions="6" time="1.553318"/>
+      <testcase name="testList" class="Tests\Feature\requestedDiscountsControllerTest" classname="Tests.Feature.requestedDiscountsControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/RequestedDiscountsControllerTest.php" line="33" assertions="8" time="1.860098"/>
+      <testcase name="testGetExisted" class="Tests\Feature\requestedDiscountsControllerTest" classname="Tests.Feature.requestedDiscountsControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/RequestedDiscountsControllerTest.php" line="47" assertions="7" time="1.848852"/>
+      <testcase name="testGetNotExisted" class="Tests\Feature\requestedDiscountsControllerTest" classname="Tests.Feature.requestedDiscountsControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/RequestedDiscountsControllerTest.php" line="61" assertions="2" time="1.342894"/>
+      <testcase name="testPutExisted" class="Tests\Feature\requestedDiscountsControllerTest" classname="Tests.Feature.requestedDiscountsControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/RequestedDiscountsControllerTest.php" line="77" assertions="6" time="1.656142"/>
+      <testcase name="testPutNotExisted" class="Tests\Feature\requestedDiscountsControllerTest" classname="Tests.Feature.requestedDiscountsControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/RequestedDiscountsControllerTest.php" line="96" assertions="2" time="1.309203"/>
+      <testcase name="testDeleteExisted" class="Tests\Feature\requestedDiscountsControllerTest" classname="Tests.Feature.requestedDiscountsControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/RequestedDiscountsControllerTest.php" line="116" assertions="1" time="1.571160"/>
+      <testcase name="testDeleteNotExisted" class="Tests\Feature\requestedDiscountsControllerTest" classname="Tests.Feature.requestedDiscountsControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/RequestedDiscountsControllerTest.php" line="132" assertions="2" time="1.440023"/>
+    </testsuite>
+    <testsuite name="Tests\Feature\ShopControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/ShopControllerTest.php" tests="20" assertions="58" errors="0" failures="0" skipped="0" time="23.702406">
+      <testcase name="testPostInvalidLatLog" class="Tests\Feature\ShopControllerTest" classname="Tests.Feature.ShopControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/ShopControllerTest.php" line="13" assertions="2" time="1.798344"/>
+      <testcase name="testPostNotExisted" class="Tests\Feature\ShopControllerTest" classname="Tests.Feature.ShopControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/ShopControllerTest.php" line="31" assertions="5" time="1.988646"/>
+      <testcase name="testPostExisted" class="Tests\Feature\ShopControllerTest" classname="Tests.Feature.ShopControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/ShopControllerTest.php" line="51" assertions="1" time="1.469833"/>
+      <testcase name="testList" class="Tests\Feature\ShopControllerTest" classname="Tests.Feature.ShopControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/ShopControllerTest.php" line="68" assertions="7" time="0.381810"/>
+      <testcase name="testListDiscountsExist" class="Tests\Feature\ShopControllerTest" classname="Tests.Feature.ShopControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/ShopControllerTest.php" line="75" assertions="1" time="1.461162"/>
+      <testcase name="testListDiscountsNotExist" class="Tests\Feature\ShopControllerTest" classname="Tests.Feature.ShopControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/ShopControllerTest.php" line="88" assertions="1" time="1.383880"/>
+      <testcase name="testGetExisted" class="Tests\Feature\ShopControllerTest" classname="Tests.Feature.ShopControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/ShopControllerTest.php" line="101" assertions="6" time="0.391043"/>
+      <testcase name="testGetNotExisted" class="Tests\Feature\ShopControllerTest" classname="Tests.Feature.ShopControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/ShopControllerTest.php" line="108" assertions="1" time="0.359381"/>
+      <testcase name="testUserList" class="Tests\Feature\ShopControllerTest" classname="Tests.Feature.ShopControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/ShopControllerTest.php" line="114" assertions="6" time="1.544076"/>
+      <testcase name="testUserGet" class="Tests\Feature\ShopControllerTest" classname="Tests.Feature.ShopControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/ShopControllerTest.php" line="128" assertions="5" time="1.373246"/>
+      <testcase name="testPutExisted" class="Tests\Feature\ShopControllerTest" classname="Tests.Feature.ShopControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/ShopControllerTest.php" line="142" assertions="11" time="2.146177"/>
+      <testcase name="testPutNotExisted" class="Tests\Feature\ShopControllerTest" classname="Tests.Feature.ShopControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/ShopControllerTest.php" line="172" assertions="1" time="1.595305"/>
+      <testcase name="testPutNotMine" class="Tests\Feature\ShopControllerTest" classname="Tests.Feature.ShopControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/ShopControllerTest.php" line="190" assertions="1" time="1.501975"/>
+      <testcase name="testPutInvalidLatLog" class="Tests\Feature\ShopControllerTest" classname="Tests.Feature.ShopControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/ShopControllerTest.php" line="208" assertions="1" time="1.548851"/>
+      <testcase name="testDeleteExisted" class="Tests\Feature\ShopControllerTest" classname="Tests.Feature.ShopControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/ShopControllerTest.php" line="226" assertions="1" time="1.554250"/>
+      <testcase name="testDeleteNotMine" class="Tests\Feature\ShopControllerTest" classname="Tests.Feature.ShopControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/ShopControllerTest.php" line="243" assertions="1" time="1.660630"/>
+      <testcase name="testDeleteNotExisted" class="Tests\Feature\ShopControllerTest" classname="Tests.Feature.ShopControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/ShopControllerTest.php" line="260" assertions="1" time="1.525769"/>
+      <testcase name="testUserListNotAuth" class="Tests\Feature\ShopControllerTest" classname="Tests.Feature.ShopControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/ShopControllerTest.php" line="276" assertions="2" time="0.005370"/>
+      <testcase name="testUserGetNotAuth" class="Tests\Feature\ShopControllerTest" classname="Tests.Feature.ShopControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/ShopControllerTest.php" line="283" assertions="2" time="0.006201"/>
+      <testcase name="testPutNotAuth" class="Tests\Feature\ShopControllerTest" classname="Tests.Feature.ShopControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/ShopControllerTest.php" line="290" assertions="2" time="0.006456"/>
+    </testsuite>
+    <testsuite name="Tests\Feature\UpdateUserLocationControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/UpdateUserLocationControllerTest.php" tests="8" assertions="8" errors="0" failures="0" skipped="0" time="13.896117">
+      <testcase name="testUpdateLocationUnauthorized" class="Tests\Feature\UpdateUserLocationControllerTest" classname="Tests.Feature.UpdateUserLocationControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/UpdateUserLocationControllerTest.php" line="10" assertions="1" time="0.005504"/>
+      <testcase name="testUpdateLocationEmpty" class="Tests\Feature\UpdateUserLocationControllerTest" classname="Tests.Feature.UpdateUserLocationControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/UpdateUserLocationControllerTest.php" line="16" assertions="1" time="1.565884"/>
+      <testcase name="testUpdateLocationInvalidLatLog" class="Tests\Feature\UpdateUserLocationControllerTest" classname="Tests.Feature.UpdateUserLocationControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/UpdateUserLocationControllerTest.php" line="28" assertions="1" time="1.316409"/>
+      <testcase name="testUpdateLocationSuccess" class="Tests\Feature\UpdateUserLocationControllerTest" classname="Tests.Feature.UpdateUserLocationControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/UpdateUserLocationControllerTest.php" line="43" assertions="1" time="2.877618"/>
+      <testcase name="testUpdateLocationSuccessVathylakkos" class="Tests\Feature\UpdateUserLocationControllerTest" classname="Tests.Feature.UpdateUserLocationControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/UpdateUserLocationControllerTest.php" line="58" assertions="1" time="3.430032"/>
+      <testcase name="testUpdateLocationSuccessSerres" class="Tests\Feature\UpdateUserLocationControllerTest" classname="Tests.Feature.UpdateUserLocationControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/UpdateUserLocationControllerTest.php" line="73" assertions="1" time="3.310498"/>
+      <testcase name="testGetLocationUnauthorized" class="Tests\Feature\UpdateUserLocationControllerTest" classname="Tests.Feature.UpdateUserLocationControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/UpdateUserLocationControllerTest.php" line="89" assertions="1" time="0.005860"/>
+      <testcase name="testGetLocationSuccess" class="Tests\Feature\UpdateUserLocationControllerTest" classname="Tests.Feature.UpdateUserLocationControllerTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Feature/app/Http/Controllers/UpdateUserLocationControllerTest.php" line="95" assertions="1" time="1.384312"/>
+    </testsuite>
+    <testsuite name="Tests\Feature\CoordinatesValidatorTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Unit/CoordinatesValidatorTest.php" tests="12" assertions="12" errors="0" failures="0" skipped="0" time="0.070766">
+      <testcase name="testCoordinatesValid" class="Tests\Feature\CoordinatesValidatorTest" classname="Tests.Feature.CoordinatesValidatorTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Unit/CoordinatesValidatorTest.php" line="11" assertions="1" time="0.004712"/>
+      <testcase name="testCoordinatesInvalid" class="Tests\Feature\CoordinatesValidatorTest" classname="Tests.Feature.CoordinatesValidatorTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Unit/CoordinatesValidatorTest.php" line="16" assertions="1" time="0.006494"/>
+      <testcase name="testCoordinatesValidLatLimitUp" class="Tests\Feature\CoordinatesValidatorTest" classname="Tests.Feature.CoordinatesValidatorTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Unit/CoordinatesValidatorTest.php" line="22" assertions="1" time="0.004126"/>
+      <testcase name="testCoordinatesValidLatLimitDown" class="Tests\Feature\CoordinatesValidatorTest" classname="Tests.Feature.CoordinatesValidatorTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Unit/CoordinatesValidatorTest.php" line="27" assertions="1" time="0.003898"/>
+      <testcase name="testCoordinatesValidLogLimitUp" class="Tests\Feature\CoordinatesValidatorTest" classname="Tests.Feature.CoordinatesValidatorTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Unit/CoordinatesValidatorTest.php" line="32" assertions="1" time="0.003951"/>
+      <testcase name="testCoordinatesValidLogLimitDown" class="Tests\Feature\CoordinatesValidatorTest" classname="Tests.Feature.CoordinatesValidatorTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Unit/CoordinatesValidatorTest.php" line="37" assertions="1" time="0.007966"/>
+      <testcase name="testCoordinatesInvalidLatLimitUp" class="Tests\Feature\CoordinatesValidatorTest" classname="Tests.Feature.CoordinatesValidatorTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Unit/CoordinatesValidatorTest.php" line="43" assertions="1" time="0.004080"/>
+      <testcase name="testCoordinatesInvalidLatLimitDown" class="Tests\Feature\CoordinatesValidatorTest" classname="Tests.Feature.CoordinatesValidatorTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Unit/CoordinatesValidatorTest.php" line="48" assertions="1" time="0.003980"/>
+      <testcase name="testCoordinatesInvalidLogLimitUp" class="Tests\Feature\CoordinatesValidatorTest" classname="Tests.Feature.CoordinatesValidatorTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Unit/CoordinatesValidatorTest.php" line="53" assertions="1" time="0.004023"/>
+      <testcase name="testCoordinatesInvalidLogLimitDown" class="Tests\Feature\CoordinatesValidatorTest" classname="Tests.Feature.CoordinatesValidatorTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Unit/CoordinatesValidatorTest.php" line="58" assertions="1" time="0.007951"/>
+      <testcase name="testCoordinatesInvalidLimitUp" class="Tests\Feature\CoordinatesValidatorTest" classname="Tests.Feature.CoordinatesValidatorTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Unit/CoordinatesValidatorTest.php" line="64" assertions="1" time="0.011531"/>
+      <testcase name="testCoordinatesInvalidLimitDown" class="Tests\Feature\CoordinatesValidatorTest" classname="Tests.Feature.CoordinatesValidatorTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Unit/CoordinatesValidatorTest.php" line="69" assertions="1" time="0.008054"/>
+    </testsuite>
+    <testsuite name="Tests\DistanceTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Unit/DistanceTest.php" tests="4" assertions="7" errors="0" failures="0" skipped="0" time="0.019759">
+      <testcase name="testCheckDistanceBetweenMammasAndDimotikoGhpedo" class="Tests\DistanceTest" classname="Tests.DistanceTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Unit/DistanceTest.php" line="27" assertions="2" time="0.004094"/>
+      <testcase name="testCheckDistanceBetweenMammasAndsouvlakiaMixail" class="Tests\DistanceTest" classname="Tests.DistanceTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Unit/DistanceTest.php" line="38" assertions="2" time="0.003987"/>
+      <testcase name="testCheckDistanceBetweenMammasAndTei" class="Tests\DistanceTest" classname="Tests.DistanceTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Unit/DistanceTest.php" line="48" assertions="2" time="0.004290"/>
+      <testcase name="testInvalidDistanceBetweenMammasAndTei" class="Tests\DistanceTest" classname="Tests.DistanceTest" file="/home/elgreko/PhpstormProjects/discountFinderBackend/tests/Unit/DistanceTest.php" line="58" assertions="1" time="0.007388"/>
+    </testsuite>
+  </testsuite>
+</testsuites>

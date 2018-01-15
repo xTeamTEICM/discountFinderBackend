@@ -90,10 +90,9 @@ class findDiscountsController extends Controller
     }
 
     /**
-     * @param Request $request
      * @return DiscountsCollection
      */
-    public function TopListCity(Request $request)
+    public function TopListCity()
     {
 
         $user = auth()->user();

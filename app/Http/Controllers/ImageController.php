@@ -24,6 +24,20 @@ class ImageController extends Controller
     }
 
     /**
+     * @param $data
+     * @return bool
+     */
+    private function isBase64Image($data)
+    {
+        $object = base64_decode($data);
+        if (!$img = @imagecreatefromstring($object)) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    /**
      * @param $title
      * @param $path
      * @return string
@@ -36,20 +50,6 @@ class ImageController extends Controller
             return "Deleted";
         } else {
             return "File not found";
-        }
-    }
-
-    /**
-     * @param $data
-     * @return bool
-     */
-    private function isBase64Image($data)
-    {
-        $object = base64_decode($data);
-        if (!$img = @imagecreatefromstring($object)) {
-            return false;
-        } else {
-            return true;
         }
     }
 
