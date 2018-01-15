@@ -112,6 +112,10 @@ class DiscountController extends Controller
 
             return $discount;
 
+        } else {
+            return response()->json([
+                'message' => 'Shop not found'
+            ],404);
         }
     }
 
@@ -136,7 +140,6 @@ class DiscountController extends Controller
         $discount = Discount::find($data['id']);
 
         if ($discount != null && Shop::query()->exists($data['shopId']))
-
         {
             // ToDo : Check if the discount is from user's shops, if not return 401, Unauthorized
             $discount->category = $data['category'];
@@ -149,7 +152,7 @@ class DiscountController extends Controller
             return $discount;
         } else {
             return response()->json([
-                'message' => 'Discount not found'
+                'message' => 'Discount or Shop not found'
             ], 404);
         }
     }
