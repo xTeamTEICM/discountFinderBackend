@@ -26,7 +26,6 @@ class Kernel extends ConsoleKernel
      */
 
 
-
     /*
       gia na doulepsi  prepei na valoume tin entoli  php /path-to-your-project/artisan schedule:run >> /dev/null 2>&1   ws cron ston server
       From  link https://laravel.com/docs/5.5/scheduling
@@ -36,8 +35,8 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->call(function () {
-            DB::table('oauth_access_tokens')->where('expires_at','<',Carbon::now())->delete();
-            DB::table('oauth_refresh_tokens')->where('expires_at','<',Carbon::now())->delete();
+            DB::table('oauth_access_tokens')->where('expires_at', '<', Carbon::now())->delete();
+            DB::table('oauth_refresh_tokens')->where('expires_at', '<', Carbon::now())->delete();
         })->everyMinute();
 
 

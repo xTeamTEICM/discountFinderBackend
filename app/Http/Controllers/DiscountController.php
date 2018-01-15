@@ -21,6 +21,7 @@ class DiscountController extends Controller
 
     /**
      * @param $id
+     * @param Request $request
      * @return \Illuminate\Database\Eloquent\Model|null|static
      */
     public function get($id, Request $request)
@@ -68,7 +69,7 @@ class DiscountController extends Controller
         }
 
         //check if shopId exists to create discount on it
-        if(Shop::query()->exists($data['shopId'])) {
+        if (Shop::find($data['shopId'])) {
 
             // Create discount
             $discount = new Discount();
@@ -115,7 +116,7 @@ class DiscountController extends Controller
         } else {
             return response()->json([
                 'message' => 'Shop not found'
-            ],404);
+            ], 404);
         }
     }
 
@@ -139,8 +140,7 @@ class DiscountController extends Controller
 
         $discount = Discount::find($data['id']);
 
-        if ($discount != null && Shop::query()->exists($data['shopId']))
-        {
+        if ($discount != null && Shop::find($data['shopId'])) {
             // ToDo : Check if the discount is from user's shops, if not return 401, Unauthorized
             $discount->category = $data['category'];
             $discount->originalPrice = $data['originalPrice'];

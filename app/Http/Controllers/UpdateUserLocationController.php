@@ -10,10 +10,9 @@ class UpdateUserLocationController extends Controller
 {
 
     /**
-     * @param Request $request
      * @return mixed
      */
-    public function get(Request $request)
+    public function get()
     {
         $user = auth()->user();
         $response['latPos'] = $user->latPos;
@@ -57,29 +56,29 @@ class UpdateUserLocationController extends Controller
         }
 
         if ($count == 1) {
-                $fcm = new FCMController();
+            $fcm = new FCMController();
 
-                $fcm->sentToOne($user->deviceToken,
-                    'Βρήκαμε 1 προσφορά κοντά σας',
-                    'Δείτε την τώρα !',
-                    [
-                        'distance' => 500
-                    ],
-                    'discountNotification');
+            $fcm->sentToOne($user->deviceToken,
+                'Βρήκαμε 1 προσφορά κοντά σας',
+                'Δείτε την τώρα !',
+                [
+                    'distance' => 500
+                ],
+                'discountNotification');
 
-            } elseif ($count >= 2) {
+        } elseif ($count >= 2) {
 
-                $fcm = new FCMController();
+            $fcm = new FCMController();
 
-                $fcm->sentToOne($user->deviceToken,
-                    'Βρήκαμε ' . $count . ' προσφορές κοντά σας',
-                    'Δείτε τις τώρα !',
-                    [
-                        'distance' => 500
-                    ],
-                    'discountsNotification');
+            $fcm->sentToOne($user->deviceToken,
+                'Βρήκαμε ' . $count . ' προσφορές κοντά σας',
+                'Δείτε τις τώρα !',
+                [
+                    'distance' => 500
+                ],
+                'discountsNotification');
 
-            }
+        }
 
 
         return response()->json([], 200);

@@ -85,6 +85,21 @@ class UpdateUserLocationControllerTest extends TestCase
         $response->assertStatus(200);
     }
 
+    public function testUpdateLocationSuccessUnknown()
+    {
+        $token = new AuthForTests();
+        $token->generateToken($this);
+        $tokenKey = $token->getToken();
+
+        $response = $this->json('PUT', '/api/user/deviceLocation', [
+            'logPos' => '12',
+            'latPos' => '21'
+        ], [
+            'Authorization' => $tokenKey
+        ]);
+        $response->assertStatus(200);
+    }
+
 
     public function testGetLocationUnauthorized()
     {

@@ -6,8 +6,8 @@ namespace App\CustomClasses;
 class Distance
 {
 
-  protected $userLatPos;
-  protected $userLogPos;
+    protected $userLatPos;
+    protected $userLogPos;
 
     /**
      * Distance constructor.
@@ -21,19 +21,17 @@ class Distance
     }
 
 
-
-
-    public function calculateDistanceInMeters($shopLatPosition,$shopLogPosition){
-        $userLatPos=deg2rad($this->userLatPos);
-        $userLogPos=deg2rad($this->userLogPos);
-        $shopLogPosition=deg2rad($shopLogPosition);
-        $shopLatPosition=deg2rad($shopLatPosition);
+    public function calculateDistanceInMeters($shopLatPosition, $shopLogPosition)
+    {
+        $userLatPos = deg2rad($this->userLatPos);
+        $userLogPos = deg2rad($this->userLogPos);
+        $shopLogPosition = deg2rad($shopLogPosition);
+        $shopLatPosition = deg2rad($shopLatPosition);
 
 
         $radiusOfEarth = 6371000;// Earth's radius in meters.
         $diffLatitude = abs($userLatPos - $shopLatPosition);
         $diffLongitude = abs($userLogPos - $shopLogPosition);
-
 
 
         $a = sin($diffLatitude / 2) * sin($diffLatitude / 2) +
@@ -45,8 +43,6 @@ class Distance
         return (int)$distance;
 
     }
-    
-    
-    
-    
+
+
 }
