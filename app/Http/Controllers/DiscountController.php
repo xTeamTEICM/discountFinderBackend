@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Category;
 use App\Discount;
+use App\Shop;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -66,47 +67,56 @@ class DiscountController extends Controller
             );
         }
 
-        // Create discount
-        $discount = new Discount();
-        $discount->shopId = $data['shopId'];
-        $discount->category = $data['category'];
-        $discount->originalPrice = $data['originalPrice'];
-        $discount->currentPrice = $data['currentPrice'];
-        $discount->description = $data['description'];
-        $discount->image = config('app.url') . ':' . env('APP_PORT', 'default') . '/images/' . $imageResult;
-        $discount->save();
-        $discount->push();
+        //check if shopId exists to create discount on it
+        if(Shop::query()->exists($data['shopId'])) {
 
-        // Create notification string
-        $msgCategory = Category::query()->where('id', '=', $data['category'])->first(['title'])['title'];
-        $msgOldPrice = $data['originalPrice'];
-        $msgCurrPrice = $data['currentPrice'];
-        $msg = "Υπάρχει νέα προσφορά στην κατηγορία $msgCategory, από $msgOldPrice € μόνο $msgCurrPrice €, δείτε την τώρα !!!";
+            // Create discount
+            $discount = new Discount();
+            $discount->shopId = $data['shopId'];
+            $discount->category = $data['category'];
+            $discount->originalPrice = $data['originalPrice'];
+            $discount->currentPrice = $data['currentPrice'];
+            $discount->description = $data['description'];
+            $discount->image = config('app.url') . ':' . env('APP_PORT', 'default') . '/images/' . $imageResult;
+            $discount->save();
+            $discount->push();
 
-        // Find users to notify
-        $tokensAsArray = DB::select("call getMatchedUsers(" . $data['category'] . "," . $data['currentPrice'] . ")");
-        // Convert the default array to collection
-        $tokensAsCollection = collect();
-        $count = 0;
-        foreach ($tokensAsArray as $token) {
-            $tokensAsCollection->push($token->deviceToken);
-            $count++;
+            // Create notification string
+            $msgCategory = Category::query()->where('id', '=', $data['category'])->first(['title'])['title'];
+            $msgOldPrice = $data['originalPrice'];
+            $msgCurrPrice = $data['currentPrice'];
+            $msg = "Υπάρχει νέα προσφορά στην κατηγορία $msgCategory, από $msgOldPrice € μόνο $msgCurrPrice €, δείτε την τώρα !!!";
+
+            // Find users to notify
+            $tokensAsArray = DB::select("call getMatchedUsers(" . $data['category'] . "," . $data['currentPrice'] . ")");
+            // Convert the default array to collection
+            $tokensAsCollection = collect();
+            $count = 0;
+            foreach ($tokensAsArray as $token) {
+                $tokensAsCollection->push($token->deviceToken);
+                $count++;
+            }
+            // Check if we have users to notify, if we have sent notifications
+            if ($count != 0) {
+                $fcm = new FCMController();
+                $fcm->sentToMultiple(
+                    $tokensAsCollection->toArray(),
+                    'Υπάρχει νέα προσφορά',
+                    $msg,
+                    [
+                        'id' => $discount->id
+                    ],//data
+                    'postedNewDiscount'
+                );
+            }
+
+            return $discount;
+
+        } else {
+            return response()->json([
+                'message' => 'Shop not found'
+            ],404);
         }
-        // Check if we have users to notify, if we have sent notifications
-        if ($count != 0) {
-            $fcm = new FCMController();
-            $fcm->sentToMultiple(
-                $tokensAsCollection->toArray(),
-                'Υπάρχει νέα προσφορά',
-                $msg,
-                [
-                    'id' => $discount->id
-                ],//data
-                'postedNewDiscount'
-            );
-        }
-
-        return $discount;
     }
 
     /**
@@ -129,7 +139,8 @@ class DiscountController extends Controller
 
         $discount = Discount::find($data['id']);
 
-        if ($discount != null) {
+        if ($discount != null && Shop::query()->exists($data['shopId']))
+        {
             // ToDo : Check if the discount is from user's shops, if not return 401, Unauthorized
             $discount->category = $data['category'];
             $discount->originalPrice = $data['originalPrice'];
@@ -141,7 +152,7 @@ class DiscountController extends Controller
             return $discount;
         } else {
             return response()->json([
-                'message' => 'Discount not found'
+                'message' => 'Discount or Shop not found'
             ], 404);
         }
     }
